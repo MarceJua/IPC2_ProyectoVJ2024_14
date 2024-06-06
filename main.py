@@ -71,6 +71,8 @@ class applicacion:
         self.menu_bar.add_cascade(label="Cargar", menu=self.file_menu)
         self.file_menu.add_command(label="Cargar Usuarios")
         self.file_menu.add_command(label="Cargar Productos")
+        self.file_menu.add_command(label="Cargar empleados")
+        self.file_menu.add_command(label="Cargar actividades")
         #crear menu reportes
         self.file_report=tk.Menu(self.menu_bar,tearoff=0)
         self.menu_bar.add_cascade(label="Reportes",menu=self.file_report)
