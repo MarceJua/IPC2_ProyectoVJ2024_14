@@ -46,7 +46,7 @@ class applicacion:
   
         else:
             messagebox.showerror(title="error",message="DATOS INCORRECTOS")
-            self.crear_ventanaUsuario()
+            self.crear_ventanaUsuario()#solo para probar la interfaz
 
     
     def crear_ventanaAdmin(self):
