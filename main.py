@@ -58,7 +58,7 @@ class applicacion:
         # Crear un botón para cerrar sesión
         self.button_back = tk.Button(self.menu_frame, text="Cerrar Sesion", command=self.regresarLogin)
         self.button_back.pack(side=tk.RIGHT, padx=5, pady=5)
-        self.button_Actividades=tk.Button(self.menu_frame,text="Ver Actividades de Hoy")
+        self.button_Actividades=tk.Button(self.menu_frame,text="Ver Actividades de Hoy",command=self.crear_ventanaActividades)
         self.button_Actividades.pack(side=tk.RIGHT,padx=5,pady=15)
         
 
@@ -72,7 +72,7 @@ class applicacion:
         self.file_menu.add_command(label="Cargar Usuarios")
         self.file_menu.add_command(label="Cargar Productos")
         self.file_menu.add_command(label="Cargar empleados")
-        self.file_menu.add_command(label="Cargar actividades")
+        self.file_menu.add_command(label="Cargar actividades",)
         #crear menu reportes
         self.file_report=tk.Menu(self.menu_bar,tearoff=0)
         self.menu_bar.add_cascade(label="Reportes",menu=self.file_report)
@@ -94,6 +94,18 @@ class applicacion:
         self.button_cancel=tk.Button(self.top,text="Cancelar")
         self.button_accept.pack(pady=5)
         self.button_cancel.pack(pady=5)
+    
+    def crear_ventanaActividades(self):
+        
+        self.venA=tk.Toplevel(self.root)
+        self.venA.title("Ventana Administrador")
+        self.venA.geometry("550x450")
+        self.label_tituloAct=tk.Label(self.venA,text="ACTIVIDADES DE HOY",font=("Roboto Cn",14))
+        self.label_tituloAct.pack(pady=5)
+        self.actividades_text=st.ScrolledText(self.venA,height=15,width=50)
+        self.actividades_text.pack(pady=5)
+    
+
 
         
 
