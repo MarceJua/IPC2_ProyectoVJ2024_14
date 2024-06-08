@@ -2,6 +2,10 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import scrolledtext as st
 from tkinter import ttk
+import xml.etree.ElementTree as ET
+
+import sys
+from tkinter import filedialog 
 from PIL import Image, ImageTk #pip install pillow en la consola 
 
 
@@ -73,7 +77,7 @@ class applicacion:
         #Crear menu archivo
         self.file_menu = tk.Menu(self.menu_bar, tearoff=0)
         self.menu_bar.add_cascade(label="Cargar", menu=self.file_menu)
-        self.file_menu.add_command(label="Cargar Usuarios")
+        self.file_menu.add_command(label="Cargar Usuarios",command=self.cargar_archivo)
         self.file_menu.add_command(label="Cargar Productos")
         self.file_menu.add_command(label="Cargar empleados")
         self.file_menu.add_command(label="Cargar actividades",)
@@ -98,6 +102,30 @@ class applicacion:
         self.button_cancel=tk.Button(self.top,text="Cancelar")
         self.button_accept.pack(pady=5)
         self.button_cancel.pack(pady=5)
+
+
+    #''''''''''''
+    def cargar_archivo(self):
+        file_path = filedialog.askopenfilename(
+            title="Seleccionar archivo XML",
+            filetypes=[("Archivos XML", "*.xml")]
+        )
+
+        if file_path:
+            try:
+                tree = ET.parse(file_path)
+                root = tree.getroot()
+                print(f"Archivo XML cargado correctamente desde: {file_path}")
+                print(f"Elemento raíz: {root.tag}")
+                # Puedes guardar file_path para usarlo más adelante si lo deseas
+                self.archivo_path = file_path
+            except ET.ParseError as e:
+                print(f"Error al parsear el archivo XML: {e}")
+        else:
+            print("No se seleccionó ningún archivo.")
+     
+    
+    #  ''''''''''   
     
     def crear_ventanaActividades(self):
         
@@ -202,6 +230,8 @@ class applicacion:
         
         # Mostrar la ventana de login
         self.root.deiconify()
+    
+
 
 if __name__=="__main__":
     root=tk.Tk()
