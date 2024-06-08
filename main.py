@@ -86,7 +86,7 @@ class applicacion:
         #crear menu reportes
         self.file_report=tk.Menu(self.menu_bar,tearoff=0)
         self.menu_bar.add_cascade(label="Reportes",menu=self.file_report)
-        self.file_report.add_command(label="Reporte de Usuarios")
+        self.file_report.add_command(label="Reporte de Usuarios",command=self.listaDobleUsarios.graficar)
         self.file_report.add_command(label="Reporte Productos")
         self.file_report.add_separator()
         self.file_report.add_command(label="Reporte cola")
