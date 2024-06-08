@@ -1,4 +1,5 @@
 import re  # Importamos el módulo de expresiones regulares
+import os
 
 class nodoUsuarios:
     def __init__(self, id, password, nombre, edad, email, telefono):
@@ -76,3 +77,45 @@ class listaDoble:
             # Imprime la información del nodo actual
             print(f"{actual.id} password: {actual.password} nombre: {actual.nombre}")
             actual = actual.siguiente  # Avanza al siguiente nodo
+
+    def graficar(self):
+        codigo_dot = ''
+        archivo = open('reportesdot/listaUsuarios.dot', 'w')
+        codigo_dot +='''digraph G {
+  rankdir=LR;
+  node [shape = record, height = .1]\n'''
+        actual = self.cabeza
+        contador_nodos = 0
+        #PRIMERO CREAMOS LOS NODOS
+        while actual != None:
+            codigo_dot += f'node{contador_nodos} [label = "{{ID: {actual.id}|password: {actual.password}|nombre: {actual.nombre}|edad: {actual.edad}|email: {actual.email}|Tel: {actual.telefono}}}"];\n'
+            contador_nodos += 1
+            actual = actual.siguiente
+
+        #HACEMOS LAS RELACIONES
+        actual = self.cabeza
+        contador_nodos = 0
+        while actual.siguiente != None:
+            #RELACIONES DE IZQUIERDA A DERECHA
+            codigo_dot += 'node'+str(contador_nodos)+':f2 -> node'+str(contador_nodos+1)+':f1;\n'
+            #RELACIONES DE DERECHA A IZQUIERDA
+            codigo_dot += 'node'+str(contador_nodos+1)+':f1 -> node'+str(contador_nodos)+':f2;\n'
+            contador_nodos += 1
+            actual = actual.siguiente
+
+        codigo_dot += '}'
+
+        archivo.write(codigo_dot)
+        archivo.close()
+
+        #GENERAMOS LA IMAGEN
+        ruta_dot = 'reportesdot/listaUsuarios.dot'
+        ruta_imagen = 'reportes/listaUsuarios.png'
+        comando = 'dot -Tpng '+ruta_dot+' -o '+ruta_imagen
+        os.system(comando)
+
+        #ABRIR LA IMAGEN
+        #convierte la ruta a una ruta válida para windows
+        ruta_reporte = os.path.abspath(ruta_imagen)
+        os.startfile(ruta_reporte)
+
