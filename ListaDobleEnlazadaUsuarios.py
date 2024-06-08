@@ -69,6 +69,14 @@ class listaDoble:
                 return False  # Si encuentra un nombre igual, retorna False
             actual = actual.siguiente  # Avanza al siguiente nodo
         return True  # Si no encuentra ningún nombre igual, retorna True
+    
+    def autenticacion(self, id, password):
+        actual = self.cabeza
+        while actual != None:
+            if actual.id == id and actual.password == password:
+                return True
+            actual = actual.siguiente
+        return False
 
     def imprimirlista_desdeinicio(self):
         # Imprime los detalles de cada nodo desde el inicio de la lista
