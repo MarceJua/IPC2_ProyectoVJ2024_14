@@ -2,6 +2,11 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import scrolledtext as st
 from tkinter import ttk
+import xml.etree.ElementTree as ET
+from ListaDobleEnlazadaUsuarios import listaDoble
+
+import sys
+from tkinter import filedialog 
 from PIL import Image, ImageTk #pip install pillow en la consola 
 
 
@@ -10,8 +15,9 @@ class applicacion:
         self.root=root
         self.root.title("IPC2 MARKET")
         self.root.geometry("300x200")
-    
         self.create_widgets()
+        self.listaDobleUsarios=listaDoble()
+        
     
     def create_widgets(self):
         # Crear etiquetas y entradas
@@ -73,7 +79,7 @@ class applicacion:
         #Crear menu archivo
         self.file_menu = tk.Menu(self.menu_bar, tearoff=0)
         self.menu_bar.add_cascade(label="Cargar", menu=self.file_menu)
-        self.file_menu.add_command(label="Cargar Usuarios")
+        self.file_menu.add_command(label="Cargar Usuarios",command=self.cargar_archivo)
         self.file_menu.add_command(label="Cargar Productos")
         self.file_menu.add_command(label="Cargar empleados")
         self.file_menu.add_command(label="Cargar actividades",)
@@ -98,6 +104,91 @@ class applicacion:
         self.button_cancel=tk.Button(self.top,text="Cancelar")
         self.button_accept.pack(pady=5)
         self.button_cancel.pack(pady=5)
+
+
+    #''''''''''''
+    #funcion para buscar el path
+    def cargar_archivo(self):
+        # Abrir un cuadro de diálogo para seleccionar un archivo XML
+        file_path = filedialog.askopenfilename(
+            title="Seleccionar archivo XML",  # Título del cuadro de diálogo
+            filetypes=[("Archivos XML", "*.xml")]  # Filtrar para mostrar solo archivos XML
+        )
+
+        # Verificar si se ha seleccionado un archivo
+        if file_path:
+            try:
+                # Intentar parsear el archivo XML
+                tree = ET.parse(file_path)
+                root = tree.getroot()
+                
+                # Imprimir la ruta del archivo y el elemento raíz del XML
+                print(f"Archivo XML cargado correctamente desde: {file_path}")
+                print(f"Elemento raíz: {root.tag}")
+                self._parse_root(root)
+            
+                
+                # Guardar la ruta del archivo para su uso posterior
+                self.archivo_path = file_path
+            except ET.ParseError as e:
+                # Manejar errores de parseo del XML
+                print(f"Error al parsear el archivo XML: {e}")
+        else:
+            # Mensaje si no se selecciona ningún archivo
+            print("No se seleccionó ningún archivo.")
+
+
+    def _parse_root(self, root): # Comprueba la etiqueta del elemento raíz y llama al método correspondiente
+        if root.tag == 'actividades':
+            self._parse_actividades(root)
+        elif root.tag == 'productos':
+            self._parse_productos(root)
+        elif root.tag == 'usuarios':
+            self._parse_usuarios(root)
+        elif root.tag == 'empleados':
+            self._parse_vendedor(root)
+
+    def _parse_usuarios(self, root):
+        print ("hola")
+        pass
+        for usuario in root.findall('usuario'):
+            id = usuario.get('id')
+            password = usuario.get('password')
+            nombre = ''
+            edad = ''
+            email = ''
+            telefono = ''
+            for child in usuario:
+                if child.tag == 'nombre':
+                    nombre = child.text
+                elif child.tag == 'edad':
+                    edad = child.text
+                elif child.tag == 'email':
+                    email = child.text
+                elif child.tag == 'telefono':
+                    telefono = child.text
+            self.listaDobleUsarios.agregarUsuario(id,password,nombre,edad,email,telefono)
+        self.listaDobleUsarios.imprimirlista_desdeinicio()
+            #print(f'ID: {id}\n'
+                  #f'Password: {password}\n'
+                  #f'Nombre: {nombre}\n'
+                  #f'Edad: {edad}\n'
+                  #f'Email: {email}\n'
+                  #f'Teléfono: {telefono}\n')
+        
+
+    
+
+        
+    
+
+
+    
+
+
+
+    
+    #==================
     
     def crear_ventanaActividades(self):
         
@@ -194,6 +285,7 @@ class applicacion:
         
         # Mostrar la ventana de login
         self.root.deiconify()
+
     def regresarLoginUser(self):
          # Cerrar la ventana principal
         self.ventUser.destroy()
@@ -202,6 +294,8 @@ class applicacion:
         
         # Mostrar la ventana de login
         self.root.deiconify()
+    
+
 
 if __name__=="__main__":
     root=tk.Tk()
