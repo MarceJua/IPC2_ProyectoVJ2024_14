@@ -1,58 +1,15 @@
 import xml.etree.ElementTree as ET
 class XMLHandler:
-    """def __init__(self, file_path): 
-        self.file_path = file_path""" #---------- Añadir LUEGO
+    def __init__(self, file_path): 
+        self.file_path = file_path
+        self.root = None
     
-    def __init__(self): # ---------------- Borrar (Motivos de Prueba)
-        self.file_path = ''
-
-    def menu_principal(self):  # ---------------- Borrar (Motivos de Prueba)
-        ruta = ''
-        while True:
-            print('--------- MENU PRINCIPAL ---------')
-            print('- 1. Cargar XML                  -')
-            print('- 2. Leer XML con ElementTree    -')
-            print('- 3. Salir                       -')
-            print('----------------------------------')
-            opcion = input('Seleccione una opción: ')
-            if opcion == '1':
-                ruta = self.cargar_xml()
-                if ruta == '':
-                    print('Error: No se ha seleccionado ningún archivo o hubo un error al cargar un archivo')
-                else:
-                    print('Éxito: Archivo cargado con éxito')
-                    self.file_path = ruta
-            elif opcion == '2':
-                if self.file_path:
-                    self.leer_xml_elementtree()
-                else:
-                    print('Error: Debes cargar un archivo XML primero')
-            elif opcion == '3':
-                print('Hasta luego')
-                break
-            else:
-                print('Error: Opción no válida')
-
-    def cargar_xml(self): # ---------------- Borrar (Motivos de Prueba)
-        ruta = input('Introduzca la ruta del archivo XML: ')
-        return ruta
-
-    def leer_xml_elementtree(self): # ---------------- Borrar (Motivos de Prueba)
-        try:
-            tree = ET.parse(self.file_path)
-            root = tree.getroot()
-            self._parse_root(root)
-        except FileNotFoundError:
-            print("El archivo XML no se encontró.")
-        except ET.ParseError:
-            print("Error al analizar el archivo XML.")
-
     def read_xml(self): #Lee el archivo XML y 
                         #llama al método _parse_root() para analizar el elemento raíz.
         try:
             tree = ET.parse(self.file_path) # Parsea el archivo XML
-            root = tree.getroot() # Obtiene el elemento raíz del árbol XML
-            self._parse_root(root)
+            self.root = tree.getroot() # Obtiene el elemento raíz del árbol XML
+            #self._parse_root(root)
         except FileNotFoundError:
             print("El archivo XML no se encontró.")
         except ET.ParseError:
@@ -163,12 +120,8 @@ class XMLHandler:
                   f'Nombre: {nombre}\n'
                   f'Puesto: {puesto}\n')
 
-"""def leer_xml_elementtree(ruta):
+def leer_xml_elementtree(ruta):
     # Crea una instancia de la clase XMLHandler con la ruta proporcionada
     xml_handler = XMLHandler(ruta)
     # Llama al método read_xml() para leer y analizar el archivo XML
-    xml_handler.read_xml()""" #---------- Añadir LUEGO
-
-if __name__ == '__main__': # ---------------- Borrar (Motivos de Prueba)
-    xml_handler = XMLHandler()
-    xml_handler.menu_principal()
+    xml_handler.read_xml()

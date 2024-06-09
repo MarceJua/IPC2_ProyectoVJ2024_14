@@ -2,8 +2,9 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import scrolledtext as st
 from tkinter import ttk
-import xml.etree.ElementTree as ET
+# import xml.etree.ElementTree as ET
 from ListaDobleEnlazadaUsuarios import listaDoble
+from xml_utils import XMLHandler
 
 import sys
 from tkinter import filedialog 
@@ -49,10 +50,13 @@ class applicacion:
         if user=="AdminIPC2" and password=="IPC2VJ2024":
             messagebox.showinfo(title="Exito", message="Bienvenido Administrador")
             self.crear_ventanaAdmin()
-  
+        # verificar el usuario
+        elif self.listaDobleUsarios.autenticacion(user, password):
+            messagebox.showinfo(title="Exito", message=f"Bienvenido, {user}")
+            self.crear_ventanaUsuario(user) # Pasar el ID del usuario como parámetro
         else:
-            messagebox.showerror(title="error",message="DATOS INCORRECTOS")
-            self.crear_ventanaUsuario()#solo para probar la interfaz
+            messagebox.showerror(title="error", message="DATOS INCORRECTOS")
+            
 
     
     def crear_ventanaAdmin(self):
@@ -105,7 +109,7 @@ class applicacion:
         self.button_accept.pack(pady=5)
         self.button_cancel.pack(pady=5)
 
-
+    """
     #''''''''''''
     #funcion para buscar el path
     def cargar_archivo(self):
@@ -135,8 +139,23 @@ class applicacion:
                 print(f"Error al parsear el archivo XML: {e}")
         else:
             # Mensaje si no se selecciona ningún archivo
-            print("No se seleccionó ningún archivo.")
+            print("No se seleccionó ningún archivo.") """
+    
+    def cargar_archivo(self):
+        file_path = filedialog.askopenfilename(
+            title="Seleccionar archivo XML",
+            filetypes=[("Archivos XML", "*.xml")]
+        )
 
+        if file_path:
+            xml_handler = XMLHandler(file_path) #Se hace uso de la clase XMLHandler
+            xml_handler.read_xml()
+            if xml_handler.root is not None:
+                self._parse_root(xml_handler.root)
+            else:
+                print("No se pudo leer el archivo XML correctamente.")
+        else:
+            print("No se seleccionó ningún archivo.")
 
     def _parse_root(self, root): # Comprueba la etiqueta del elemento raíz y llama al método correspondiente
         if root.tag == 'actividades':
@@ -200,10 +219,10 @@ class applicacion:
         self.actividades_text=st.ScrolledText(self.venA,height=15,width=50)
         self.actividades_text.pack(pady=5)
 
-    def crear_ventanaUsuario(self):
+    def crear_ventanaUsuario(self, user):
         self.root.withdraw()
         self.ventUser = tk.Toplevel(self.root)
-        self.ventUser.title("IPC MARKET- USUARIO")
+        self.ventUser.title(f"IPC MARKET- {user}") #Agrega el ID del usuario ingresado
         self.ventUser.geometry("550x450")
 
         self.dive = tk.Frame(self.ventUser)
