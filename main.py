@@ -194,6 +194,8 @@ class applicacion:
                   #f'Edad: {edad}\n'
                   #f'Email: {email}\n'
                   #f'Teléfono: {telefono}\n')
+    def _parse_productos(self, root):
+        pass
         
 
     
