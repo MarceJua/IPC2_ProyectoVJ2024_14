@@ -5,6 +5,9 @@ from tkinter import ttk
 # import xml.etree.ElementTree as ET
 from ListaDobleEnlazadaUsuarios import listaDoble
 from ListaCicularDL import ListaDoblementeEnlazada
+from ListaCirculaSimpleEmpleados import ListaCircularSimple
+
+#---
 from xml_utils import XMLHandler
 
 import sys
@@ -20,6 +23,7 @@ class applicacion:
         self.create_widgets()
         self.listaDobleUsarios=listaDoble()
         self.ListaCicularDL=ListaDoblementeEnlazada()
+        self.listaCircularSimple=ListaCircularSimple()
         
     
     def create_widgets(self):
@@ -94,7 +98,7 @@ class applicacion:
         self.menu_bar.add_cascade(label="Reportes",menu=self.file_report)
         self.file_report.add_command(label="Reporte de Usuarios",command=self.listaDobleUsarios.graficar)
         self.file_report.add_command(label="Reporte Productos",command=self.ListaCicularDL.graficar)
-        self.file_report.add_command(label="Reporte Vendedores")
+        self.file_report.add_command(label="Reporte Vendedores",command=self.listaCircularSimple.graficar)
 
         self.file_report.add_separator()
         self.file_report.add_command(label="Reporte cola")
@@ -238,6 +242,7 @@ class applicacion:
                     nombre = child.text
                 elif child.tag == 'puesto':
                     puesto = child.text
+            self.listaCircularSimple.agregar(codigo,nombre,puesto)
             print(f'Código: {codigo}\n'
                   f'Nombre: {nombre}\n'
                   f'Puesto: {puesto}\n')
