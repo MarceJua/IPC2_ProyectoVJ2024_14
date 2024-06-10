@@ -16,4 +16,20 @@
         <cantidad>50</cantidad>
         <imagen>C:\imagenesP1IPC2\imagen2.jpg</imagen>
     </producto>
+     <producto id="IPCM-4">
+        <nombre>Frijoles</nombre>
+        <precio>2.50</precio>
+        <descripcion> 1 libra de frijoles negros</descripcion>
+        <categoria>Comida</categoria>
+        <cantidad>50</cantidad>
+        <imagen>C:\imagenesP1IPC2\imagen2.jpg</imagen>
+    </producto>
+     <producto id="IPCM-3">
+        <nombre>Frijoles</nombre>
+        <precio>2.50</precio>
+        <descripcion> 1 libra de frijoles negros</descripcion>
+        <categoria>Comida</categoria>
+        <cantidad>50</cantidad>
+        <imagen>C:\imagenesP1IPC2\imagen2.jpg</imagen>
+    </producto>
 </productos>
