@@ -4,6 +4,7 @@ from tkinter import scrolledtext as st
 from tkinter import ttk
 # import xml.etree.ElementTree as ET
 from ListaDobleEnlazadaUsuarios import listaDoble
+from ListaCicularDL import ListaDoblementeEnlazada
 from xml_utils import XMLHandler
 
 import sys
@@ -18,6 +19,7 @@ class applicacion:
         self.root.geometry("300x200")
         self.create_widgets()
         self.listaDobleUsarios=listaDoble()
+        self.ListaCicularDL=ListaDoblementeEnlazada()
         
     
     def create_widgets(self):
@@ -84,14 +86,14 @@ class applicacion:
         self.file_menu = tk.Menu(self.menu_bar, tearoff=0)
         self.menu_bar.add_cascade(label="Cargar", menu=self.file_menu)
         self.file_menu.add_command(label="Cargar Usuarios",command=self.cargar_archivo)
-        self.file_menu.add_command(label="Cargar Productos")
+        self.file_menu.add_command(label="Cargar Productos", command=self.cargar_archivo)
         self.file_menu.add_command(label="Cargar empleados")
         self.file_menu.add_command(label="Cargar actividades",)
         #crear menu reportes
         self.file_report=tk.Menu(self.menu_bar,tearoff=0)
         self.menu_bar.add_cascade(label="Reportes",menu=self.file_report)
         self.file_report.add_command(label="Reporte de Usuarios",command=self.listaDobleUsarios.graficar)
-        self.file_report.add_command(label="Reporte Productos")
+        self.file_report.add_command(label="Reporte Productos",command=self.ListaCicularDL.graficar)
         self.file_report.add_separator()
         self.file_report.add_command(label="Reporte cola")
         self.file_report.add_command(label="reporte Compras")
@@ -167,9 +169,39 @@ class applicacion:
         elif root.tag == 'empleados':
             self._parse_vendedor(root)
 
+    def _parse_productos(self, root):
+        for producto in root.findall('producto'):
+            id = producto.get('id')
+            nombre = ''
+            precio = ''
+            descripcion = ''
+            categoria = ''
+            cantidad = ''
+            imagen = ''
+            for child in producto:
+                if child.tag == 'nombre':
+                    nombre = child.text
+                elif child.tag == 'precio':
+                    precio =float( child.text)
+                elif child.tag == 'descripcion':
+                    descripcion = child.text
+                elif child.tag == 'categoria':
+                    categoria = child.text
+                elif child.tag == 'cantidad':
+                    cantidad = child.text
+                elif child.tag == 'imagen':
+                    imagen = child.text
+            self.ListaCicularDL.agregar(id,precio,nombre,descripcion,categoria,cantidad, imagen)
+            print(f'ID: {id}\n'
+                  f'Nombre: {nombre}\n'
+                  f'Precio: {precio}\n'
+                  f'Descripción: {descripcion}\n'
+                  f'Categoría: {categoria}\n'
+                  f'Cantidad: {cantidad}\n'
+                  f'Imagen: {imagen}\n')
+
     def _parse_usuarios(self, root):
-        print ("hola")
-        pass
+
         for usuario in root.findall('usuario'):
             id = usuario.get('id')
             password = usuario.get('password')
@@ -194,8 +226,7 @@ class applicacion:
                   #f'Edad: {edad}\n'
                   #f'Email: {email}\n'
                   #f'Teléfono: {telefono}\n')
-    def _parse_productos(self, root):
-        pass
+   
         
 
     
