@@ -33,7 +33,7 @@ class listaDoble:
             return
 
         # Verificar si el nombre es único antes de agregar el nodo
-        if self.nombreUnico(nombre):
+        if self.nombreUnico(id):
             # Si el nombre es único, crea un nuevo nodo con la información del usuario
             nuevoNodo = nodoUsuarios(id, password, nombre, edad, email, telefono)
             # Verificar si está vacía
@@ -60,12 +60,12 @@ class listaDoble:
         # Verifica que el teléfono tenga exactamente 8 dígitos
         return telefono.isdigit() and len(telefono) == 8
 
-    def nombreUnico(self, nombre):
+    def nombreUnico(self, id):
         # Verifica si el nombre es único en la lista
         actual = self.cabeza  # Empieza desde la cabeza de la lista
         while actual != None:
             # Recorre la lista comparando el nombre de cada nodo con el nombre proporcionado
-            if actual.nombre == nombre:
+            if actual.id == id:
                 return False  # Si encuentra un nombre igual, retorna False
             actual = actual.siguiente  # Avanza al siguiente nodo
         return True  # Si no encuentra ningún nombre igual, retorna True
