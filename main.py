@@ -87,13 +87,15 @@ class applicacion:
         self.menu_bar.add_cascade(label="Cargar", menu=self.file_menu)
         self.file_menu.add_command(label="Cargar Usuarios",command=self.cargar_archivo)
         self.file_menu.add_command(label="Cargar Productos", command=self.cargar_archivo)
-        self.file_menu.add_command(label="Cargar empleados")
+        self.file_menu.add_command(label="Cargar empleados", command=self.cargar_archivo)
         self.file_menu.add_command(label="Cargar actividades",)
         #crear menu reportes
         self.file_report=tk.Menu(self.menu_bar,tearoff=0)
         self.menu_bar.add_cascade(label="Reportes",menu=self.file_report)
         self.file_report.add_command(label="Reporte de Usuarios",command=self.listaDobleUsarios.graficar)
         self.file_report.add_command(label="Reporte Productos",command=self.ListaCicularDL.graficar)
+        self.file_report.add_command(label="Reporte Vendedores")
+
         self.file_report.add_separator()
         self.file_report.add_command(label="Reporte cola")
         self.file_report.add_command(label="reporte Compras")
@@ -226,6 +228,19 @@ class applicacion:
                   #f'Edad: {edad}\n'
                   #f'Email: {email}\n'
                   #f'Teléfono: {telefono}\n')
+    def _parse_vendedor(self, root):
+           for empleado in root.findall('empleado'):
+            codigo = empleado.get('codigo')
+            nombre = ''
+            puesto = ''
+            for child in empleado:
+                if child.tag == 'nombre':
+                    nombre = child.text
+                elif child.tag == 'puesto':
+                    puesto = child.text
+            print(f'Código: {codigo}\n'
+                  f'Nombre: {nombre}\n'
+                  f'Puesto: {puesto}\n')
    
         
 
