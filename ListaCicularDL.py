@@ -66,6 +66,42 @@ class ListaDoblementeEnlazada:
             if actual == self.cabeza:
                 break
 
+    
+    def obtenerDetallesProducto(self, nombre):
+        if self.cabeza is None:  # Verifica si la lista está vacía
+            return None
+        actual = self.cabeza  # Establece el nodo actual como la cabeza de la lista
+        while True:
+            if actual.nombre == nombre:  # Comprueba si el nombre del producto coincide con el nombre buscado
+                # Devuelve un diccionario con los detalles del producto encontrado
+                return {
+                    'nombre': actual.nombre,
+                    'precio': actual.precio,
+                    'descripcion': actual.descripcion,
+                    'categoria': actual.categoria,
+                    'cantidad': actual.cantidad
+                }
+            actual = actual.siguiente  # Avanza al siguiente nodo
+            if actual == self.cabeza:  # Verifica si ha dado una vuelta completa a la lista
+                break
+        return None  # Devuelve None si el producto no se encontró
+    
+    def mostrar_detalles_producto(self, event):
+        nombre_producto_seleccionado = self.combo.get()  # Obtiene el nombre del producto seleccionado
+        if nombre_producto_seleccionado:
+            # Busca los detalles del producto seleccionado en la lista circular de productos
+            detalles_producto = self.ListaCicularDL.obtenerDetallesProducto(nombre_producto_seleccionado)
+            if detalles_producto:  # Comprueba si se encontraron detalles del producto
+                # Muestra los detalles del producto en las etiquetas correspondientes en la interfaz gráfica
+                self.nombreProducto.config(text=detalles_producto['nombre'])
+                self.labe_precio.config(text=f"Precio: {detalles_producto['precio']}")
+                self.labe_descripcion.config(text=f"Descripcion: {detalles_producto['descripcion']}")
+                self.labe_cantidad.config(text=f"Cantidad: {detalles_producto['cantidad']}")
+            else:
+                print("El producto seleccionado no se encontró.")
+        else:
+            print("Ningún producto seleccionado.")
+
     def graficar(self):
         codigo_dot = ''
         archivo = open('reportesdot/listaProductos.dot', 'w')
