@@ -11,23 +11,18 @@ class ListaCircularSimple:
         self.cabeza=None # apuntadores
         self.ultimo=None
         self.size=0
-    def agregar(self,codigo,nombre,puesto):
-        if self.codigoUnico(codigo):
-            nuevoNodo=nodoEmpleados(codigo,nombre,puesto)
-            if self.cabeza is None:
-                # Si la lista está vacía, el nuevo nodo es tanto la cabeza como el último nodo
-                self.cabeza = nuevoNodo
-                self.ultimo = nuevoNodo
-                nuevoNodo.siguiente = self.cabeza  # Enlazar al nuevo nodo consigo mismo
-            else:
-                # Si la lista no está vacía, insertar al final
-                self.ultimo.siguiente = nuevoNodo  # El nodo actual último apunta al nuevo nodo como su siguiente
-                nuevoNodo.siguiente = self.cabeza  # El nuevo nodo apunta a la cabeza
-                self.ultimo = nuevoNodo  # El nuevo nodo se convierte en el último nodo de la lista
-            self.size += 1  # Incrementa el tamaño de la lista en 1
+    def agregar(self, codigo, nombre, puesto):
+        nuevo_nodo =nodoEmpleados(codigo, nombre, puesto)
+        if not self.cabeza:
+            self.cabeza = nuevo_nodo
+            nuevo_nodo.siguiente = self.cabeza
         else:
-            # Si el nombre no es único, imprime un mensaje de error y no agrega el nodo
-            print(f"Error: El id '{id}' ya existe en la lista. No se puede agregar.")
+            actual = self.cabeza
+            while actual.siguiente != self.cabeza:
+                actual = actual.siguiente
+            actual.siguiente = nuevo_nodo
+            nuevo_nodo.siguiente = self.cabeza
+        self.size += 1
     
     def graficar(self):
         codigo_dot = ''
@@ -53,7 +48,11 @@ class ListaCircularSimple:
             while True:
                 siguiente_nodo = (contador_nodos + 1) % self.size
                 # Crear relaciones entre nodos
-                codigo_dot += f'node{contador_nodos} -> node{siguiente_nodo};\n'
+                if siguiente_nodo == 0:
+                    # Si es la relación del último nodo al primero, usamos una flecha curva
+                    codigo_dot += f'node{contador_nodos} -> node{siguiente_nodo} [constraint=false];\n'
+                else:
+                    codigo_dot += f'node{contador_nodos} -> node{siguiente_nodo};\n'
                 contador_nodos += 1
                 actual = actual.siguiente
                 if actual == self.cabeza:

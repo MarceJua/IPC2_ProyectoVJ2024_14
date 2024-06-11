@@ -114,7 +114,7 @@ class ListaDoblementeEnlazada:
         # PRIMERO CREAMOS LOS NODOS
         if actual is not None:
             while True:
-                codigo_dot += f'node{contador_nodos} [label = "{{ID: {actual.id}|Nombre: {actual.nombre}|nombre: {actual.nombre}|Precio: {actual.precio}|descripcion: {actual.descripcion}|cantidad: {actual.cantidad}|:categoria {actual.categoria}|imagen: {actual.imagen}}}"];\n'
+                codigo_dot += f'node{contador_nodos} [label = "{{ID: {actual.id}|Nombre: {actual.nombre}|nombre: {actual.nombre}|Precio: {actual.precio}|descripcion: {actual.descripcion}}}"];\n'
                 contador_nodos += 1
                 actual = actual.siguiente
                 if actual == self.cabeza:
