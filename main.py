@@ -188,7 +188,10 @@ class applicacion:
                 if child.tag == 'nombre':
                     nombre = child.text
                 elif child.tag == 'precio':
-                    precio =float( child.text)
+                    try:
+                        precio = float(child.text.replace(',', ''))
+                    except ValueError as e:
+                        print(f"Error al convertir el valor {child.text} a float: {e}")
                 elif child.tag == 'descripcion':
                     descripcion = child.text
                 elif child.tag == 'categoria':
@@ -291,8 +294,12 @@ class applicacion:
         self.label_tittle=tk.Label(self.div,text="AUTORIZAR COMPRA",font=("Roboto Cn",14))
         self.label_tittle.pack(pady=10)
         #crear combobox
-        self.combo = ttk.Combobox(self.div, state="readonly",values=["Producto1", "Producto2", "Producto3", "Producto4"])
+        self.combo = ttk.Combobox(self.div, state="readonly")
         self.combo.pack(side=tk.LEFT, padx=50,pady=20)
+
+        # asociar evento de selección
+        self.combo.bind("<<ComboboxSelected>>", self.mostrar_detalles_producto)
+
         #crear boton ver: al darle click se desplegaran los datos en la ventana
         self.button_ver=tk.Button(self.div,text="Ver",width=30)
         self.button_ver.pack(side=tk.LEFT,padx=30,pady=20)
@@ -348,6 +355,34 @@ class applicacion:
         self.button_confirmarCompra = tk.Button(self.ventUser, text="ConfirmarCompra",bg="lightblue")
         self.button_confirmarCompra.pack( padx=5, pady=5)
     
+        # Llenar el combobox con los nombres de los productos cargados
+        self.llenar_combobox_productos()
+
+    def llenar_combobox_productos(self):
+        if self.ListaCicularDL.size > 0: # Verifica si hay productos en la lista
+            nombres_productos = []
+            actual = self.ListaCicularDL.cabeza # Establece el nodo actual como la cabeza de la lista
+            for _ in range(self.ListaCicularDL.size):  # Itera sobre todos los nodos de la lista
+                nombres_productos.append(actual.nombre)  # Agrega el nombre del producto a la lista
+                actual = actual.siguiente  # Avanza al siguiente nodo
+            self.combo['values'] = nombres_productos # Asigna los nombres de los productos al combobox
+            self.combo.current(0)  # Establecer la selección predeterminada
+
+    def mostrar_detalles_producto(self, event):
+        nombre_producto_seleccionado = self.combo.get()  # Obtiene el nombre del producto seleccionado en el combobox
+        if nombre_producto_seleccionado:  # Verifica si se ha seleccionado un producto
+            detalles_producto = self.ListaCicularDL.obtenerDetallesProducto(nombre_producto_seleccionado)  # Obtiene los detalles del producto seleccionado
+            if detalles_producto:  # Verifica si se encontraron detalles del producto
+                # Actualiza los labels con los detalles del producto seleccionado
+                self.nombreProducto.config(text=detalles_producto['nombre'])
+                self.labe_precio.config(text=f"Precio: {detalles_producto['precio']}")
+                self.labe_descripcion.config(text=f"Descripcion: {detalles_producto['descripcion']}")
+                self.labe_cantidad.config(text=f"Cantidad: {detalles_producto['cantidad']}")
+            else:
+                print("El producto seleccionado no se encontró.")
+        else:
+            print("Ningún producto seleccionado.") 
+
 
     def regresarLogin(self):
         # Cerrar la ventana principal

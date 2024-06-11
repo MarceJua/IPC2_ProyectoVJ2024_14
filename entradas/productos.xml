@@ -2,7 +2,7 @@
 <productos>
     <producto id="IPCM-1">
         <nombre>Computadora de Escritorio</nombre>
-        <precio>5000.00</precio>
+        <precio>5000.0</precio>
         <descripcion>Computadora de escritorio con procesador Intel Core i7, 16 GB de RAM, 1 TB de almacenamiento y tarjeta gráfica NVIDIA GeForce RTX 2080.</descripcion>
         <categoria>Tecnología</categoria>
         <cantidad>10</cantidad>
