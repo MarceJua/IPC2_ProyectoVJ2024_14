@@ -4,6 +4,10 @@ from tkinter import scrolledtext as st
 from tkinter import ttk
 # import xml.etree.ElementTree as ET
 from ListaDobleEnlazadaUsuarios import listaDoble
+from ListaCicularDL import ListaDoblementeEnlazada
+from ListaCirculaSimpleEmpleados import ListaCircularSimple
+
+#---
 from xml_utils import XMLHandler
 
 import sys
@@ -18,6 +22,8 @@ class applicacion:
         self.root.geometry("300x200")
         self.create_widgets()
         self.listaDobleUsarios=listaDoble()
+        self.ListaCicularDL=ListaDoblementeEnlazada()
+        self.listaCircularSimple=ListaCircularSimple()
         
     
     def create_widgets(self):
@@ -84,14 +90,16 @@ class applicacion:
         self.file_menu = tk.Menu(self.menu_bar, tearoff=0)
         self.menu_bar.add_cascade(label="Cargar", menu=self.file_menu)
         self.file_menu.add_command(label="Cargar Usuarios",command=self.cargar_archivo)
-        self.file_menu.add_command(label="Cargar Productos")
-        self.file_menu.add_command(label="Cargar empleados")
+        self.file_menu.add_command(label="Cargar Productos", command=self.cargar_archivo)
+        self.file_menu.add_command(label="Cargar empleados", command=self.cargar_archivo)
         self.file_menu.add_command(label="Cargar actividades",)
         #crear menu reportes
         self.file_report=tk.Menu(self.menu_bar,tearoff=0)
         self.menu_bar.add_cascade(label="Reportes",menu=self.file_report)
         self.file_report.add_command(label="Reporte de Usuarios",command=self.listaDobleUsarios.graficar)
-        self.file_report.add_command(label="Reporte Productos")
+        self.file_report.add_command(label="Reporte Productos",command=self.ListaCicularDL.graficar)
+        self.file_report.add_command(label="Reporte Vendedores",command=self.listaCircularSimple.graficar)
+
         self.file_report.add_separator()
         self.file_report.add_command(label="Reporte cola")
         self.file_report.add_command(label="reporte Compras")
@@ -167,9 +175,42 @@ class applicacion:
         elif root.tag == 'empleados':
             self._parse_vendedor(root)
 
+    def _parse_productos(self, root):
+        for producto in root.findall('producto'):
+            id = producto.get('id')
+            nombre = ''
+            precio = ''
+            descripcion = ''
+            categoria = ''
+            cantidad = ''
+            imagen = ''
+            for child in producto:
+                if child.tag == 'nombre':
+                    nombre = child.text
+                elif child.tag == 'precio':
+                    try:
+                        precio = float(child.text.replace(',', ''))
+                    except ValueError as e:
+                        print(f"Error al convertir el valor {child.text} a float: {e}")
+                elif child.tag == 'descripcion':
+                    descripcion = child.text
+                elif child.tag == 'categoria':
+                    categoria = child.text
+                elif child.tag == 'cantidad':
+                    cantidad = child.text
+                elif child.tag == 'imagen':
+                    imagen = child.text
+            self.ListaCicularDL.agregar(id,precio,nombre,descripcion,categoria,cantidad, imagen)
+            print(f'ID: {id}\n'
+                  f'Nombre: {nombre}\n'
+                  f'Precio: {precio}\n'
+                  f'Descripción: {descripcion}\n'
+                  f'Categoría: {categoria}\n'
+                  f'Cantidad: {cantidad}\n'
+                  f'Imagen: {imagen}\n')
+
     def _parse_usuarios(self, root):
-        print ("hola")
-        pass
+
         for usuario in root.findall('usuario'):
             id = usuario.get('id')
             password = usuario.get('password')
@@ -194,6 +235,21 @@ class applicacion:
                   #f'Edad: {edad}\n'
                   #f'Email: {email}\n'
                   #f'Teléfono: {telefono}\n')
+    def _parse_vendedor(self, root):
+           for empleado in root.findall('empleado'):
+            codigo = empleado.get('codigo')
+            nombre = ''
+            puesto = ''
+            for child in empleado:
+                if child.tag == 'nombre':
+                    nombre = child.text
+                elif child.tag == 'puesto':
+                    puesto = child.text
+            self.listaCircularSimple.agregar(codigo,nombre,puesto)
+            print(f'Código: {codigo}\n'
+                  f'Nombre: {nombre}\n'
+                  f'Puesto: {puesto}\n')
+   
         
 
     
@@ -238,8 +294,12 @@ class applicacion:
         self.label_tittle=tk.Label(self.div,text="AUTORIZAR COMPRA",font=("Roboto Cn",14))
         self.label_tittle.pack(pady=10)
         #crear combobox
-        self.combo = ttk.Combobox(self.div, state="readonly",values=["Producto1", "Producto2", "Producto3", "Producto4"])
+        self.combo = ttk.Combobox(self.div, state="readonly")
         self.combo.pack(side=tk.LEFT, padx=50,pady=20)
+
+        # asociar evento de selección
+        self.combo.bind("<<ComboboxSelected>>", self.mostrar_detalles_producto)
+
         #crear boton ver: al darle click se desplegaran los datos en la ventana
         self.button_ver=tk.Button(self.div,text="Ver",width=30)
         self.button_ver.pack(side=tk.LEFT,padx=30,pady=20)
@@ -295,6 +355,34 @@ class applicacion:
         self.button_confirmarCompra = tk.Button(self.ventUser, text="ConfirmarCompra",bg="lightblue")
         self.button_confirmarCompra.pack( padx=5, pady=5)
     
+        # Llenar el combobox con los nombres de los productos cargados
+        self.llenar_combobox_productos()
+
+    def llenar_combobox_productos(self):
+        if self.ListaCicularDL.size > 0: # Verifica si hay productos en la lista
+            nombres_productos = []
+            actual = self.ListaCicularDL.cabeza # Establece el nodo actual como la cabeza de la lista
+            for _ in range(self.ListaCicularDL.size):  # Itera sobre todos los nodos de la lista
+                nombres_productos.append(actual.nombre)  # Agrega el nombre del producto a la lista
+                actual = actual.siguiente  # Avanza al siguiente nodo
+            self.combo['values'] = nombres_productos # Asigna los nombres de los productos al combobox
+            self.combo.current(0)  # Establecer la selección predeterminada
+
+    def mostrar_detalles_producto(self, event):
+        nombre_producto_seleccionado = self.combo.get()  # Obtiene el nombre del producto seleccionado en el combobox
+        if nombre_producto_seleccionado:  # Verifica si se ha seleccionado un producto
+            detalles_producto = self.ListaCicularDL.obtenerDetallesProducto(nombre_producto_seleccionado)  # Obtiene los detalles del producto seleccionado
+            if detalles_producto:  # Verifica si se encontraron detalles del producto
+                # Actualiza los labels con los detalles del producto seleccionado
+                self.nombreProducto.config(text=detalles_producto['nombre'])
+                self.labe_precio.config(text=f"Precio: {detalles_producto['precio']}")
+                self.labe_descripcion.config(text=f"Descripcion: {detalles_producto['descripcion']}")
+                self.labe_cantidad.config(text=f"Cantidad: {detalles_producto['cantidad']}")
+            else:
+                print("El producto seleccionado no se encontró.")
+        else:
+            print("Ningún producto seleccionado.") 
+
 
     def regresarLogin(self):
         # Cerrar la ventana principal
