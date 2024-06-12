@@ -6,7 +6,7 @@ from tkinter import ttk
 from ListaDobleEnlazadaUsuarios import listaDoble
 from ListaCicularDL import ListaDoblementeEnlazada
 from ListaCirculaSimpleEmpleados import ListaCircularSimple
-
+from pilaCarrito import Pila
 #---
 from xml_utils import XMLHandler
 
@@ -24,6 +24,7 @@ class applicacion:
         self.listaDobleUsarios=listaDoble()
         self.ListaCicularDL=ListaDoblementeEnlazada()
         self.listaCircularSimple=ListaCircularSimple()
+        self.pilaCarrito=Pila()
         
     
     def create_widgets(self):
@@ -280,8 +281,9 @@ class applicacion:
         self.root.withdraw()
         self.ventUser = tk.Toplevel(self.root)
         self.ventUser.title(f"IPC MARKET- {user}") #Agrega el ID del usuario ingresado
-        self.ventUser.geometry("550x450")
+        self.ventUser.geometry("800x500")
         nombreUsuario=nombreUser
+
         print(f"{nombreUsuario}")
 
         self.dive = tk.Frame(self.ventUser)
@@ -314,8 +316,12 @@ class applicacion:
         self.div2.columnconfigure(2, weight=1)
         
         # Crear los 3 segmentos dentro de div2
+        self.nombreUser = tk.Label(self.div2, text=f"{nombreUser}", bg="lightblue")
+        self.nombreUser.pack_forget()
         self.label1 = tk.Label(self.div2, text="Imagen", bg="lightblue")
         self.label1.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+        self.userId = tk.Label(self.div2, text=f"{user}", bg="lightblue")
+        self.userId.pack_forget()
         #falta agregar el elemento para importar imagen 
         #labels segemeto 2
         self.idproducto = tk.Label(self.div2, text="id", bg="lightgreen")
@@ -332,7 +338,7 @@ class applicacion:
 
         self.labe_categoria = tk.Label(self.div2, text="Categoria", bg="lightgreen")
         self.labe_categoria.grid(row=4, column=1, sticky="nsew", padx=5, pady=5)
-        self.labe_cantidad = tk.Label(self.div2, text="Cantidad", bg="lightgreen")
+        self.labe_cantidad = tk.Label(self.div2, text="0", bg="lightgreen")
         self.labe_cantidad.grid(row=4, column=1, sticky="nsew", padx=5, pady=5)
         self.labe4 = tk.Label(self.div2, text="Cantidad a agregar:", bg="lightgreen")
         self.labe4.grid(row=5, column=1, sticky="nsew", pady=5)
@@ -341,19 +347,10 @@ class applicacion:
 
         
     
-        self.button_agregarCarrito = tk.Button(self.div2, text="Agregar Carrito", bg="lightcoral")
+        self.button_agregarCarrito = tk.Button(self.div2, text="Agregar Carrito", bg="lightcoral",command=self.AgregarCarrito)
         self.button_agregarCarrito.grid(row=5, column=2, sticky="nsew", padx=5, pady=5)
 
-
-           # Cargar la imagen y agregarla a Segmento 1
-        #image_path = "ruta/a/tu/imagen.jpg"  # Cambia esto a la ruta de tu imagen
-        #image = Image.open(image_path)
-        #image = image.resize((100, 100), Image.ANTIALIAS)  # Redimensionar la imagen si es necesario
-        #photo = ImageTk.PhotoImage(image)
-
-        #self.label1.config(image=photo)
-        #self.label1.image = photo  # Necesario para mantener una referencia de la imagen
-        self.button_verCarrito = tk.Button(self.ventUser, text="Ver Carrito")
+        self.button_verCarrito = tk.Button(self.ventUser, text="Ver Carrito",command=self.pilaCarrito.graficar)
         self.button_verCarrito.pack( padx=5, pady=5)
         self.button_confirmarCompra = tk.Button(self.ventUser, text="ConfirmarCompra",bg="lightblue")
         self.button_confirmarCompra.pack( padx=5, pady=5)
@@ -400,6 +397,32 @@ class applicacion:
         else:
             print("Ningún producto seleccionado.")
 
+    def AgregarCarrito(self,):
+        if self.entry_cantidad.get()!= '':
+         id_user=self.userId.cget("text")
+         nombreUsario=self.nombreUser.cget("text")
+         idproducto=self.idproducto.cget("text")
+         nombreProducto=self.nombreProducto.cget("text")
+         valor=float(self.labe_precio.cget("text"))
+         cantidad=float(self.entry_cantidad.get())
+         total=valor*cantidad
+         if  cantidad<=0:
+             messagebox.showerror(title="error", message="DATOS INCORRECTOS")
+
+         elif self.ListaCicularDL.verificar_id_y_cantidad(idproducto,cantidad):
+            self.pilaCarrito.append(id_user,nombreUsario,idproducto,nombreProducto,cantidad,total)
+            messagebox.showinfo(title="Exito",message="Agregado con exito")
+            
+
+         else:
+          messagebox.showerror(title="error", message="DATOS INCORRECTOS")
+        else:
+            messagebox.showerror(title="error", message="DATO Vacio")
+            
+
+        
+
+
 
     def regresarLogin(self):
         # Cerrar la ventana principal
@@ -412,6 +435,7 @@ class applicacion:
 
     def regresarLoginUser(self):
          # Cerrar la ventana principal
+        self.pilaCarrito.vaciar()
         self.ventUser.destroy()
         self.entry_user.delete(0, tk.END)
         self.entry_password.delete(0, tk.END)
