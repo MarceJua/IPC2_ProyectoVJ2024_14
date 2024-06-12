@@ -59,7 +59,8 @@ class applicacion:
         # verificar el usuario
         elif self.listaDobleUsarios.autenticacion(user, password):
             messagebox.showinfo(title="Exito", message=f"Bienvenido, {user}")
-            self.crear_ventanaUsuario(user) # Pasar el ID del usuario como parámetro
+            nombreUser=self.listaDobleUsarios.NombrePorId(user)
+            self.crear_ventanaUsuario(user,nombreUser) # Pasar el ID del usuario como parámetro
         else:
             messagebox.showerror(title="error", message="DATOS INCORRECTOS")
             
@@ -275,11 +276,13 @@ class applicacion:
         self.actividades_text=st.ScrolledText(self.venA,height=15,width=50)
         self.actividades_text.pack(pady=5)
 
-    def crear_ventanaUsuario(self, user):
+    def crear_ventanaUsuario(self, user,nombreUser):
         self.root.withdraw()
         self.ventUser = tk.Toplevel(self.root)
         self.ventUser.title(f"IPC MARKET- {user}") #Agrega el ID del usuario ingresado
         self.ventUser.geometry("550x450")
+        nombreUsuario=nombreUser
+        print(f"{nombreUsuario}")
 
         self.dive = tk.Frame(self.ventUser)
         self.dive.pack(fill=tk.X)
@@ -311,12 +314,12 @@ class applicacion:
         self.div2.columnconfigure(2, weight=1)
         
         # Crear los 3 segmentos dentro de div2
-        self.label1 = tk.Label(self.div2, text="Segmento 1", bg="lightblue")
+        self.label1 = tk.Label(self.div2, text="Imagen", bg="lightblue")
         self.label1.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
         #falta agregar el elemento para importar imagen 
         #labels segemeto 2
-        self.label2 = tk.Label(self.div2, text="Segmento 2", bg="lightgreen")
-        self.label2.grid(row=0, column=1, sticky="nsew", padx=5, pady=5)
+        self.idproducto = tk.Label(self.div2, text="id", bg="lightgreen")
+        self.idproducto.grid(row=0, column=1, sticky="nsew", padx=5, pady=5)
         
         self.nombreProducto = tk.Label(self.div2, text="nombre", bg="lightgreen")
         self.nombreProducto.grid(row=1, column=1, sticky="nsew", padx=5, pady=5)
@@ -369,19 +372,33 @@ class applicacion:
             self.combo.current(0)  # Establecer la selección predeterminada
 
     def mostrar_detalles_producto(self, event):
-        nombre_producto_seleccionado = self.combo.get()  # Obtiene el nombre del producto seleccionado en el combobox
-        if nombre_producto_seleccionado:  # Verifica si se ha seleccionado un producto
-            detalles_producto = self.ListaCicularDL.obtenerDetallesProducto(nombre_producto_seleccionado)  # Obtiene los detalles del producto seleccionado
-            if detalles_producto:  # Verifica si se encontraron detalles del producto
-                # Actualiza los labels con los detalles del producto seleccionado
+        nombre_producto_seleccionado = self.combo.get()
+        if nombre_producto_seleccionado:
+            detalles_producto = self.ListaCicularDL.obtenerDetallesProducto(nombre_producto_seleccionado)
+            if detalles_producto:
+                self.idproducto.config(text=detalles_producto['id'])
                 self.nombreProducto.config(text=detalles_producto['nombre'])
-                self.labe_precio.config(text=f"Precio: {detalles_producto['precio']}")
-                self.labe_descripcion.config(text=f"Descripcion: {detalles_producto['descripcion']}")
-                self.labe_cantidad.config(text=f"Cantidad: {detalles_producto['cantidad']}")
+                self.labe_precio.config(text=f"{detalles_producto['precio']}")
+                self.labe_descripcion.config(text=f"{detalles_producto['descripcion']}")
+                self.labe_categoria.config(text=f"{detalles_producto['categoria']}")
+                self.labe_cantidad.config(text=f"{detalles_producto['cantidad']}")
+
+                # Cargar la imagen
+                if detalles_producto['imagen']:
+                    try:
+                        img = Image.open(detalles_producto['imagen'])
+                        img = img.resize((100, 100), Image.ANTIALIAS)
+                        photo = ImageTk.PhotoImage(img)
+                        self.label1.config(image=photo, text="")
+                        self.label1.image = photo
+                    except Exception as e:
+                        self.label1.config(text=f"Error al cargar la imagen: {e}", image="", bg="red")
+                else:
+                    self.label1.config(text="No hay imagen disponible", image="", bg="lightblue")
             else:
                 print("El producto seleccionado no se encontró.")
         else:
-            print("Ningún producto seleccionado.") 
+            print("Ningún producto seleccionado.")
 
 
     def regresarLogin(self):
