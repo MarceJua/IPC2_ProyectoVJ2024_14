@@ -127,3 +127,21 @@ class listaDoble:
         ruta_reporte = os.path.abspath(ruta_imagen)
         os.startfile(ruta_reporte)
 
+    def NombrePorId(self, id):
+        nodo = self.buscarPorId(id)
+        if nodo:
+            return nodo.nombre
+        return None
+    
+    def buscarPorId(self, id):
+        if self.cabeza is None:
+            return None
+        actual = self.cabeza
+        while True:
+            if actual.id == id:
+                return actual
+            actual = actual.siguiente
+            if actual == self.cabeza:
+                break
+        return None
+

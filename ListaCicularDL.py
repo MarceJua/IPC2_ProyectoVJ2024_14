@@ -75,11 +75,14 @@ class ListaDoblementeEnlazada:
             if actual.nombre == nombre:  # Comprueba si el nombre del producto coincide con el nombre buscado
                 # Devuelve un diccionario con los detalles del producto encontrado
                 return {
+                    'id':actual.id,
                     'nombre': actual.nombre,
                     'precio': actual.precio,
                     'descripcion': actual.descripcion,
                     'categoria': actual.categoria,
-                    'cantidad': actual.cantidad
+                    'cantidad': actual.cantidad,
+                    'imagen': actual.imagen
+                    
                 }
             actual = actual.siguiente  # Avanza al siguiente nodo
             if actual == self.cabeza:  # Verifica si ha dado una vuelta completa a la lista
