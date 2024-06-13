@@ -6,7 +6,9 @@ from tkinter import ttk
 from ListaDobleEnlazadaUsuarios import listaDoble
 from ListaCicularDL import ListaDoblementeEnlazada
 from ListaCirculaSimpleEmpleados import ListaCircularSimple
-
+from pilaCarrito import Pila
+from colaCompras import Cola
+from ListaSimpleCompras import listaSimple
 #---
 from xml_utils import XMLHandler
 
@@ -24,6 +26,9 @@ class applicacion:
         self.listaDobleUsarios=listaDoble()
         self.ListaCicularDL=ListaDoblementeEnlazada()
         self.listaCircularSimple=ListaCircularSimple()
+        self.pilaCarrito=Pila()
+        self.colaCompras=Cola()
+        self.listaSimpeCompras=listaSimple()
         
     
     def create_widgets(self):
@@ -59,7 +64,8 @@ class applicacion:
         # verificar el usuario
         elif self.listaDobleUsarios.autenticacion(user, password):
             messagebox.showinfo(title="Exito", message=f"Bienvenido, {user}")
-            self.crear_ventanaUsuario(user) # Pasar el ID del usuario como parámetro
+            nombreUser=self.listaDobleUsarios.NombrePorId(user)
+            self.crear_ventanaUsuario(user,nombreUser) # Pasar el ID del usuario como parámetro
         else:
             messagebox.showerror(title="error", message="DATOS INCORRECTOS")
             
@@ -101,8 +107,8 @@ class applicacion:
         self.file_report.add_command(label="Reporte Vendedores",command=self.listaCircularSimple.graficar)
 
         self.file_report.add_separator()
-        self.file_report.add_command(label="Reporte cola")
-        self.file_report.add_command(label="reporte Compras")
+        self.file_report.add_command(label="Reporte cola",command=self.colaCompras.graficar)
+        self.file_report.add_command(label="reporte Compras",command=self.listaSimpeCompras.graficar)
 
         self.label_tittle=tk.Label(self.top,text="AUTORIZAR COMPRA",font=("Roboto Cn",14))
         self.label_tittle.pack(pady=5)
@@ -112,10 +118,24 @@ class applicacion:
         self.autoriza_txt=st.ScrolledText(self.top,height=15,width=50)
         self.autoriza_txt.pack(padx=5,pady=10)
         #Botones
-        self.button_accept=tk.Button(self.top,text="Aceptar")
-        self.button_cancel=tk.Button(self.top,text="Cancelar")
+        self.button_accept=tk.Button(self.top,text="Aceptar",command=self.aceptarCompra)
+        self.button_cancel=tk.Button(self.top,text="Cancelar",command=self.rechazarCompra)
         self.button_accept.pack(pady=5)
         self.button_cancel.pack(pady=5)
+        self.mostrar_primera_compra()
+
+    def mostrar_primera_compra(self):
+       try:
+        # Limpiar el contenido actual del cuadro de texto
+         self.autoriza_txt.delete('1.0', tk.END)
+
+         if not self.colaCompras.esta_vacia():
+            primera_compra = self.colaCompras.obtener_frente()
+            self.autoriza_txt.insert(tk.END, primera_compra)
+         else:
+            self.autoriza_txt.insert(tk.END, "No hay compras en la cola.")
+       except IndexError:
+         self.autoriza_txt.insert(tk.END, "Error al obtener la primera compra.")
 
     """
     #''''''''''''
@@ -249,6 +269,36 @@ class applicacion:
             print(f'Código: {codigo}\n'
                   f'Nombre: {nombre}\n'
                   f'Puesto: {puesto}\n')
+            
+    def aceptarCompra(self):
+        
+        if not self.colaCompras.esta_vacia():
+         compra=self.colaCompras.desencolar()
+         self.listaSimpeCompras.agregar(compra)
+         self.mostrar_primera_compra()
+         messagebox.showinfo(title="exito",message="Compra Autorizada")
+        else:
+            messagebox.showerror(title="ERROR",message="COLA VACIA")
+
+    def rechazarCompra(self):
+        
+        if not self.colaCompras.esta_vacia():
+         self.colaCompras.desencolar()
+         self.mostrar_primera_compra()
+         messagebox.showinfo(title="Exito",message="Compra Rechazada")
+        else:
+            messagebox.showerror(title="ERRO",message="COLA VACIA")
+
+
+
+
+
+
+    
+        
+
+            
+    
    
         
 
@@ -275,11 +325,14 @@ class applicacion:
         self.actividades_text=st.ScrolledText(self.venA,height=15,width=50)
         self.actividades_text.pack(pady=5)
 
-    def crear_ventanaUsuario(self, user):
+    def crear_ventanaUsuario(self, user,nombreUser):
         self.root.withdraw()
         self.ventUser = tk.Toplevel(self.root)
         self.ventUser.title(f"IPC MARKET- {user}") #Agrega el ID del usuario ingresado
-        self.ventUser.geometry("550x450")
+        self.ventUser.geometry("1000x475")
+        nombreUsuario=nombreUser
+
+        print(f"{nombreUsuario}")
 
         self.dive = tk.Frame(self.ventUser)
         self.dive.pack(fill=tk.X)
@@ -311,12 +364,16 @@ class applicacion:
         self.div2.columnconfigure(2, weight=1)
         
         # Crear los 3 segmentos dentro de div2
-        self.label1 = tk.Label(self.div2, text="Segmento 1", bg="lightblue")
+        self.nombreUser = tk.Label(self.div2, text=f"{nombreUser}", bg="lightblue")
+        self.nombreUser.pack_forget()
+        self.label1 = tk.Label(self.div2, text="Imagen", bg="lightblue")
         self.label1.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+        self.userId = tk.Label(self.div2, text=f"{user}", bg="lightblue")
+        self.userId.pack_forget()
         #falta agregar el elemento para importar imagen 
         #labels segemeto 2
-        self.label2 = tk.Label(self.div2, text="Segmento 2", bg="lightgreen")
-        self.label2.grid(row=0, column=1, sticky="nsew", padx=5, pady=5)
+        self.idproducto = tk.Label(self.div2, text="id", bg="lightgreen")
+        self.idproducto.grid(row=0, column=1, sticky="nsew", padx=5, pady=5)
         
         self.nombreProducto = tk.Label(self.div2, text="nombre", bg="lightgreen")
         self.nombreProducto.grid(row=1, column=1, sticky="nsew", padx=5, pady=5)
@@ -329,7 +386,7 @@ class applicacion:
 
         self.labe_categoria = tk.Label(self.div2, text="Categoria", bg="lightgreen")
         self.labe_categoria.grid(row=4, column=1, sticky="nsew", padx=5, pady=5)
-        self.labe_cantidad = tk.Label(self.div2, text="Cantidad", bg="lightgreen")
+        self.labe_cantidad = tk.Label(self.div2, text="0", bg="lightgreen")
         self.labe_cantidad.grid(row=4, column=1, sticky="nsew", padx=5, pady=5)
         self.labe4 = tk.Label(self.div2, text="Cantidad a agregar:", bg="lightgreen")
         self.labe4.grid(row=5, column=1, sticky="nsew", pady=5)
@@ -338,50 +395,106 @@ class applicacion:
 
         
     
-        self.button_agregarCarrito = tk.Button(self.div2, text="Agregar Carrito", bg="lightcoral")
+        self.button_agregarCarrito = tk.Button(self.div2, text="Agregar Carrito", bg="lightcoral",command=self.AgregarCarrito)
         self.button_agregarCarrito.grid(row=5, column=2, sticky="nsew", padx=5, pady=5)
 
-
-           # Cargar la imagen y agregarla a Segmento 1
-        #image_path = "ruta/a/tu/imagen.jpg"  # Cambia esto a la ruta de tu imagen
-        #image = Image.open(image_path)
-        #image = image.resize((100, 100), Image.ANTIALIAS)  # Redimensionar la imagen si es necesario
-        #photo = ImageTk.PhotoImage(image)
-
-        #self.label1.config(image=photo)
-        #self.label1.image = photo  # Necesario para mantener una referencia de la imagen
-        self.button_verCarrito = tk.Button(self.ventUser, text="Ver Carrito")
+        self.button_verCarrito = tk.Button(self.ventUser, text="Ver Carrito",command=self.pilaCarrito.graficar)
         self.button_verCarrito.pack( padx=5, pady=5)
-        self.button_confirmarCompra = tk.Button(self.ventUser, text="ConfirmarCompra",bg="lightblue")
+        self.button_confirmarCompra = tk.Button(self.ventUser, text="ConfirmarCompra",bg="lightblue",command=self.agregarColaCompras)
         self.button_confirmarCompra.pack( padx=5, pady=5)
     
         # Llenar el combobox con los nombres de los productos cargados
         self.llenar_combobox_productos()
 
     def llenar_combobox_productos(self):
-        if self.ListaCicularDL.size > 0: # Verifica si hay productos en la lista
-            nombres_productos = []
-            actual = self.ListaCicularDL.cabeza # Establece el nodo actual como la cabeza de la lista
-            for _ in range(self.ListaCicularDL.size):  # Itera sobre todos los nodos de la lista
-                nombres_productos.append(actual.nombre)  # Agrega el nombre del producto a la lista
-                actual = actual.siguiente  # Avanza al siguiente nodo
-            self.combo['values'] = nombres_productos # Asigna los nombres de los productos al combobox
-            self.combo.current(0)  # Establecer la selección predeterminada
+     if self.ListaCicularDL.size > 0:  # Verifica si hay productos en la lista
+        actual = self.ListaCicularDL.cabeza  # Establece el nodo actual como la cabeza de la lista
+
+        # Crear una variable StringVar para manejar los valores del combobox
+        nombres_var = tk.StringVar()
+        nombres_var.set('')
+
+        # Iterar sobre todos los nodos de la lista circular
+        for _ in range(self.ListaCicularDL.size):
+            nombre_actual = actual.nombre  # Obtener el nombre del producto actual
+            if nombres_var.get():
+                nombres_var.set(nombres_var.get() + ';' + nombre_actual)  # Concatenar nombres separados por ;
+            else:
+                nombres_var.set(nombre_actual)  # Primer nombre sin concatenar
+            actual = actual.siguiente  # Avanzar al siguiente nodo
+
+        # Asignar los nombres concatenados al combobox usando ';' como separador
+        self.combo['values'] = nombres_var.get().split(';')
+
+        # Establecer la selección predeterminada si se desea
+        self.combo.current(0)  # Establecer la selección predeterminada
+     else:
+        print("La lista de productos está vacía.")
+
 
     def mostrar_detalles_producto(self, event):
-        nombre_producto_seleccionado = self.combo.get()  # Obtiene el nombre del producto seleccionado en el combobox
-        if nombre_producto_seleccionado:  # Verifica si se ha seleccionado un producto
-            detalles_producto = self.ListaCicularDL.obtenerDetallesProducto(nombre_producto_seleccionado)  # Obtiene los detalles del producto seleccionado
-            if detalles_producto:  # Verifica si se encontraron detalles del producto
-                # Actualiza los labels con los detalles del producto seleccionado
+        nombre_producto_seleccionado = self.combo.get()
+        if nombre_producto_seleccionado:
+            detalles_producto = self.ListaCicularDL.obtenerDetallesProducto(nombre_producto_seleccionado)
+            if detalles_producto:
+                self.idproducto.config(text=detalles_producto['id'])
                 self.nombreProducto.config(text=detalles_producto['nombre'])
-                self.labe_precio.config(text=f"Precio: {detalles_producto['precio']}")
-                self.labe_descripcion.config(text=f"Descripcion: {detalles_producto['descripcion']}")
-                self.labe_cantidad.config(text=f"Cantidad: {detalles_producto['cantidad']}")
+                self.labe_precio.config(text=f"{detalles_producto['precio']}")
+                self.labe_descripcion.config(text=f"{detalles_producto['descripcion']}")
+                self.labe_categoria.config(text=f"{detalles_producto['categoria']}")
+                self.labe_cantidad.config(text=f"{detalles_producto['cantidad']}")
+
+                # Cargar la imagen
+                if detalles_producto['imagen']:
+                    try:
+                        img = Image.open(detalles_producto['imagen'])
+                        img = img.resize((100, 100), Image.ANTIALIAS)
+                        photo = ImageTk.PhotoImage(img)
+                        self.label1.config(image=photo, text="")
+                        self.label1.image = photo
+                    except Exception as e:
+                        self.label1.config(text=f"Error al cargar la imagen: {e}", image="", bg="red")
+                else:
+                    self.label1.config(text="No hay imagen disponible", image="", bg="lightblue")
             else:
                 print("El producto seleccionado no se encontró.")
         else:
-            print("Ningún producto seleccionado.") 
+            print("Ningún producto seleccionado.")
+
+    def AgregarCarrito(self,):
+        if self.entry_cantidad.get()!= '':
+         id_user=self.userId.cget("text")
+         nombreUsario=self.nombreUser.cget("text")
+         idproducto=self.idproducto.cget("text")
+         nombreProducto=self.nombreProducto.cget("text")
+         valor=float(self.labe_precio.cget("text"))
+         cantidad=float(self.entry_cantidad.get())
+         total=valor*cantidad
+         if  cantidad<=0:
+             messagebox.showerror(title="error", message="DATOS INCORRECTOS")
+
+         elif self.ListaCicularDL.verificar_id_y_cantidad(idproducto,cantidad):
+            self.pilaCarrito.append(id_user,nombreUsario,idproducto,nombreProducto,cantidad,total)
+            messagebox.showinfo(title="Exito",message="Agregado con exito")
+            
+
+         else:
+          messagebox.showerror(title="error", message="DATOS INCORRECTOS")
+        else:
+            messagebox.showerror(title="error", message="DATO Vacio")
+    def agregarColaCompras(self):
+        datosString=self.pilaCarrito.retornar_pila()
+        if datosString!= None:
+         self.pilaCarrito.vaciar()
+         self.colaCompras.encolar(datosString)
+         messagebox.showinfo(title="exito",message="Agregado con exito")
+        else:
+            messagebox.showerror(title="error", message="DATO Vacio")
+        
+            
+
+        
+
 
 
     def regresarLogin(self):
@@ -395,6 +508,7 @@ class applicacion:
 
     def regresarLoginUser(self):
          # Cerrar la ventana principal
+        self.pilaCarrito.vaciar()
         self.ventUser.destroy()
         self.entry_user.delete(0, tk.END)
         self.entry_password.delete(0, tk.END)
