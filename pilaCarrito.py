@@ -64,6 +64,27 @@ class Pila:
          os.startfile(ruta_reporte)
         except:
             print("[ERROR] no se han cargado datos")
+
+    def retornar_pila(self):
+        if self.cima is None:
+            return None
+
+        actual = self.cima
+        id_usuario = actual.idUser
+        nombre_usuario = actual.nombreUser
+        productos_str = ''
+        total = 0
+
+        while actual is not None:
+            productos_str += f"{actual.nombreProducto} (Cantidad: {actual.cantidad}, Total: {actual.total}), "
+            total += actual.total
+            actual = actual.abajo
+
+        # Eliminar la última coma y espacio
+        resultado = f"ID Usuario: {id_usuario}\nNombre Usuario: {nombre_usuario}\nPRODUCTOS: {productos_str}\nTotal: {total}"
+        print(resultado)
+        return resultado
+
          
     
 
