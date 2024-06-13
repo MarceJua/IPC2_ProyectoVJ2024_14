@@ -398,7 +398,7 @@ class applicacion:
         self.button_agregarCarrito = tk.Button(self.div2, text="Agregar Carrito", bg="lightcoral",command=self.AgregarCarrito)
         self.button_agregarCarrito.grid(row=5, column=2, sticky="nsew", padx=5, pady=5)
 
-        self.button_verCarrito = tk.Button(self.ventUser, text="Ver Carrito",command=self.pilaCarrito.graficar)
+        self.button_verCarrito = tk.Button(self.ventUser, text="Ver Carrito",command=self.verCarrito)
         self.button_verCarrito.pack( padx=5, pady=5)
         self.button_confirmarCompra = tk.Button(self.ventUser, text="ConfirmarCompra",bg="lightblue",command=self.agregarColaCompras)
         self.button_confirmarCompra.pack( padx=5, pady=5)
@@ -490,6 +490,11 @@ class applicacion:
          messagebox.showinfo(title="exito",message="Agregado con exito")
         else:
             messagebox.showerror(title="error", message="DATO Vacio")
+
+            
+    def verCarrito(self):
+        iduser=self.userId.cget("text")
+        self.pilaCarrito.graficar(iduser)
         
             
 

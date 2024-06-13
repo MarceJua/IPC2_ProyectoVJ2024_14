@@ -3,6 +3,6 @@ rankdir=LR;
 node [shape=record];
 nodo0 [label="ID Usuario: IPC2-01
 Nombre Usuario: Usuario1
-PRODUCTOS: Frijoles (Cantidad: 22.0, Total: 55.0), 
-Total: 55.0"];
+PRODUCTOS: Frijoles (Cantidad: 4.0, Total: 10.0), Frijoles (Cantidad: 1.0, Total: 2.5), 
+Total: 12.5"];
 }
