@@ -28,10 +28,10 @@ class Pila:
             self.size -= 1
 
     
-    def graficar(self):
+    def graficar(self,iduser):
         try:
          codigodot = ''
-         archivo = open('reportesdot/pila.dot', 'w')
+         archivo = open(f'reportesdot/pila{iduser}.dot', 'w')
          codigodot += '''digraph G {
      rankdir=TB;
      node[shape=record];\n'''
@@ -53,8 +53,8 @@ class Pila:
          archivo.close()
 
         # GENERAMOS LA IMAGEN
-         ruta_dot = 'reportesdot/pila.dot'
-         ruta_imagen = 'reportes/pila.png'
+         ruta_dot = f'reportesdot/pila{iduser}.dot'
+         ruta_imagen = f'reportes/pila{iduser}.png'
          comando = 'dot -Tpng ' + ruta_dot + ' -o ' + ruta_imagen
          os.system(comando)
 
