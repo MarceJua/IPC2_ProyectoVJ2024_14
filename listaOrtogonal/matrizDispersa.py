@@ -104,7 +104,82 @@ class MatrizDispersa:
                 return actual
             actual = actual.derecha
         return None
-    
+
+    def graficar(self):
+        if not os.path.exists('reportesdot'):
+            os.makedirs('reportesdot')
+        archivo = open('reportesdot/matrizDispersa.dot', 'w')
+        codigodot = '''digraph G {{
+        graph [pad="0.5", nodesep="1", ranksep="1", charset="latin1"];
+        label="Matriz Dispersa";
+        node [shape=box, height=0.8];\n'''
+
+        # Graficar columnas (días)
+        columnaActual = self.columnas.primero
+        idColumna = ''
+        conexionesColumnas = ''
+        nodosInteriores = ''
+        direccionInteriores = ''
+        while columnaActual is not None:
+            primero = True
+            actual = columnaActual.acceso
+            idColumna += '\tColumna{}[style="filled" label="{}" fillcolor="white" group=0];\n'.format(columnaActual.id, columnaActual.id)
+            if columnaActual.siguiente is not None:
+                conexionesColumnas += '\tColumna{} -> Columna{};\n'.format(columnaActual.id, columnaActual.siguiente.id)
+            direccionInteriores += '\t{{ rank=same; Columna{}; '.format(columnaActual.id)
+            while actual is not None:
+                id = actual.id
+                nombre = actual.nombre
+                descripcion = actual.descripcion
+                empleado = actual.empleado
+                nodosInteriores += '\tNodoF{}_C{}[style="filled" label="ID: {}\\nNombre: {}\\nDescripcion: {}\\nEmpleado: {}" group={}];\n'.format(actual.dia, actual.hora, id, nombre, descripcion, empleado, actual.dia)
+                direccionInteriores += 'NodoF{}_C{}; '.format(actual.dia, actual.hora)
+                if primero:
+                    nodosInteriores += '\tColumna{} -> NodoF{}_C{}[dir=""];\n'.format(columnaActual.id, actual.dia, actual.hora)
+                    primero = False
+                if actual.abajo is not None:
+                    nodosInteriores += '\tNodoF{}_C{} -> NodoF{}_C{};\n'.format(actual.dia, actual.hora, actual.abajo.dia, actual.abajo.hora)
+                actual = actual.abajo
+            columnaActual = columnaActual.siguiente
+            direccionInteriores += '}}\n'
+
+        codigodot += idColumna + 'edge[dir="both"];\n' + conexionesColumnas + 'edge[dir="both"]\n'
+
+        # Graficar filas (horas)
+        filaActual = self.filas.primero
+        idFila = ''
+        conexionesFilas = ''
+        direccionInteriores2 = '\t{{rank=same; '
+        while filaActual is not None:
+            primero = True
+            actual = filaActual.acceso
+            idFila += '\tFila{}[style="filled" label="{}" fillcolor="white" group={}];\n'.format(filaActual.id, filaActual.id, filaActual.id)
+            direccionInteriores2 += 'Fila{}; '.format(filaActual.id)
+            if filaActual.siguiente is not None:
+                conexionesFilas += 'Fila{} -> Fila{};\n'.format(filaActual.id, filaActual.siguiente.id)
+            while actual is not None:
+                if primero:
+                    codigodot += '\tFila{} -> NodoF{}_C{}[dir=""];\n'.format(filaActual.id, actual.dia, actual.hora)
+                    primero = False
+                if actual.derecha is not None:
+                    codigodot += '\tNodoF{}_C{} -> NodoF{}_C{};\n'.format(actual.dia, actual.hora, actual.derecha.dia, actual.derecha.hora)
+                actual = actual.derecha
+            filaActual = filaActual.siguiente
+        codigodot += idFila + conexionesFilas + '\n'
+        codigodot += direccionInteriores2 + '}}\n'
+        codigodot += nodosInteriores
+        codigodot += direccionInteriores
+        codigodot += '\n}}'
+
+        archivo.write(codigodot)
+        archivo.close()
+
+        ruta_dot = 'reportesdot/matrizDispersa.dot'
+        ruta_png = 'reportes/matrizDispersa.png'
+        comando = f'dot -Tpng {ruta_dot} -o {ruta_png}'
+        os.system(comando)
+        ruta = os.path.abspath(ruta_png)
+        os.startfile(ruta)
 
 """# Ejemplo de uso:
 matriz = MatrizDispersa()
