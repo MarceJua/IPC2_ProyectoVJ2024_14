@@ -7,6 +7,8 @@ from ListaDobleEnlazadaUsuarios import listaDoble
 from ListaCicularDL import ListaDoblementeEnlazada
 from ListaCirculaSimpleEmpleados import ListaCircularSimple
 from pilaCarrito import Pila
+from colaCompras import Cola
+from ListaSimpleCompras import listaSimple
 #---
 from xml_utils import XMLHandler
 
@@ -25,6 +27,8 @@ class applicacion:
         self.ListaCicularDL=ListaDoblementeEnlazada()
         self.listaCircularSimple=ListaCircularSimple()
         self.pilaCarrito=Pila()
+        self.colaCompras=Cola()
+        self.listaSimpeCompras=listaSimple()
         
     
     def create_widgets(self):
@@ -103,8 +107,8 @@ class applicacion:
         self.file_report.add_command(label="Reporte Vendedores",command=self.listaCircularSimple.graficar)
 
         self.file_report.add_separator()
-        self.file_report.add_command(label="Reporte cola")
-        self.file_report.add_command(label="reporte Compras")
+        self.file_report.add_command(label="Reporte cola",command=self.colaCompras.graficar)
+        self.file_report.add_command(label="reporte Compras",command=self.listaSimpeCompras.graficar)
 
         self.label_tittle=tk.Label(self.top,text="AUTORIZAR COMPRA",font=("Roboto Cn",14))
         self.label_tittle.pack(pady=5)
@@ -114,10 +118,24 @@ class applicacion:
         self.autoriza_txt=st.ScrolledText(self.top,height=15,width=50)
         self.autoriza_txt.pack(padx=5,pady=10)
         #Botones
-        self.button_accept=tk.Button(self.top,text="Aceptar")
-        self.button_cancel=tk.Button(self.top,text="Cancelar")
+        self.button_accept=tk.Button(self.top,text="Aceptar",command=self.aceptarCompra)
+        self.button_cancel=tk.Button(self.top,text="Cancelar",command=self.rechazarCompra)
         self.button_accept.pack(pady=5)
         self.button_cancel.pack(pady=5)
+        self.mostrar_primera_compra()
+
+    def mostrar_primera_compra(self):
+       try:
+        # Limpiar el contenido actual del cuadro de texto
+         self.autoriza_txt.delete('1.0', tk.END)
+
+         if not self.colaCompras.esta_vacia():
+            primera_compra = self.colaCompras.obtener_frente()
+            self.autoriza_txt.insert(tk.END, primera_compra)
+         else:
+            self.autoriza_txt.insert(tk.END, "No hay compras en la cola.")
+       except IndexError:
+         self.autoriza_txt.insert(tk.END, "Error al obtener la primera compra.")
 
     """
     #''''''''''''
@@ -251,6 +269,36 @@ class applicacion:
             print(f'Código: {codigo}\n'
                   f'Nombre: {nombre}\n'
                   f'Puesto: {puesto}\n')
+            
+    def aceptarCompra(self):
+        
+        if not self.colaCompras.esta_vacia():
+         compra=self.colaCompras.desencolar()
+         self.listaSimpeCompras.agregar(compra)
+         self.mostrar_primera_compra()
+         messagebox.showinfo(title="exito",message="Compra Autorizada")
+        else:
+            messagebox.showerror(title="ERROR",message="COLA VACIA")
+
+    def rechazarCompra(self):
+        
+        if not self.colaCompras.esta_vacia():
+         self.colaCompras.desencolar()
+         self.mostrar_primera_compra()
+         messagebox.showinfo(title="Exito",message="Compra Rechazada")
+        else:
+            messagebox.showerror(title="ERRO",message="COLA VACIA")
+
+
+
+
+
+
+    
+        
+
+            
+    
    
         
 
@@ -352,21 +400,37 @@ class applicacion:
 
         self.button_verCarrito = tk.Button(self.ventUser, text="Ver Carrito",command=self.pilaCarrito.graficar)
         self.button_verCarrito.pack( padx=5, pady=5)
-        self.button_confirmarCompra = tk.Button(self.ventUser, text="ConfirmarCompra",bg="lightblue")
+        self.button_confirmarCompra = tk.Button(self.ventUser, text="ConfirmarCompra",bg="lightblue",command=self.agregarColaCompras)
         self.button_confirmarCompra.pack( padx=5, pady=5)
     
         # Llenar el combobox con los nombres de los productos cargados
         self.llenar_combobox_productos()
 
     def llenar_combobox_productos(self):
-        if self.ListaCicularDL.size > 0: # Verifica si hay productos en la lista
-            nombres_productos = []
-            actual = self.ListaCicularDL.cabeza # Establece el nodo actual como la cabeza de la lista
-            for _ in range(self.ListaCicularDL.size):  # Itera sobre todos los nodos de la lista
-                nombres_productos.append(actual.nombre)  # Agrega el nombre del producto a la lista
-                actual = actual.siguiente  # Avanza al siguiente nodo
-            self.combo['values'] = nombres_productos # Asigna los nombres de los productos al combobox
-            self.combo.current(0)  # Establecer la selección predeterminada
+     if self.ListaCicularDL.size > 0:  # Verifica si hay productos en la lista
+        actual = self.ListaCicularDL.cabeza  # Establece el nodo actual como la cabeza de la lista
+
+        # Crear una variable StringVar para manejar los valores del combobox
+        nombres_var = tk.StringVar()
+        nombres_var.set('')
+
+        # Iterar sobre todos los nodos de la lista circular
+        for _ in range(self.ListaCicularDL.size):
+            nombre_actual = actual.nombre  # Obtener el nombre del producto actual
+            if nombres_var.get():
+                nombres_var.set(nombres_var.get() + ';' + nombre_actual)  # Concatenar nombres separados por ;
+            else:
+                nombres_var.set(nombre_actual)  # Primer nombre sin concatenar
+            actual = actual.siguiente  # Avanzar al siguiente nodo
+
+        # Asignar los nombres concatenados al combobox usando ';' como separador
+        self.combo['values'] = nombres_var.get().split(';')
+
+        # Establecer la selección predeterminada si se desea
+        self.combo.current(0)  # Establecer la selección predeterminada
+     else:
+        print("La lista de productos está vacía.")
+
 
     def mostrar_detalles_producto(self, event):
         nombre_producto_seleccionado = self.combo.get()
@@ -418,6 +482,15 @@ class applicacion:
           messagebox.showerror(title="error", message="DATOS INCORRECTOS")
         else:
             messagebox.showerror(title="error", message="DATO Vacio")
+    def agregarColaCompras(self):
+        datosString=self.pilaCarrito.retornar_pila()
+        if datosString!= None:
+         self.pilaCarrito.vaciar()
+         self.colaCompras.encolar(datosString)
+         messagebox.showinfo(title="exito",message="Agregado con exito")
+        else:
+            messagebox.showerror(title="error", message="DATO Vacio")
+        
             
 
         
