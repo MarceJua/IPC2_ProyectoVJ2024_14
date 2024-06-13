@@ -74,16 +74,16 @@ class MatrizDispersa:
                             actual2 = actual2.abajo
 
     def recorridoFilas(self, fila):
-        print('--------------Recorrido por fila------------------')
+        actividades = ""
         inicio = self.filas.obtenerCabecera(fila)
         if inicio is None:
-            print('La fila no existe')
-            return 
+            return None
         
         actual = inicio.acceso
         while actual is not None:
-            print(f'{str(actual.id)}, {str(actual.nombre)}, {str(actual.descripcion)}, {str(actual.empleado)}, {str(actual.dia)}, {str(actual.hora)}')
+            actividades += f'ID: {actual.id}, Nombre: {actual.nombre}, Descripción: {actual.descripcion}, Empleado: {actual.empleado}, Día: {actual.dia}, Hora: {actual.hora}\n'
             actual = actual.derecha
+        return actividades if actividades else None
 
     def recorridoColumnas(self, columna):
         print('--------------Recorrido por columna------------------')
@@ -114,12 +114,18 @@ class MatrizDispersa:
         label="Matriz Dispersa";
         node [shape=box, height=0.8];\n'''
 
+        # Nodo para la etiqueta "Día" en la parte superior
+        codigodot += '\tDia [label="Día", shape=plaintext, group=1, style="", fontsize=14];\n'
+
+        # Nodo para la etiqueta "Hora" en la parte izquierda
+        codigodot += '\tHora [label="Hora", shape=plaintext, group=0, style="", fontsize=14];\n'
+
         # Graficar columnas (días)
         columnaActual = self.columnas.primero
         idColumna = ''
         conexionesColumnas = ''
         nodosInteriores = ''
-        direccionInteriores = ''
+        direccionInteriores = '\t{ rank=same; Hora;'
         while columnaActual is not None:
             primero = True
             actual = columnaActual.acceso

@@ -1,3 +1,4 @@
+import datetime
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import scrolledtext as st
@@ -356,6 +357,16 @@ class applicacion:
         self.label_tituloAct.pack(pady=5)
         self.actividades_text=st.ScrolledText(self.venA,height=15,width=50)
         self.actividades_text.pack(pady=5)
+
+        # Obtener el día actual de la semana (Lunes=0, ..., Domingo=6)
+        dia_actual = datetime.datetime.today().weekday() + 1  # Convertir a 1=Lunes, 7=Domingo
+
+        # Recorrer las actividades del día actual y mostrarlas
+        actividades_hoy = self.matriz_dispersa.recorridoFilas(dia_actual)
+        if actividades_hoy:
+            self.actividades_text.insert(tk.END, actividades_hoy)
+        else:
+            self.actividades_text.insert(tk.END, "No hay actividades para hoy.")
 
     def crear_ventanaUsuario(self, user,nombreUser):
         self.root.withdraw()
