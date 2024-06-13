@@ -329,7 +329,7 @@ class applicacion:
         self.root.withdraw()
         self.ventUser = tk.Toplevel(self.root)
         self.ventUser.title(f"IPC MARKET- {user}") #Agrega el ID del usuario ingresado
-        self.ventUser.geometry("800x500")
+        self.ventUser.geometry("1000x475")
         nombreUsuario=nombreUser
 
         print(f"{nombreUsuario}")
