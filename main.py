@@ -491,7 +491,7 @@ class applicacion:
                 if detalles_producto['imagen']:
                     try:
                         img = Image.open(detalles_producto['imagen'])
-                        img = img.resize((100, 100), Image.ANTIALIAS)
+                        img = img.resize((100, 100))
                         photo = ImageTk.PhotoImage(img)
                         self.label1.config(image=photo, text="")
                         self.label1.image = photo
