@@ -1,6 +1,7 @@
 digraph G {
 rankdir=LR;
 node [shape=record];
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 nodo0 [label="ID Usuario: IPC2-02
 Nombre Usuario: Usuario2
@@ -12,4 +13,6 @@ Nombre Usuario: Usuario1
 PRODUCTOS: Frijoles (Cantidad: 4.0, Total: 10.0), Frijoles (Cantidad: 1.0, Total: 2.5), 
 Total: 12.5"];
 >>>>>>> b1d1b4a08eecaeca47bb36f9369ca43609cc2ae9
+=======
+>>>>>>> Stashed changes
 }

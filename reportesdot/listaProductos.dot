@@ -1,16 +1,106 @@
 digraph G {
   rankdir=LR;
   node [shape = record,  height = .5]
+<<<<<<< Updated upstream
 node0 [label = "{ID: IPCM-1|Nombre: Computadora de Escritorio|nombre: Computadora de Escritorio|Precio: 5000.0|descripcion: Computadora de escritorio con procesador Intel Core i7, 16 GB de RAM, 1 TB de almacenamiento y tarjeta gráfica NVIDIA GeForce RTX 2080.}"];
 node1 [label = "{ID: IPCM-2|Nombre: Frijoles|nombre: Frijoles|Precio: 2.5|descripcion:  1 libra de frijoles negros}"];
 node2 [label = "{ID: IPCM-4|Nombre: Frijoles|nombre: Frijoles|Precio: 2.5|descripcion:  1 libra de frijoles negros}"];
 node3 [label = "{ID: IPCM-3|Nombre: Frijoles|nombre: Frijoles|Precio: 2.5|descripcion:  1 libra de frijoles negros}"];
+=======
+node0 [label = "{ID: IPCMK-1|Nombre: Televisor|nombre: Televisor|Precio: 854.25|descripcion: Illo harum vitae eligendi sed quasi fugiat deleniti sit.}"];
+node1 [label = "{ID: IPCMK-2|Nombre: Queso|nombre: Queso|Precio: 6098.77|descripcion: Quisquam ad voluptatem odit voluptatum laudantium sequi iste quidem reprehenderit harum perspiciatis aliquam exercitationem nam eum doloremque.}"];
+node2 [label = "{ID: IPCMK-3|Nombre: Mi Primer libro de Poesia|nombre: Mi Primer libro de Poesia|Precio: 8558.45|descripcion: Et similique voluptatum at dolorem incidunt quisquam esse natus architecto nesciunt cumque magni alias odit eum eveniet at.}"];
+node3 [label = "{ID: IPCMK-4|Nombre: Auriculares|nombre: Auriculares|Precio: 1959.22|descripcion: Et qui vel quas magni aut deleniti aut saepe molestias omnis expedita rem quibusdam excepturi nobis accusantium.}"];
+node4 [label = "{ID: IPCMK-5|Nombre: Pasta Spagetti|nombre: Pasta Spagetti|Precio: 3482.91|descripcion: Cupiditate odio nisi exercitationem ipsum eius beatae omnis vitae aliquid praesentium.}"];
+node5 [label = "{ID: IPCMK-6|Nombre: Diario de Anne Frank|nombre: Diario de Anne Frank|Precio: 5370.76|descripcion: Inventore dicta consequuntur vitae cupiditate earum beatae totam aperiam quam aut qui maxime sed consequatur necessitatibus quasi.}"];
+node6 [label = "{ID: IPCMK-7|Nombre: Pesas|nombre: Pesas|Precio: 155.36|descripcion: Explicabo natus ea est est repudiandae veniam praesentium fugiat minima consectetur ea voluptas cumque nam recusandae ratione.}"];
+node7 [label = "{ID: IPCMK-8|Nombre: Lampara|nombre: Lampara|Precio: 2163.84|descripcion: Cupiditate cum consequuntur eius consectetur placeat expedita corrupti pariatur vero porro provident occaecati reprehenderit quidem est.}"];
+node8 [label = "{ID: IPCMK-9|Nombre: Bancopoly|nombre: Bancopoly|Precio: 6986.28|descripcion: Minima recusandae ex aliquid odio laboriosam dolore maiores ducimus maxime quisquam odit excepturi error autem qui dicta tenetur.}"];
+node9 [label = "{ID: IPCMK-10|Nombre: Sombrero|nombre: Sombrero|Precio: 3497.28|descripcion: Eum atque perferendis dolores pariatur architecto veniam commodi consectetur adipisci ex ipsa eveniet.}"];
+node10 [label = "{ID: IPCMK-11|Nombre: Cortina|nombre: Cortina|Precio: 396.89|descripcion: Neque deserunt quisquam neque nulla excepturi ducimus illo aliquid voluptates sit.}"];
+node11 [label = "{ID: IPCMK-12|Nombre: Harry Potter y la piedra filosofal|nombre: Harry Potter y la piedra filosofal|Precio: 73.16|descripcion: Autem quam officia architecto ipsum a vero corporis molestias quos distinctio dicta.}"];
+node12 [label = "{ID: IPCMK-13|Nombre: Lego Classic|nombre: Lego Classic|Precio: 5375.92|descripcion: Perferendis velit itaque rerum ratione debitis temporibus consectetur earum doloribus omnis expedita enim ipsum.}"];
+node13 [label = "{ID: IPCMK-14|Nombre: Tenedor|nombre: Tenedor|Precio: 6260.33|descripcion: Provident perspiciatis labore nobis porro illo minima laboriosam error fugit magni.}"];
+node14 [label = "{ID: IPCMK-15|Nombre: Estanteria|nombre: Estanteria|Precio: 1568.75|descripcion: Rerum odio autem quia nesciunt atque distinctio repudiandae architecto autem minus voluptatibus.}"];
+node15 [label = "{ID: IPCMK-16|Nombre: Rompecabezas|nombre: Rompecabezas|Precio: 8560.46|descripcion: Voluptates sapiente animi dicta quidem sunt et quas ullam molestiae ea natus.}"];
+node16 [label = "{ID: IPCMK-17|Nombre: Enciclopedia|nombre: Enciclopedia|Precio: 6219.71|descripcion: Sed cum ut totam vero enim soluta perspiciatis placeat pariatur animi expedita facilis nostrum facilis tenetur corporis doloribus.}"];
+node17 [label = "{ID: IPCMK-18|Nombre: Espejo|nombre: Espejo|Precio: 2219.97|descripcion: Mollitia ullam neque sunt illum velit laborum veniam quaerat.}"];
+node18 [label = "{ID: IPCMK-19|Nombre: Palo de Golf|nombre: Palo de Golf|Precio: 123.1|descripcion: Sequi eveniet sed unde maxime odit tempore quia vel aperiam ab alias.}"];
+node19 [label = "{ID: IPCMK-20|Nombre: Router|nombre: Router|Precio: 4584.02|descripcion: Dolorum natus quos delectus quia veniam est error autem officia consequatur voluptatibus maiores dolores nulla minima inventore doloribus delectus ullam.}"];
+node20 [label = "{ID: IPCMK-21|Nombre: Sofa|nombre: Sofa|Precio: 9725.0|descripcion: Quae voluptatibus ducimus sint reprehenderit nam eum aut sunt nisi vel saepe dolor.}"];
+node21 [label = "{ID: IPCMK-22|Nombre: El Principito|nombre: El Principito|Precio: 9604.16|descripcion: Sunt hic error aliquam fugit eius quia sit nisi molestias.}"];
+node22 [label = "{ID: IPCMK-23|Nombre: Cereal|nombre: Cereal|Precio: 8865.38|descripcion: Consequuntur dolor error fugiat qui incidunt aspernatur quia exercitationem dicta.}"];
+node23 [label = "{ID: IPCMK-24|Nombre: Tabla de Surf|nombre: Tabla de Surf|Precio: 1797.74|descripcion: Fugit minima amet nesciunt saepe illo impedit magni id consequuntur quis earum soluta veniam aliquid dolores necessitatibus iusto maxime fuga repellat.}"];
+node24 [label = "{ID: IPCMK-25|Nombre: Pelota de Voleibol|nombre: Pelota de Voleibol|Precio: 1415.53|descripcion: Placeat assumenda libero assumenda velit saepe aliquid rem suscipit aliquid tempora qui placeat illum.}"];
+node25 [label = "{ID: IPCMK-26|Nombre: Figuras de Accion|nombre: Figuras de Accion|Precio: 1510.51|descripcion: Amet quis doloribus temporibus accusantium nobis consequatur numquam corporis eos cupiditate alias itaque.}"];
+node26 [label = "{ID: IPCMK-27|Nombre: Pan|nombre: Pan|Precio: 936.4|descripcion: Cumque aliquam distinctio autem atque dolor minima eligendi neque cumque placeat quam modi distinctio blanditiis maiores vitae.}"];
+node27 [label = "{ID: IPCMK-28|Nombre: Hamlet|nombre: Hamlet|Precio: 7849.57|descripcion: Sint aperiam maiores totam velit eum veniam vero quos iure saepe aut ex.}"];
+node28 [label = "{ID: IPCMK-29|Nombre: Patines|nombre: Patines|Precio: 4462.39|descripcion: Sed dignissimos aut consectetur deserunt impedit necessitatibus ipsam facilis numquam nesciunt veniam eum officiis similique molestias.}"];
+node29 [label = "{ID: IPCMK-30|Nombre: Cinturon|nombre: Cinturon|Precio: 6438.0|descripcion: Eum iure cumque nisi doloremque exercitationem veniam neque temporibus delectus dignissimos dolores deleniti tempore saepe quas eaque beatae tenetur inventore.}"];
+>>>>>>> Stashed changes
 node0 -> node1;
 node1 -> node0;
 node1 -> node2;
 node2 -> node1;
 node2 -> node3;
 node3 -> node2;
+<<<<<<< Updated upstream
 node3 -> node0;
 node0 -> node3;
+=======
+node3 -> node4;
+node4 -> node3;
+node4 -> node5;
+node5 -> node4;
+node5 -> node6;
+node6 -> node5;
+node6 -> node7;
+node7 -> node6;
+node7 -> node8;
+node8 -> node7;
+node8 -> node9;
+node9 -> node8;
+node9 -> node10;
+node10 -> node9;
+node10 -> node11;
+node11 -> node10;
+node11 -> node12;
+node12 -> node11;
+node12 -> node13;
+node13 -> node12;
+node13 -> node14;
+node14 -> node13;
+node14 -> node15;
+node15 -> node14;
+node15 -> node16;
+node16 -> node15;
+node16 -> node17;
+node17 -> node16;
+node17 -> node18;
+node18 -> node17;
+node18 -> node19;
+node19 -> node18;
+node19 -> node20;
+node20 -> node19;
+node20 -> node21;
+node21 -> node20;
+node21 -> node22;
+node22 -> node21;
+node22 -> node23;
+node23 -> node22;
+node23 -> node24;
+node24 -> node23;
+node24 -> node25;
+node25 -> node24;
+node25 -> node26;
+node26 -> node25;
+node26 -> node27;
+node27 -> node26;
+node27 -> node28;
+node28 -> node27;
+node28 -> node29;
+node29 -> node28;
+node29 -> node0;
+node0 -> node29;
+>>>>>>> Stashed changes
 }
