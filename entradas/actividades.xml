@@ -10,6 +10,13 @@
         <nombre>Limpieza de estanterías</nombre>
         <descripcion>Limpiar y ordenar las estanterias del pasillo 1</descripcion>
         <empleado>1</empleado>
-        <dia hora="7">1</dia>
+        <dia hora="7">4</dia>
     </actividad>
+     <actividad id="3">
+        <nombre>Limpieza de estanterías</nombre>
+        <descripcion>Limpiar y ordenar las estanterias del pasillo 1</descripcion>
+        <empleado>5</empleado>
+        <dia hora="18">4</dia>
+    </actividad>
+    
 </actividades>
