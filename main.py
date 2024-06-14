@@ -1,3 +1,4 @@
+import datetime
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import scrolledtext as st
@@ -9,6 +10,7 @@ from ListaCirculaSimpleEmpleados import ListaCircularSimple
 from pilaCarrito import Pila
 from colaCompras import Cola
 from ListaSimpleCompras import listaSimple
+from listaOrtogonal.matrizDispersa import MatrizDispersa
 #---
 from xml_utils import XMLHandler
 
@@ -29,6 +31,7 @@ class applicacion:
         self.pilaCarrito=Pila()
         self.colaCompras=Cola()
         self.listaSimpeCompras=listaSimple()
+        self.matriz_dispersa = MatrizDispersa()
         
     
     def create_widgets(self):
@@ -98,13 +101,14 @@ class applicacion:
         self.file_menu.add_command(label="Cargar Usuarios",command=self.cargar_archivo)
         self.file_menu.add_command(label="Cargar Productos", command=self.cargar_archivo)
         self.file_menu.add_command(label="Cargar empleados", command=self.cargar_archivo)
-        self.file_menu.add_command(label="Cargar actividades",)
+        self.file_menu.add_command(label="Cargar actividades", command=self.cargar_archivo)
         #crear menu reportes
         self.file_report=tk.Menu(self.menu_bar,tearoff=0)
         self.menu_bar.add_cascade(label="Reportes",menu=self.file_report)
         self.file_report.add_command(label="Reporte de Usuarios",command=self.listaDobleUsarios.graficar)
         self.file_report.add_command(label="Reporte Productos",command=self.ListaCicularDL.graficar)
         self.file_report.add_command(label="Reporte Vendedores",command=self.listaCircularSimple.graficar)
+        self.file_report.add_command(label="Reporte Actividades",command=self.matriz_dispersa.graficar)
 
         self.file_report.add_separator()
         self.file_report.add_command(label="Reporte cola",command=self.colaCompras.graficar)
@@ -228,6 +232,35 @@ class applicacion:
                   f'Categoría: {categoria}\n'
                   f'Cantidad: {cantidad}\n'
                   f'Imagen: {imagen}\n')
+    
+    def _parse_actividades(self, root):
+        for actividad in root.findall('actividad'):
+            id = actividad.get('id')
+            nombre = ''
+            descripcion = ''
+            empleado = ''
+            dia = ''
+            hora = ''
+            for child in actividad:
+                if child.tag == 'nombre':
+                    nombre = child.text
+                elif child.tag == 'descripcion':
+                    descripcion = child.text
+                elif child.tag == 'empleado':
+                    empleado = child.text
+                elif child.tag == 'dia':
+                    dia = child.text
+                    hora = child.get('hora')
+            
+            self.matriz_dispersa.insertar(id, nombre, descripcion, empleado, int(dia), int(hora))
+            # Imprime la información de la actividad
+            print(f'ID: {id}\n' 
+                  f'Nombre: {nombre}\n'
+                  f'Descripción: {descripcion}\n'
+                  f'Empleado: {empleado}\n'
+                  f'Día: {dia}\n'
+                  f'Hora: {hora}\n')
+
 
     def _parse_usuarios(self, root):
 
@@ -324,6 +357,16 @@ class applicacion:
         self.label_tituloAct.pack(pady=5)
         self.actividades_text=st.ScrolledText(self.venA,height=15,width=50)
         self.actividades_text.pack(pady=5)
+
+        # Obtener el día actual de la semana (Lunes=0, ..., Domingo=6)
+        dia_actual = datetime.datetime.today().weekday() + 1  # Convertir a 1=Lunes, 7=Domingo
+
+        # Recorrer las actividades del día actual y mostrarlas
+        actividades_hoy = self.matriz_dispersa.recorridoFilas(dia_actual)
+        if actividades_hoy:
+            self.actividades_text.insert(tk.END, actividades_hoy)
+        else:
+            self.actividades_text.insert(tk.END, "No hay actividades para hoy.")
 
     def crear_ventanaUsuario(self, user,nombreUser):
         self.root.withdraw()
