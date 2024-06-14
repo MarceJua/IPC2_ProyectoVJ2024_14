@@ -4,29 +4,99 @@ digraph G {{
         node [shape=box, height=0.8];
 	Dia [label="Día", shape=plaintext, group=1, style="", fontsize=14];
 	Hora [label="Hora", shape=plaintext, group=0, style="", fontsize=14];
-	Columna7[style="filled" label="7" fillcolor="white" group=0];
-	Columna14[style="filled" label="14" fillcolor="white" group=0];
+	Columna2[style="filled" label="2" fillcolor="white" group=0];
+	Columna5[style="filled" label="5" fillcolor="white" group=0];
+	Columna6[style="filled" label="6" fillcolor="white" group=0];
+	Columna11[style="filled" label="11" fillcolor="white" group=0];
+	Columna13[style="filled" label="13" fillcolor="white" group=0];
+	Columna15[style="filled" label="15" fillcolor="white" group=0];
+	Columna16[style="filled" label="16" fillcolor="white" group=0];
 	Columna18[style="filled" label="18" fillcolor="white" group=0];
+	Columna20[style="filled" label="20" fillcolor="white" group=0];
+	Columna22[style="filled" label="22" fillcolor="white" group=0];
+	Columna23[style="filled" label="23" fillcolor="white" group=0];
 edge[dir="both"];
-	Columna7 -> Columna14;
-	Columna14 -> Columna18;
+	Columna2 -> Columna5;
+	Columna5 -> Columna6;
+	Columna6 -> Columna11;
+	Columna11 -> Columna13;
+	Columna13 -> Columna15;
+	Columna15 -> Columna16;
+	Columna16 -> Columna18;
+	Columna18 -> Columna20;
+	Columna20 -> Columna22;
+	Columna22 -> Columna23;
 edge[dir="both"]
-	Fila2 -> NodoF2_C14[dir=""];
-	Fila4 -> NodoF4_C7[dir=""];
-	NodoF4_C7 -> NodoF4_C18;
+	Fila1 -> NodoF1_C5[dir=""];
+	NodoF1_C5 -> NodoF1_C11;
+	NodoF1_C11 -> NodoF1_C22;
+	Fila2 -> NodoF2_C6[dir=""];
+	NodoF2_C6 -> NodoF2_C16;
+	NodoF2_C16 -> NodoF2_C18;
+	Fila3 -> NodoF3_C13[dir=""];
+	NodoF3_C13 -> NodoF3_C15;
+	NodoF3_C15 -> NodoF3_C22;
+	Fila4 -> NodoF4_C20[dir=""];
+	NodoF4_C20 -> NodoF4_C22;
+	NodoF4_C22 -> NodoF4_C23;
+	Fila5 -> NodoF5_C16[dir=""];
+	Fila6 -> NodoF6_C2[dir=""];
+	Fila7 -> NodoF7_C22[dir=""];
+	Fila1[style="filled" label="1" fillcolor="white" group=1];
 	Fila2[style="filled" label="2" fillcolor="white" group=2];
+	Fila3[style="filled" label="3" fillcolor="white" group=3];
 	Fila4[style="filled" label="4" fillcolor="white" group=4];
-Fila2 -> Fila4;
+	Fila5[style="filled" label="5" fillcolor="white" group=5];
+	Fila6[style="filled" label="6" fillcolor="white" group=6];
+	Fila7[style="filled" label="7" fillcolor="white" group=7];
+Fila1 -> Fila2;
+Fila2 -> Fila3;
+Fila3 -> Fila4;
+Fila4 -> Fila5;
+Fila5 -> Fila6;
+Fila6 -> Fila7;
 
-	{{rank=same; Fila2; Fila4; }}
-	NodoF4_C7[style="filled" label="ID: 2\nNombre: Limpieza de estanterías\nDescripcion: Limpiar y ordenar las estanterias del pasillo 1\nEmpleado: 1" group=4];
-	Columna7 -> NodoF4_C7[dir=""];
-	NodoF2_C14[style="filled" label="ID: 1\nNombre: Atención al Cliente\nDescripcion: Atender a los clientes de la tienda\nEmpleado: 1" group=2];
-	Columna14 -> NodoF2_C14[dir=""];
-	NodoF4_C18[style="filled" label="ID: 3\nNombre: Limpieza de estanterías\nDescripcion: Limpiar y ordenar las estanterias del pasillo 1\nEmpleado: 5" group=4];
-	Columna18 -> NodoF4_C18[dir=""];
-	{ rank=same; Hora;	{ rank=same; Columna7; NodoF4_C7; }}
-	{ rank=same; Columna14; NodoF2_C14; }}
-	{ rank=same; Columna18; NodoF4_C18; }}
+	{{rank=same; Fila1; Fila2; Fila3; Fila4; Fila5; Fila6; Fila7; }}
+	NodoF6_C2[style="filled" label="ID: 5\nNombre: Inventario\nDescripcion: Realizar inventario de los productos en el almacén\nEmpleado: 19" group=6];
+	Columna2 -> NodoF6_C2[dir=""];
+	NodoF1_C5[style="filled" label="ID: 3\nNombre: Asesoría al cliente\nDescripcion: Asesorar a los clientes sobre los productos\nEmpleado: 7" group=1];
+	Columna5 -> NodoF1_C5[dir=""];
+	NodoF2_C6[style="filled" label="ID: 11\nNombre: Recepción de mercancía\nDescripcion: Recepción y revisión de la mercancía entrante\nEmpleado: 6" group=2];
+	Columna6 -> NodoF2_C6[dir=""];
+	NodoF1_C11[style="filled" label="ID: 12\nNombre: Organización de almacén\nDescripcion: Organizar los productos en el almacén\nEmpleado: 25" group=1];
+	Columna11 -> NodoF1_C11[dir=""];
+	NodoF3_C13[style="filled" label="ID: 10\nNombre: Cobro en caja\nDescripcion: Cobrar a los clientes en la caja registradora\nEmpleado: 6" group=3];
+	Columna13 -> NodoF3_C13[dir=""];
+	NodoF3_C15[style="filled" label="ID: 7\nNombre: Atención al Cliente\nDescripcion: Atender a los clientes de la tienda\nEmpleado: 4" group=3];
+	Columna15 -> NodoF3_C15[dir=""];
+	NodoF2_C16[style="filled" label="ID: 14\nNombre: Preparación de pedidos\nDescripcion: Preparar los pedidos para su envío\nEmpleado: 10" group=2];
+	Columna16 -> NodoF2_C16[dir=""];
+	NodoF2_C16 -> NodoF5_C16;
+	NodoF5_C16[style="filled" label="ID: 8\nNombre: Inventario\nDescripcion: Realizar inventario de los productos en el almacén\nEmpleado: 3" group=5];
+	NodoF2_C18[style="filled" label="ID: 13\nNombre: Atención al Cliente\nDescripcion: Atender a los clientes de la tienda\nEmpleado: 24" group=2];
+	Columna18 -> NodoF2_C18[dir=""];
+	NodoF4_C20[style="filled" label="ID: 2\nNombre: Asesoría al cliente\nDescripcion: Asesorar a los clientes sobre los productos\nEmpleado: 18" group=4];
+	Columna20 -> NodoF4_C20[dir=""];
+	NodoF1_C22[style="filled" label="ID: 4\nNombre: Recepción de mercancía\nDescripcion: Recepción y revisión de la mercancía entrante\nEmpleado: 13" group=1];
+	Columna22 -> NodoF1_C22[dir=""];
+	NodoF1_C22 -> NodoF3_C22;
+	NodoF3_C22[style="filled" label="ID: 6\nNombre: Preparación de pedidos\nDescripcion: Preparar los pedidos para su envío\nEmpleado: 21" group=3];
+	NodoF3_C22 -> NodoF4_C22;
+	NodoF4_C22[style="filled" label="ID: 9\nNombre: Limpieza de estanterías\nDescripcion: Limpiar y ordenar las estanterías del pasillo 1\nEmpleado: 13" group=4];
+	NodoF4_C22 -> NodoF7_C22;
+	NodoF7_C22[style="filled" label="ID: 15\nNombre: Preparación de pedidos\nDescripcion: Preparar los pedidos para su envío\nEmpleado: 18" group=7];
+	NodoF4_C23[style="filled" label="ID: 1\nNombre: Recepción de mercancía\nDescripcion: Recepción y revisión de la mercancía entrante\nEmpleado: 6" group=4];
+	Columna23 -> NodoF4_C23[dir=""];
+	{ rank=same; Hora;	{ rank=same; Columna2; NodoF6_C2; }}
+	{ rank=same; Columna5; NodoF1_C5; }}
+	{ rank=same; Columna6; NodoF2_C6; }}
+	{ rank=same; Columna11; NodoF1_C11; }}
+	{ rank=same; Columna13; NodoF3_C13; }}
+	{ rank=same; Columna15; NodoF3_C15; }}
+	{ rank=same; Columna16; NodoF2_C16; NodoF5_C16; }}
+	{ rank=same; Columna18; NodoF2_C18; }}
+	{ rank=same; Columna20; NodoF4_C20; }}
+	{ rank=same; Columna22; NodoF1_C22; NodoF3_C22; NodoF4_C22; NodoF7_C22; }}
+	{ rank=same; Columna23; NodoF4_C23; }}
 
 }}

@@ -1,0 +1,7 @@
+digraph G {
+     rankdir=TB;
+     node[shape=record];
+node0 [label="ID: IPC2-20\nUsuario: Juan Randolph\nProducto ID: IPCMK-3\nProducto: Mi Primer libro de Poesia\nCantidad: 2.0\nTotal: 17116.9"];
+node0 -> node1;
+node1 [label="ID: IPC2-20\nUsuario: Juan Randolph\nProducto ID: IPCMK-1\nProducto: Televisor\nCantidad: 2.0\nTotal: 1708.5"];
+}
