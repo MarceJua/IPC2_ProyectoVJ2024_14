@@ -1,12 +1,7 @@
 digraph G {
    rankdir=LR;
-   node [shape = record, height = .1]node0 [label = "{ID Usuario: IPC2-01
-Nombre Usuario: Usuario1
-PRODUCTOS: Frijoles (Cantidad: 22.0, Total: 55.0), 
-Total: 55.0|<f1>}"];
-node1 [label = "{ID Usuario: IPC2-01
-Nombre Usuario: Usuario1
-PRODUCTOS: Frijoles (Cantidad: 22.0, Total: 55.0), 
-Total: 55.0|<f1>}"];
-node0-> node1;
+   node [shape = record, height = .1]node0 [label = "{ID Usuario: IPC2-02
+Nombre Usuario: Usuario2
+PRODUCTOS: Frijoles (Cantidad: 15.0, Total: 37.5), Computadora de Escritorio (Cantidad: 5.0, Total: 25000.0), 
+Total: 25037.5|<f1>}"];
 }
