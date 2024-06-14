@@ -6,5 +6,5 @@ node1 [label = "{Codigo: 2|nombre: Alejandro de León|puesto: Vendedor}"];
 node2 [label = "{Codigo: 3|nombre: Alejandro de León|puesto: Vendedor}"];
 node0 -> node1;
 node1 -> node2;
-node2 -> node0;
+node2 -> node0 [constraint=false];
 }

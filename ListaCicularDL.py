@@ -75,11 +75,14 @@ class ListaDoblementeEnlazada:
             if actual.nombre == nombre:  # Comprueba si el nombre del producto coincide con el nombre buscado
                 # Devuelve un diccionario con los detalles del producto encontrado
                 return {
+                    'id':actual.id,
                     'nombre': actual.nombre,
                     'precio': actual.precio,
                     'descripcion': actual.descripcion,
                     'categoria': actual.categoria,
-                    'cantidad': actual.cantidad
+                    'cantidad': actual.cantidad,
+                    'imagen': actual.imagen
+                    
                 }
             actual = actual.siguiente  # Avanza al siguiente nodo
             if actual == self.cabeza:  # Verifica si ha dado una vuelta completa a la lista
@@ -103,16 +106,17 @@ class ListaDoblementeEnlazada:
             print("Ningún producto seleccionado.")
 
     def graficar(self):
-        codigo_dot = ''
-        archivo = open('reportesdot/listaProductos.dot', 'w')
-        codigo_dot += '''digraph G {
+        try:
+         codigo_dot = ''
+         archivo = open('reportesdot/listaProductos.dot', 'w')
+         codigo_dot += '''digraph G {
   rankdir=LR;
   node [shape = record,  height = .5]\n'''
         
-        actual = self.cabeza
-        contador_nodos = 0
-        # PRIMERO CREAMOS LOS NODOS
-        if actual is not None:
+         actual = self.cabeza
+         contador_nodos = 0
+         # PRIMERO CREAMOS LOS NODOS
+         if actual is not None:
             while True:
                 codigo_dot += f'node{contador_nodos} [label = "{{ID: {actual.id}|Nombre: {actual.nombre}|nombre: {actual.nombre}|Precio: {actual.precio}|descripcion: {actual.descripcion}}}"];\n'
                 contador_nodos += 1
@@ -121,9 +125,9 @@ class ListaDoblementeEnlazada:
                     break
 
         # HACEMOS LAS RELACIONES
-        actual = self.cabeza
-        contador_nodos = 0
-        if actual is not None:
+         actual = self.cabeza
+         contador_nodos = 0
+         if actual is not None:
             while True:
                 siguiente_nodo = (contador_nodos + 1) % self.size  # Para circularidad
                 codigo_dot += f'node{contador_nodos} -> node{siguiente_nodo};\n'
@@ -133,17 +137,39 @@ class ListaDoblementeEnlazada:
                 if actual == self.cabeza:
                     break
 
-        codigo_dot += '}'
-        archivo.write(codigo_dot)
-        archivo.close()
+         codigo_dot += '}'
+         archivo.write(codigo_dot)
+         archivo.close()
 
-        # GENERAMOS LA IMAGEN
-        ruta_dot = 'reportesdot/listaProductos.dot'
-        ruta_imagen = 'reportes/listaProductos.png'
-        comando = 'dot -Tpng ' + ruta_dot + ' -o ' + ruta_imagen
-        os.system(comando)
+         # GENERAMOS LA IMAGEN
+         ruta_dot = 'reportesdot/listaProductos.dot'
+         ruta_imagen = 'reportes/listaProductos.png'
+         comando = 'dot -Tpng ' + ruta_dot + ' -o ' + ruta_imagen
+         os.system(comando)
 
-        # ABRIR LA IMAGEN
-        # convierte la ruta a una ruta válida para windows
-        ruta_reporte = os.path.abspath(ruta_imagen)
-        os.startfile(ruta_reporte)
+         # ABRIR LA IMAGEN
+        #  convierte la ruta a una ruta válida para windows
+         ruta_reporte = os.path.abspath(ruta_imagen)
+         os.startfile(ruta_reporte)
+        except :
+            print("[ERROR] no se han cargado datos")
+         
+    
+
+    def verificar_id_y_cantidad(self, id_producto, cantidad_verificar):
+        try:
+        # Buscar el producto por su ID
+         producto = self.buscarPorId(id_producto)
+         pro=float(producto.cantidad)
+         print(pro)
+        
+         # Verificar que la cantidad solicitada sea igual o menor que la cantidad disponible
+         if cantidad_verificar > pro:
+            print(f"La cantidad solicitada ({cantidad_verificar}) es mayor que la cantidad disponible ({producto.cantidad}).")
+            return False
+        
+         else:
+          print(f"Producto encontrado con ID '{id_producto}'.")
+          return True
+        except:
+            pass

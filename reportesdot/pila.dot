@@ -1,0 +1,7 @@
+digraph G {
+     rankdir=TB;
+     node[shape=record];
+node0 [label="ID: IPC2-02\nUsuario: Usuario2\nProducto ID: IPCM-2\nProducto: Frijoles\nCantidad: 15.0\nTotal: 37.5"];
+node0 -> node1;
+node1 [label="ID: IPC2-02\nUsuario: Usuario2\nProducto ID: IPCM-1\nProducto: Computadora de Escritorio\nCantidad: 5.0\nTotal: 25000.0"];
+}
