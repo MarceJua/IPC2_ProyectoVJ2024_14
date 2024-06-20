@@ -32,4 +32,4 @@ def get_usuarios():
     return jsonify(c), 200
 
 if __name__=='__main__':
-    app.run(debug=True, port=8000) #debug=True <- sirve para no estar reiniciando la api
+    app.run(debug=True, port=4000) #debug=True <- sirve para no estar reiniciando la api
