@@ -1,7 +1,20 @@
 digraph G {
    rankdir=LR;
+<<<<<<< Updated upstream
    node [shape = record, height = .1]node0 [label = "{ID Usuario: IPC2-02
 Nombre Usuario: Usuario2
 PRODUCTOS: Frijoles (Cantidad: 15.0, Total: 37.5), Computadora de Escritorio (Cantidad: 5.0, Total: 25000.0), 
 Total: 25037.5|<f1>}"];
 }
+=======
+   node [shape = record, height = .1]node0 [label = "{ID Usuario: IPC2-20
+Nombre Usuario: Juan Randolph
+PRODUCTOS: Mi Primer libro de Poesia (Cantidad: 2.0, Total: 17116.9), Televisor (Cantidad: 2.0, Total: 1708.5), 
+Total: 18825.4|<f1>}"];
+node1 [label = "{ID Usuario: IPC2-20
+Nombre Usuario: Juan Randolph
+PRODUCTOS: Pasta Spagetti (Cantidad: 2.0, Total: 6965.82), Mi Primer libro de Poesia (Cantidad: 2.0, Total: 17116.9), 
+Total: 24082.72|<f1>}"];
+node0-> node1;
+}
+>>>>>>> Stashed changes

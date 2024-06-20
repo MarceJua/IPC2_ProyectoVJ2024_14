@@ -453,26 +453,26 @@ class applicacion:
      if self.ListaCicularDL.size > 0:  # Verifica si hay productos en la lista
         actual = self.ListaCicularDL.cabeza  # Establece el nodo actual como la cabeza de la lista
 
-        # Crear una variable StringVar para manejar los valores del combobox
-        nombres_var = tk.StringVar()
-        nombres_var.set('')
+        # Crear una cadena para manejar los valores del combobox
+        nombres_concatenados = ''
 
         # Iterar sobre todos los nodos de la lista circular
         for _ in range(self.ListaCicularDL.size):
             nombre_actual = actual.nombre  # Obtener el nombre del producto actual
-            if nombres_var.get():
-                nombres_var.set(nombres_var.get() + ';' + nombre_actual)  # Concatenar nombres separados por ;
+            if nombres_concatenados:
+                nombres_concatenados += ';' + nombre_actual  # Concatenar nombres separados por ;
             else:
-                nombres_var.set(nombre_actual)  # Primer nombre sin concatenar
+                nombres_concatenados = nombre_actual  # Primer nombre sin concatenar
             actual = actual.siguiente  # Avanzar al siguiente nodo
 
         # Asignar los nombres concatenados al combobox usando ';' como separador
-        self.combo['values'] = nombres_var.get().split(';')
+        self.combo['values'] = nombres_concatenados.split(';')
 
         # Establecer la selección predeterminada si se desea
         self.combo.current(0)  # Establecer la selección predeterminada
      else:
         print("La lista de productos está vacía.")
+
 
 
     def mostrar_detalles_producto(self, event):
@@ -491,7 +491,7 @@ class applicacion:
                 if detalles_producto['imagen']:
                     try:
                         img = Image.open(detalles_producto['imagen'])
-                        img = img.resize((100, 100), Image.ANTIALIAS)
+                        img = img.resize((100, 100))
                         photo = ImageTk.PhotoImage(img)
                         self.label1.config(image=photo, text="")
                         self.label1.image = photo
@@ -534,7 +534,7 @@ class applicacion:
         else:
             messagebox.showerror(title="error", message="DATO Vacio")
 
-            
+
     def verCarrito(self):
         iduser=self.userId.cget("text")
         self.pilaCarrito.graficar(iduser)
