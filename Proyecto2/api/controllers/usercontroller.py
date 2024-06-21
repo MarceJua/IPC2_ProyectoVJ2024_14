@@ -26,6 +26,7 @@ def cargarUsuarios():
         # LEER EL XML
         root = ET.fromstring(xml_entrada)
         usuarios_existentes = precargarUsuarios()
+        
         for user in root:
             id = user.attrib['id']
             password = user.attrib['password']
