@@ -14,15 +14,16 @@ def cargaProductos():
         xml_entrada = request.data.decode('utf-8')
         if xml_entrada == '':
             return jsonify({
-                'message': 'Error al cargar los libros: EL XML está vacio',
+                'message': 'Error al cargar los productos: EL XML está vacío',
                 'status': 404
             }), 404
 
-        # QUITARLE LOS SALTOS DE LINEA INNECESARIOS
+        # QUITARLE LOS SALTOS DE LÍNEA INNECESARIOS
         xml_entrada = xml_entrada.replace('\n', '')
 
         # LEER EL XML
         root = ET.fromstring(xml_entrada)
+        productos_existentes = precargaProducto()
         for producto in root:
             id = producto.attrib['id']
             nombre = ''
@@ -45,9 +46,15 @@ def cargaProductos():
                 elif elemento.tag == 'imagen':
                     imagen = elemento.text
 
+            # Verificar si el producto ya existe en la lista cargada desde el archivo XML
+            if any(prod.id == id for prod in productos_existentes):
+                print(f"Producto con ID {id} ya existe. No se agregará.")
+                continue  # Saltar a la siguiente iteración si el producto ya existe
+
             nuevo = add_producto(id, nombre, precio, descripcion, categoria, cantidad, imagen)
             if nuevo is not None:
                 pruductos.append(nuevo)
+                productos_existentes.append(nuevo)  # Actualizar la lista de productos existentes
 
                 # AGREGAMOS EL PRODUCTO AL XML QUE YA EXISTE
                 if os.path.exists('database/productos.xml'):
@@ -92,7 +99,6 @@ def cargaProductos():
             ET.indent(root, space='\t', level=0)
             tree = ET.ElementTree(root)
             tree.write('database/productos.xml', encoding='utf-8', xml_declaration=True)
-            
 
         return jsonify({
             'message': 'Productos cargados correctamente',
@@ -100,9 +106,9 @@ def cargaProductos():
         }), 200
 
     except Exception as e:
-        print(f"Error al cargar los Productos: {str(e)}")
+        print(f"Error al cargar los productos: {str(e)}")
         return jsonify({
-            'message': 'Error al cargar los Productos',
+            'message': 'Error al cargar los productos',
             'status': 404
         }), 404
 
@@ -117,28 +123,37 @@ def add_producto(id, nombre, precio_str, descripcion, categoria, cantidad_str, i
     if not cantidad_str.isdigit():
         print(f"Error: La cantidad '{cantidad_str}' no es válida. Debe ser un número entero.")
         return None
+    cantidad = int(cantidad_str)
     if verificacionProducto(id) is not None:
         print(f"Error: El producto con id '{id}' ya existe.")
         return None
-    cantidad = int(cantidad_str)
+   
     # Creación del objeto Producto
     nuevo = Producto(id, precio, nombre, descripcion, categoria, cantidad, imagen)
     return nuevo
 
 def verificacionProducto(id):
-    auxproducto =precargaProducto()
-    if auxproducto is not None:
-     for producto in auxproducto:
+    # Primero, verificar en los productos precargados del archivo XML
+    productos = precargaProducto()
+    if productos is not None:
+        for producto in productos:
             if producto.id == id:
                 return producto
-     return None
-    else:
-        for producto in pruductos:
-            if producto.id == id:
-                return producto
-        return None
+    # Luego, verificar en la lista en memoria
+    for producto in pruductos:
+        if producto.id == id:
+            return producto
+    return None
     
-    
+@BlueprinProducto.route('/productos/verProductos', methods=['GET'])
+def obtenerProductos():
+    productos = precargaProducto()
+    diccionar_salida = {'mensaje': 'Productos encontrados',
+                        'productos': [producto.to_dict() for producto in productos],
+                        'estatus': 200}    
+    return jsonify(diccionar_salida)
+   
+
 
 @BlueprinProducto.route('/productos/verXML', methods=['GET'])
 def verXMLProductos():
@@ -157,11 +172,8 @@ def verXMLProductos():
             'message': 'Error al cargar los productos',
             'status': 404
         }), 404
-   
 
-
-#METODO DE PRECARGAR 
-
+# MÉTODO DE PRECARGA 
 def precargaProducto():
     produc = []
     if os.path.exists('database/productos.xml'):
@@ -171,9 +183,9 @@ def precargaProducto():
             id = producto.attrib['id']
             nombre = ''
             precio = ''
-            descripcion=''
-            categoria=''
-            cantidad=''
+            descripcion = ''
+            categoria = ''
+            cantidad = ''
             imagen = ''
             for elemento in producto:
                 if elemento.tag == 'nombre':
@@ -185,10 +197,10 @@ def precargaProducto():
                 if elemento.tag == 'categoria':
                     categoria = elemento.text
                 if elemento.tag == 'cantidad':
-                    cantidad=elemento.tag
+                    cantidad = elemento.text
                 if elemento.tag == 'imagen':
-                    imagen=elemento.tag
+                    imagen = elemento.text
             
-            nuevo = Producto(id, nombre,precio, descripcion, categoria,cantidad,imagen)
+            nuevo = Producto(id, nombre, precio, descripcion, categoria, cantidad, imagen)
             produc.append(nuevo)
     return produc

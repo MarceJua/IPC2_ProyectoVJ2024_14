@@ -1,14 +1,6 @@
 digraph G {
   rankdir=LR;
   node [shape = record, height = .1]
-<<<<<<< Updated upstream
-node0 [label = "{Codigo: 1|nombre: Rodrigo Hernández|puesto: Vendedor}"];
-node1 [label = "{Codigo: 2|nombre: Alejandro de León|puesto: Vendedor}"];
-node2 [label = "{Codigo: 3|nombre: Alejandro de León|puesto: Vendedor}"];
-node0 -> node1;
-node1 -> node2;
-node2 -> node0 [constraint=false];
-=======
 node0 [label = "{Codigo: 1|nombre: Zacarías Garriga Cobo|puesto: Vendedor}"];
 node1 [label = "{Codigo: 2|nombre: África Trini Lloret Puerta|puesto: Administrador}"];
 node2 [label = "{Codigo: 3|nombre: Carlos Onofre Palmer Pagès|puesto: Recepcionista}"];
@@ -59,5 +51,4 @@ node21 -> node22;
 node22 -> node23;
 node23 -> node24;
 node24 -> node0 [constraint=false];
->>>>>>> Stashed changes
 }
