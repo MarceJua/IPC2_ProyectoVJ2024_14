@@ -1,4 +1,4 @@
-from api.models.productos import Productos
+from api.models.producto import Productos
 import re
 class Manager():
     def __init__(self):
