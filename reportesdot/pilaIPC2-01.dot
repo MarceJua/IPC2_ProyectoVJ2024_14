@@ -1,7 +1,7 @@
 digraph G {
      rankdir=TB;
      node[shape=record];
-node0 [label="ID: IPC2-01\nUsuario: Usuario1\nProducto ID: IPCM-2\nProducto: Frijoles\nCantidad: 4.0\nTotal: 10.0"];
+node0 [label="ID: IPC2-01\nUsuario: Monica Deleon\nProducto ID: IPCMK-6\nProducto: Diario de Anne Frank\nCantidad: 2.0\nTotal: 10741.52"];
 node0 -> node1;
-node1 [label="ID: IPC2-01\nUsuario: Usuario1\nProducto ID: IPCM-2\nProducto: Frijoles\nCantidad: 1.0\nTotal: 2.5"];
+node1 [label="ID: IPC2-01\nUsuario: Monica Deleon\nProducto ID: IPCMK-12\nProducto: Harry Potter y la piedra filosofal\nCantidad: 3.0\nTotal: 219.48"];
 }
