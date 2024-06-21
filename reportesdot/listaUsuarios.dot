@@ -1,16 +1,8 @@
 digraph G {
   rankdir=LR;
   node [shape = record, height = .1]
-<<<<<<< Updated upstream
-node0 [label = "{ID: IPC2-01|password: 12345|nombre: Usuario1|edad: 23|email: u1@gmail.com|Tel: 12345678}"];
-node1 [label = "{ID: IPC2-02|password: 12345|nombre: Usuario2|edad: 25|email: u2@gmail.com|Tel: 87654321}"];
-node2 [label = "{ID: IPC2-03|password: 12345|nombre: Usuario3|edad: 25|email: u3@gmail.com|Tel: 56815687}"];
-node3 [label = "{ID: IPC2-04|password: 12345|nombre: Usuario4|edad: 25|email: u4@gmail.com|Tel: 12357487}"];
-node4 [label = "{ID: IPC2-05|password: 12345|nombre: Usuario5|edad: 25|email: u5@gmail.com|Tel: 68789844}"];
-node5 [label = "{ID: IPC2-06|password: 12345|nombre: Usuario6|edad: 25|email: u6@gmail.com|Tel: 56486877}"];
-=======
-node0 [label = "{ID: IPC2-01|password: QWvqHcaR|nombre: Monica Deleon|edad: 64|email: u1@gmail.com|Tel: 35702837}"];
-node1 [label = "{ID: IPC2-02|password: nQRi7|nombre: Tamara Pratt|edad: 52|email: u2@hotmail.com|Tel: 67604348}"];
+node0 [label = "{ID: IPC2-01|password: QWvqHcaR|nombre: Monica Deleon|edad: 64|email: vff@hotmail.com|Tel: 35702837}"];
+node1 [label = "{ID: IPC2-02|password: nQRi7|nombre: Tamara Pratt|edad: 52|email: u2@hotmail.com|Tel: 67604345}"];
 node2 [label = "{ID: IPC2-03|password: NY8vVeyk|nombre: Ruth Mcmillan|edad: 43|email: u3@gmail.com|Tel: 14931680}"];
 node3 [label = "{ID: IPC2-04|password: EnODhW7z|nombre: Michael Oliver|edad: 33|email: u4@gmail.com|Tel: 17758284}"];
 node4 [label = "{ID: IPC2-05|password: PMVe5pJR|nombre: Carolyn Trevino|edad: 34|email: u5@yahoo.com|Tel: 05346905}"];
@@ -34,7 +26,6 @@ node21 [label = "{ID: IPC2-22|password: 7Uam5Ny|nombre: Taylor Santana|edad: 39|
 node22 [label = "{ID: IPC2-23|password: la6O9tg|nombre: Jillian Munoz|edad: 39|email: u23@hotmail.com|Tel: 70295367}"];
 node23 [label = "{ID: IPC2-24|password: Ce6RJkuP|nombre: Tracy Randolph|edad: 26|email: u24@yahoo.com|Tel: 04660030}"];
 node24 [label = "{ID: IPC2-25|password: MifzjTFm|nombre: Joseph Walter|edad: 58|email: u25@gmail.com|Tel: 19247648}"];
->>>>>>> Stashed changes
 node0:f2 -> node1:f1;
 node1:f1 -> node0:f2;
 node1:f2 -> node2:f1;
@@ -45,8 +36,6 @@ node3:f2 -> node4:f1;
 node4:f1 -> node3:f2;
 node4:f2 -> node5:f1;
 node5:f1 -> node4:f2;
-<<<<<<< Updated upstream
-=======
 node5:f2 -> node6:f1;
 node6:f1 -> node5:f2;
 node6:f2 -> node7:f1;
@@ -85,5 +74,4 @@ node22:f2 -> node23:f1;
 node23:f1 -> node22:f2;
 node23:f2 -> node24:f1;
 node24:f1 -> node23:f2;
->>>>>>> Stashed changes
 }

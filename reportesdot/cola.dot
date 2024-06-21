@@ -1,18 +1,18 @@
 digraph G {
 rankdir=LR;
 node [shape=record];
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-nodo0 [label="ID Usuario: IPC2-02
-Nombre Usuario: Usuario2
-PRODUCTOS: Frijoles (Cantidad: 15.0, Total: 37.5), Computadora de Escritorio (Cantidad: 5.0, Total: 25000.0), 
-Total: 25037.5"];
-=======
 nodo0 [label="ID Usuario: IPC2-01
-Nombre Usuario: Usuario1
-PRODUCTOS: Frijoles (Cantidad: 4.0, Total: 10.0), Frijoles (Cantidad: 1.0, Total: 2.5), 
-Total: 12.5"];
->>>>>>> b1d1b4a08eecaeca47bb36f9369ca43609cc2ae9
-=======
->>>>>>> Stashed changes
+Nombre Usuario: Monica Deleon
+PRODUCTOS: Diario de Anne Frank (Cantidad: 2.0, Total: 10741.52), Harry Potter y la piedra filosofal (Cantidad: 3.0, Total: 219.48), 
+Total: 10961.0"];
+nodo1 [label="ID Usuario: IPC2-02
+Nombre Usuario: Tamara Pratt
+PRODUCTOS: Televisor (Cantidad: 1.0, Total: 854.25), 
+Total: 854.25"];
+nodo2 [label="ID Usuario: IPC2-03
+Nombre Usuario: Ruth Mcmillan
+PRODUCTOS: Queso (Cantidad: 2.0, Total: 12197.54), 
+Total: 12197.54"];
+nodo0 -> nodo1;
+nodo1 -> nodo2;
 }

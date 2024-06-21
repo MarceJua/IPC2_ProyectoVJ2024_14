@@ -1,12 +1,6 @@
 digraph G {
   rankdir=LR;
   node [shape = record,  height = .5]
-<<<<<<< Updated upstream
-node0 [label = "{ID: IPCM-1|Nombre: Computadora de Escritorio|nombre: Computadora de Escritorio|Precio: 5000.0|descripcion: Computadora de escritorio con procesador Intel Core i7, 16 GB de RAM, 1 TB de almacenamiento y tarjeta gráfica NVIDIA GeForce RTX 2080.}"];
-node1 [label = "{ID: IPCM-2|Nombre: Frijoles|nombre: Frijoles|Precio: 2.5|descripcion:  1 libra de frijoles negros}"];
-node2 [label = "{ID: IPCM-4|Nombre: Frijoles|nombre: Frijoles|Precio: 2.5|descripcion:  1 libra de frijoles negros}"];
-node3 [label = "{ID: IPCM-3|Nombre: Frijoles|nombre: Frijoles|Precio: 2.5|descripcion:  1 libra de frijoles negros}"];
-=======
 node0 [label = "{ID: IPCMK-1|Nombre: Televisor|nombre: Televisor|Precio: 854.25|descripcion: Illo harum vitae eligendi sed quasi fugiat deleniti sit.}"];
 node1 [label = "{ID: IPCMK-2|Nombre: Queso|nombre: Queso|Precio: 6098.77|descripcion: Quisquam ad voluptatem odit voluptatum laudantium sequi iste quidem reprehenderit harum perspiciatis aliquam exercitationem nam eum doloremque.}"];
 node2 [label = "{ID: IPCMK-3|Nombre: Mi Primer libro de Poesia|nombre: Mi Primer libro de Poesia|Precio: 8558.45|descripcion: Et similique voluptatum at dolorem incidunt quisquam esse natus architecto nesciunt cumque magni alias odit eum eveniet at.}"];
@@ -37,17 +31,14 @@ node26 [label = "{ID: IPCMK-27|Nombre: Pan|nombre: Pan|Precio: 936.4|descripcion
 node27 [label = "{ID: IPCMK-28|Nombre: Hamlet|nombre: Hamlet|Precio: 7849.57|descripcion: Sint aperiam maiores totam velit eum veniam vero quos iure saepe aut ex.}"];
 node28 [label = "{ID: IPCMK-29|Nombre: Patines|nombre: Patines|Precio: 4462.39|descripcion: Sed dignissimos aut consectetur deserunt impedit necessitatibus ipsam facilis numquam nesciunt veniam eum officiis similique molestias.}"];
 node29 [label = "{ID: IPCMK-30|Nombre: Cinturon|nombre: Cinturon|Precio: 6438.0|descripcion: Eum iure cumque nisi doloremque exercitationem veniam neque temporibus delectus dignissimos dolores deleniti tempore saepe quas eaque beatae tenetur inventore.}"];
->>>>>>> Stashed changes
+node30 [label = "{ID: IPCM-1|Nombre: Computadora de Escritorio|nombre: Computadora de Escritorio|Precio: 5000.0|descripcion: Computadora de escritorio con procesador Intel Core i7, 16 GB de RAM, 1 TB de almacenamiento y tarjeta gráfica NVIDIA GeForce RTX 2080.}"];
+node31 [label = "{ID: IPCM-2|Nombre: Frijoles|nombre: Frijoles|Precio: 2.5|descripcion:  1 libra de frijoles negros}"];
 node0 -> node1;
 node1 -> node0;
 node1 -> node2;
 node2 -> node1;
 node2 -> node3;
 node3 -> node2;
-<<<<<<< Updated upstream
-node3 -> node0;
-node0 -> node3;
-=======
 node3 -> node4;
 node4 -> node3;
 node4 -> node5;
@@ -100,7 +91,10 @@ node27 -> node28;
 node28 -> node27;
 node28 -> node29;
 node29 -> node28;
-node29 -> node0;
-node0 -> node29;
->>>>>>> Stashed changes
+node29 -> node30;
+node30 -> node29;
+node30 -> node31;
+node31 -> node30;
+node31 -> node0;
+node0 -> node31;
 }
