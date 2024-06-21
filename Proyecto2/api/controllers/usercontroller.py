@@ -25,6 +25,7 @@ def cargarUsuarios():
         
         # LEER EL XML
         root = ET.fromstring(xml_entrada)
+        usuarios_existentes = precargarUsuarios()
         for user in root:
             id = user.attrib['id']
             password = user.attrib['password']
@@ -41,10 +42,17 @@ def cargarUsuarios():
                     email = elemento.text
                 if elemento.tag == 'telefono':
                     telefono = elemento.text
-            
+
+            # Verificar si el usuario ya existe en la lista cargada desde el archivo XML
+            if any(u.id == id for u in usuarios_existentes):
+                print(f"Usuario con ID {id} ya existe. No se agregará.")
+                continue  # Saltar a la siguiente iteración si el usuario ya existe
+
             nuevo = agregarUsuario(id, password, nombre, edad, email, telefono)
             if nuevo is not None:
                 users.append(nuevo)
+                usuarios_existentes.append(nuevo)  # Actualizar la lista de usuarios existentes
+
                 # AGREGAMOS EL USUARIO AL XML QUE YA EXISTE
                 if os.path.exists('database/usuarios.xml'):
                     tree2 = ET.parse('database/usuarios.xml')
@@ -114,18 +122,18 @@ def validarEmail(email):
 def validarTelefono(telefono):
     # Verifica que el teléfono tenga exactamente 8 dígitos
     return telefono.isdigit() and len(telefono) == 8
+
 def verificacionUsuario(id):
-    auxUser =precargarUsuarios
+    auxUser = precargarUsuarios()
     if auxUser is not None:
-     for user in auxUser:
+        for user in auxUser:
             if user.id == id:
                 return user
-     return None
     else:
         for user in users:
             if user.id == id:
                 return user
-        return None
+    return None
 
 @BlueprintUser.route('/usuarios/verUsuarios', methods=['GET'])
 def obtenerUsuarios():
@@ -220,7 +228,6 @@ def precargarUsuarios():
                     email = elemento.text
                 if elemento.tag == 'telefono':
                     telefono = elemento.text
-            nuevo = agregarUsuario(id, password, nombre, edad, email, telefono)
-            if nuevo is not None:
-                usuarios.append(nuevo)
+            nuevo = User(id, password, nombre, edad, email, telefono)
+            usuarios.append(nuevo)
     return usuarios
