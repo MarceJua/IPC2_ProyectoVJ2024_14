@@ -1,5 +1,4 @@
-from usuario import Usuario
-from productos import Productos
+from api.models.productos import Productos
 import re
 class Manager():
     def __init__(self):
