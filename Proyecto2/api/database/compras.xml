@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<compras>
+	<compra>
+		<item id="IPCMK-2">
+			<nombre>Queso</nombre>
+			<total>18296.31</total>
+			<cantidad>3</cantidad>
+			<imagen>C:\CalificacionIPC2\img2.jpg</imagen>
+		</item>
+	</compra>
+</compras>

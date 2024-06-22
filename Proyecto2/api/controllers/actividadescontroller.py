@@ -110,7 +110,7 @@ def verificacionActividad(id):
             return actividad
     return None
 
-
+#ver acrividades json
 @BlueprintActividad.route('/actividades/veractividades', methods=['GET'])
 def obtenerActividades():
     act = precargaActividades()
@@ -130,7 +130,7 @@ def obtenerActividades():
         })
     return jsonify(diccionario_salida), 200
 
-
+#ver actividad hoy xml
 @BlueprintActividad.route('/actividades/hoy', methods=['GET'])
 def actividades_hoy():
     try:
