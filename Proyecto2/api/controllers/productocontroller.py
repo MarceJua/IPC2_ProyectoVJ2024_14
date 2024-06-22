@@ -154,7 +154,7 @@ def obtenerProductos():
     return jsonify(diccionar_salida)
    
 
-
+#ver porductors en xml
 @BlueprinProducto.route('/productos/verXML', methods=['GET'])
 def verXMLProductos():
     try:
@@ -172,35 +172,77 @@ def verXMLProductos():
             'message': 'Error al cargar los productos',
             'status': 404
         }), 404
+#obtener por nombre JSON
+@BlueprinProducto.route('/productos/obtener_por_nombre', methods=['GET'])
+def obtenerProductoPorNombre():
+    try:
+        nombre = request.args.get('nombre')
+        if not nombre:
+            return jsonify({
+                'message': 'Error: El nombre del producto no fue proporcionado',
+                'status': 400
+            }), 400
+
+        productos = precargaProducto()
+        producto_encontrado = next((prod for prod in productos if prod.nombre == nombre), None)
+
+        if not producto_encontrado:
+            return jsonify({
+                'message': 'Producto no encontrado',
+                'status': 404
+            }), 404
+
+        return jsonify({
+            'message': 'Producto encontrado',
+            'producto': producto_encontrado.to_dict(),
+            'status': 200
+        }), 200
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({
+            'message': f'Error al buscar el producto: {str(e)}',
+            'status': 500
+        }), 500
+
 
 # MÉTODO DE PRECARGA 
 def precargaProducto():
-    produc = []
+    produc= []
     if os.path.exists('database/productos.xml'):
         tree = ET.parse('database/productos.xml')
         root = tree.getroot()
-        for producto in root:
-            id = producto.attrib['id']
-            nombre = ''
-            precio = ''
-            descripcion = ''
-            categoria = ''
-            cantidad = ''
-            imagen = ''
-            for elemento in producto:
-                if elemento.tag == 'nombre':
-                    nombre = elemento.text
-                if elemento.tag == 'precio':
-                    precio = elemento.text
-                if elemento.tag == 'descripcion':
-                    descripcion = elemento.text
-                if elemento.tag == 'categoria':
-                    categoria = elemento.text
-                if elemento.tag == 'cantidad':
-                    cantidad = elemento.text
-                if elemento.tag == 'imagen':
-                    imagen = elemento.text
-            
-            nuevo = Producto(id, nombre, precio, descripcion, categoria, cantidad, imagen)
+        for producto in root.findall('producto'):
+            id = producto.get('id')
+            nombre = producto.find('nombre').text
+            precio = producto.find('precio').text
+            descripcion = producto.find('descripcion').text
+            categoria = producto.find('categoria').text
+            cantidad = producto.find('cantidad').text
+            imagen = producto.find('imagen').text
+
+            nuevo = Producto(id, float(precio),nombre, descripcion, categoria, int(cantidad), imagen)
             produc.append(nuevo)
     return produc
+
+#verificar producto JSON
+@BlueprinProducto.route('/productos/verProducto', methods=['GET'])
+def obtenerProducto():
+    productos = precargaProducto()
+    diccionario_salida = {
+        'mensaje': 'Productos encontrados',
+        'productos': [],
+        'status': 200
+    }
+    for producto in productos:
+        diccionario_salida['productos'].append({
+            'id': producto.id,
+            'nombre': producto.nombre,
+            'precio': producto.precio,
+            'descripcion': producto.descripcion,
+            'categoria': producto.categoria,
+            'cantidad': producto.cantidad,
+            'imagen': producto.imagen
+        })
+    return jsonify(diccionario_salida), 200
+
+
