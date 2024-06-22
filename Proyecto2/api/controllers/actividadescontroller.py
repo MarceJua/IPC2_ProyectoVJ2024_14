@@ -127,3 +127,23 @@ def precargaActividades():
     except Exception as e:
         print(f"Error al precargar las actividades: {str(e)}")
         return []
+
+@BlueprintActividad.route('/actividades/veractividades', methods=['GET'])
+def obtenerActividades():
+    act = precargaActividades()
+    diccionario_salida = {
+        'mensaje': 'Actividades encontradas',
+        'actividades': [],
+        'status': 200
+    }
+    for actividad in act:
+        diccionario_salida['actividades'].append({
+            'id': actividad.id,
+            'nombre': actividad.nombre,
+            'descripcion': actividad.descripcion,
+            'empleado': actividad.empleado,
+            'dia': actividad.dia,
+            'hora': actividad.hora
+        })
+    return jsonify(diccionario_salida), 200
+
