@@ -147,7 +147,7 @@ def verificacionProducto(id):
     
 
 
-#ver porductors en xml
+#ver porductors en xml/ devolver
 @BlueprinProducto.route('/productos/verXML', methods=['GET'])
 def verXMLProductos():
     try:
@@ -165,6 +165,8 @@ def verXMLProductos():
             'message': 'Error al cargar los productos',
             'status': 404
         }), 404
+    
+
 #obtener por nombre JSON
 @BlueprinProducto.route('/productos/obtener_por_nombre', methods=['GET'])
 def obtenerProductoPorNombre():

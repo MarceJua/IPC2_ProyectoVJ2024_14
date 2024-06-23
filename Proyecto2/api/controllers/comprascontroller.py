@@ -200,7 +200,7 @@ def precargaProducto():
     except Exception as e:
         print(f"Error al precargar los productos: {str(e)}")
         return []
-#verComprasXML
+#vercomprasxml
 @BlueprintCompra.route('/compras/verComprasXML', methods=['GET'])
 def verComprasXML():
     try:
