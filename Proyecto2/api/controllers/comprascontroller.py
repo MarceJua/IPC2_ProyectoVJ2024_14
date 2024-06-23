@@ -56,6 +56,7 @@ def cargarCarrito():
             'status': 404
         }), 404
     
+#ver carrito xml
 @BlueprintCompra.route('/compras/verCarrito', methods=['GET'])
 def verCarrito():
     try:
@@ -82,6 +83,7 @@ def verCarrito():
         }), 404
     
 #confrimar compra
+
 @BlueprintCompra.route('/compras/confirmarCompra', methods=['POST'])
 def confirmarCompra():
     try:
@@ -90,6 +92,9 @@ def confirmarCompra():
                 'message': 'El carrito está vacío',
                 'status': 400
             }), 400
+        
+        # Calcular el total de la compra
+        total_compra = sum(item['Total'] for item in carrito)
         
         # Registrar la compra
         compra = Compra(items=carrito.copy())  # Crear una nueva instancia de Compra con los items actuales del carrito
@@ -105,16 +110,27 @@ def confirmarCompra():
         else:
             root = ET.Element('compras')
             tree = ET.ElementTree(root)
-
-        compra_elem = ET.SubElement(root, 'compra')
+       
+        # Determinar el próximo número de compra
+        compras_existentes = precargaCompras()
+        next_compra_numero = len(compras_existentes) + 1
+        
+        # Crear el elemento <compra> con el atributo numero
+        compra_elem = ET.SubElement(root, 'compra', numero=str(next_compra_numero))
+        
+        # Agregar el elemento <Total> con el total de la compra
+        ET.SubElement(compra_elem, 'Total').text = str(total_compra)
+        
+        # Agregar cada item del carrito como <item> dentro de <compra>
         for item in carrito:
             item_elem = ET.SubElement(compra_elem, 'item', id=item['id'])
             ET.SubElement(item_elem, 'nombre').text = item['nombre']
             ET.SubElement(item_elem, 'total').text = str(item['Total'])
             ET.SubElement(item_elem, 'cantidad').text = str(item['cantidad'])
             ET.SubElement(item_elem, 'imagen').text = item['imagen']
-
-        ET.indent(root, space='\t', level=0)
+        
+        # Guardar el árbol XML en el archivo
+        ET.indent(root, space='\t', level=1)
         tree.write('database/compras.xml', encoding='utf-8', xml_declaration=True)
         
         # Vaciar el carrito
@@ -130,6 +146,34 @@ def confirmarCompra():
             'message': f'Error al confirmar la compra: {str(e)}',
             'status': 404
         }), 404
+
+#verc comprax json
+@BlueprintCompra.route('/compras/verCompras', methods=['GET'])
+def verCompras():
+    try:
+        compras = precargaCompras()
+        diccionario_salida = {
+            'message': 'Compras encontradas',
+            'compras': [],
+            'status': 200
+        }
+        
+        for compra in compras:
+            diccionario_salida['compras'].append({
+                'numero': compra['numero'],
+                'total_compra': compra['total_compra'],
+                'productos': compra['productos']
+            })
+        
+        return jsonify(diccionario_salida), 200
+
+    except Exception as e:
+        return jsonify({
+            'message': f'Error al mostrar las compras: {str(e)}',
+            'status': 404
+        }), 404
+
+
 
 
 
@@ -156,34 +200,73 @@ def precargaProducto():
     except Exception as e:
         print(f"Error al precargar los productos: {str(e)}")
         return []
+#vercomprasxml
+@BlueprintCompra.route('/compras/verComprasXML', methods=['GET'])
+def verComprasXML():
+    try:
+        if not os.path.exists('database/compras.xml'):
+            return jsonify({
+                'message': 'No hay compras registradas',
+                'status': 404
+            }), 404
+        
+        with open('database/compras.xml', 'r', encoding='utf-8') as f:
+            xml_content = f.read()
+        
+        return jsonify({
+            'message': 'Archivo XML de compras',
+            'xml_content': xml_content,
+            'status': 200
+        }), 200
+
+    except Exception as e:
+        return jsonify({
+            'message': f'Error al mostrar el archivo XML de compras: {str(e)}',
+            'status': 404
+        }), 404
+    
 
 def precargaCompras():
     try:
-        compras = []
+        compras_list = []
         if os.path.exists('database/compras.xml'):
             tree = ET.parse('database/compras.xml')
             root = tree.getroot()
+            
             for compra_elem in root.findall('compra'):
-                items = []
+                numero = compra_elem.get('numero')
+                total_compra = float(compra_elem.find('Total').text)
+                productos = []
+                
                 for item_elem in compra_elem.findall('item'):
                     id = item_elem.get('id')
                     nombre = item_elem.find('nombre').text
-                    precio = float(item_elem.find('total').text)
+                    total = float(item_elem.find('total').text)
                     cantidad = int(item_elem.find('cantidad').text)
                     imagen = item_elem.find('imagen').text
-                    items.append({
+                    
+                    productos.append({
                         'id': id,
                         'nombre': nombre,
-                        'total': precio,
+                        'total': total,
                         'cantidad': cantidad,
                         'imagen': imagen
                     })
-                compra = Compra(items=items)
-                compras.append(compra)
-        return compras
+                
+                compras_list.append({
+                    'numero': numero,
+                    'total_compra': total_compra,
+                    'productos': productos
+                })
+        
+        return compras_list
+    
     except Exception as e:
         print(f"Error al precargar las compras: {str(e)}")
         return []
+
+
+
 
             
            

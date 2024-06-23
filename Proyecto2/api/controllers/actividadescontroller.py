@@ -170,12 +170,12 @@ def actividades_hoy():
         os.makedirs('database', exist_ok=True)
         file_path = os.path.join('database', 'actividades_hoy.xml')
         
-        # Pretty print the XML
+        
         xml_str = ET.tostring(root, encoding='utf-8')
         dom = minidom.parseString(xml_str)
         pretty_xml_as_string = dom.toprettyxml(indent="\t")
         
-        # Write the pretty XML to file
+       
         with open(file_path, 'w', encoding='utf-8') as f:
             f.write(pretty_xml_as_string)
         

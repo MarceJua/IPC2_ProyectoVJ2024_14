@@ -5,4 +5,11 @@ urlpatterns = [
     path('', views.login_view, name='login'),
     path('productos/', views.productos_view, name='productos'),
     path('compras/', views.compras_view, name='compras'),
+    path('carga/', views.admincarga_view, name='carga'),
+    path('user/', views.user_view, name='user'),
+    path('signin/', views.signin, name='signin'),
+    path('cargaxml/', views.cargarXML, name='cargaxml'),
+    path('xmlusuarios/', views.enviarUsuarios, name='xmlusuarios'),
+    path('estadisticas/', views.verEstadisticas, name='estadisticas'),
+    path('pdf/', views.verPDF, name='pdf'),
 ]

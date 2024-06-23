@@ -145,16 +145,9 @@ def verificacionProducto(id):
             return producto
     return None
     
-@BlueprinProducto.route('/productos/verProductos', methods=['GET'])
-def obtenerProductos():
-    productos = precargaProducto()
-    diccionar_salida = {'mensaje': 'Productos encontrados',
-                        'productos': [producto.to_dict() for producto in productos],
-                        'estatus': 200}    
-    return jsonify(diccionar_salida)
-   
 
-#ver porductors en xml
+
+#ver porductors en xml/ devolver
 @BlueprinProducto.route('/productos/verXML', methods=['GET'])
 def verXMLProductos():
     try:
@@ -172,6 +165,8 @@ def verXMLProductos():
             'message': 'Error al cargar los productos',
             'status': 404
         }), 404
+    
+
 #obtener por nombre JSON
 @BlueprinProducto.route('/productos/obtener_por_nombre', methods=['GET'])
 def obtenerProductoPorNombre():
@@ -243,6 +238,17 @@ def obtenerProducto():
             'cantidad': producto.cantidad,
             'imagen': producto.imagen
         })
+    return jsonify(diccionario_salida), 200
+
+#obtener productos JSON
+@BlueprinProducto.route('/productos/obtenerProductos', methods=['GET'])
+def obtenerProductos():
+    productos = precargaProducto()
+    diccionario_salida = {
+        'mensaje': 'Productos encontrados',
+        'productos': [producto.to_dict() for producto in productos],
+        'status': 200
+    }
     return jsonify(diccionario_salida), 200
 
 
