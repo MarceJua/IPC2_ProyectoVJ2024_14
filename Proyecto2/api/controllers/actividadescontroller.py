@@ -3,6 +3,8 @@ import xml.etree.ElementTree as ET
 from flask import Blueprint, jsonify, request
 from models.actividad import Actividad
 from controllers.estructuras import actividades
+from datetime import datetime
+from xml.dom import minidom
 
 BlueprintActividad = Blueprint('actividad', __name__)
 
@@ -108,6 +110,92 @@ def verificacionActividad(id):
             return actividad
     return None
 
+#ver acrividades json
+@BlueprintActividad.route('/actividades/veractividades', methods=['GET'])
+def obtenerActividades():
+    act = precargaActividades()
+    diccionario_salida = {
+        'mensaje': 'Actividades encontradas',
+        'actividades': [],
+        'status': 200
+    }
+    for actividad in act:
+        diccionario_salida['actividades'].append({
+            'id': actividad.id,
+            'nombre': actividad.nombre,
+            'descripcion': actividad.descripcion,
+            'empleado': actividad.empleado,
+            'dia': actividad.dia,
+            'hora': actividad.hora
+        })
+    return jsonify(diccionario_salida), 200
+
+#ver actividad hoy xml
+@BlueprintActividad.route('/actividades/hoy', methods=['GET'])
+def actividades_hoy():
+    try:
+        # Determinar el día actual de la semana (1=Lunes, 7=Domingo)
+        dia_actual_num = datetime.now().isoweekday()
+        dias_semana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
+        dia_actual_nombre = dias_semana[dia_actual_num - 1]
+
+        # Precargar actividades y filtrar las actividades del día actual
+        actividades_existentes = precargaActividades()
+        actividades_hoy = [act for act in actividades_existentes if int(act.dia) == dia_actual_num]
+
+        # Precargar empleados
+        empleados = precargaEmpleados()
+
+        # Crear el XML de respuesta
+        root = ET.Element('Actividades_hoy')
+        dia_elem = ET.SubElement(root, 'Dia')
+        dia_elem.text = dia_actual_nombre
+        actividades_elem = ET.SubElement(root, 'Actividades')
+
+        for actividad in actividades_hoy:
+            actividad_elem = ET.SubElement(actividades_elem, 'Actividad', id=actividad.id)
+            ET.SubElement(actividad_elem, 'Nombre').text = actividad.nombre
+            ET.SubElement(actividad_elem, 'Descripcion').text = actividad.descripcion
+            
+            empleado = next((emp for emp in empleados if emp['id'] == actividad.empleado), None)
+            if empleado:
+                empleado_elem = ET.SubElement(actividad_elem, 'Empleado', id=empleado['id'])
+                empleado_elem.text = empleado['nombre']
+            
+            hora_elem = ET.SubElement(actividad_elem, 'Hora')
+            hora_elem.text = f"{actividad.hora}:00"
+
+        # Convertir el árbol XML a string y guardarlo en un archivo
+        tree = ET.ElementTree(root)
+        os.makedirs('database', exist_ok=True)
+        file_path = os.path.join('database', 'actividades_hoy.xml')
+        
+        
+        xml_str = ET.tostring(root, encoding='utf-8')
+        dom = minidom.parseString(xml_str)
+        pretty_xml_as_string = dom.toprettyxml(indent="\t")
+        
+       
+        with open(file_path, 'w', encoding='utf-8') as f:
+            f.write(pretty_xml_as_string)
+        
+        # Open the created XML file and return its content
+        with open(file_path, 'r', encoding='utf-8') as f:
+            xml_content = f.read()
+
+        return jsonify({
+            'message': 'Archivo XML generado y guardado correctamente',
+            'status': 200,
+            'xml_content': xml_content
+        }), 200
+
+    except Exception as e:
+        print(f"Error al obtener las actividades de hoy: {str(e)}")
+        return jsonify({
+            'message': f'Error al obtener las actividades de hoy: {str(e)}',
+            'status': 404
+        }), 404
+
 def precargaActividades():
     try:
         activ = []
@@ -126,4 +214,19 @@ def precargaActividades():
         return activ
     except Exception as e:
         print(f"Error al precargar las actividades: {str(e)}")
+        return []
+
+def precargaEmpleados():
+    try:
+        empleados = []
+        if os.path.exists('database/empleados.xml'):
+            tree = ET.parse('database/empleados.xml')
+            root = tree.getroot()
+            for empleado in root.findall('empleado'):
+                id = empleado.get('id')
+                nombre = empleado.find('nombre').text
+                empleados.append({'id': id, 'nombre': nombre})
+        return empleados
+    except Exception as e:
+        print(f"Error al precargar los empleados: {str(e)}")
         return []
