@@ -1,11 +1,45 @@
 <?xml version='1.0' encoding='utf-8'?>
 <compras>
-	<compra>
-		<item id="IPCMK-2">
-			<nombre>Queso</nombre>
-			<total>18296.31</total>
-			<cantidad>3</cantidad>
-			<imagen>C:\CalificacionIPC2\img2.jpg</imagen>
-		</item>
-	</compra>
-</compras>
+		<compra numero="1">
+			<Total>18296.31</Total>
+			<item id="IPCMK-2">
+				<nombre>Queso</nombre>
+				<total>18296.31</total>
+				<cantidad>3</cantidad>
+				<imagen>C:\CalificacionIPC2\img2.jpg</imagen>
+			</item>
+		</compra>
+		<compra numero="2">
+			<Total>18296.31</Total>
+			<item id="IPCMK-2">
+				<nombre>Queso</nombre>
+				<total>18296.31</total>
+				<cantidad>3</cantidad>
+				<imagen>C:\CalificacionIPC2\img2.jpg</imagen>
+			</item>
+		</compra>
+		<compra numero="3">
+			<Total>20859.06</Total>
+			<item id="IPCMK-2">
+				<nombre>Queso</nombre>
+				<total>18296.31</total>
+				<cantidad>3</cantidad>
+				<imagen>C:\CalificacionIPC2\img2.jpg</imagen>
+			</item>
+			<item id="IPCMK-1">
+				<nombre>Televisor</nombre>
+				<total>2562.75</total>
+				<cantidad>3</cantidad>
+				<imagen>C:\CalificacionIPC2\img1.jpg</imagen>
+			</item>
+		</compra>
+		<compra numero="4">
+			<Total>2562.75</Total>
+			<item id="IPCMK-1">
+				<nombre>Televisor</nombre>
+				<total>2562.75</total>
+				<cantidad>3</cantidad>
+				<imagen>C:\CalificacionIPC2\img1.jpg</imagen>
+			</item>
+		</compra>
+	</compras>
