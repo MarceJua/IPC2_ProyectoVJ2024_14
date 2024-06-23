@@ -36,10 +36,10 @@
         <form 
             method="POST"
             enctype="multipart/form-data"
-            action="/xmllibros/"
+            action="/xmlproductos/"
         >
         {% csrf_token %}
-        <button class="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none">Cargar Libros</button>
+        <button class="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none">Cargar Productos</button>
         </form>
         <form 
             method="POST"
@@ -52,8 +52,18 @@
         <form 
             method="POST"
             enctype="multipart/form-data"
+            action="/xmlempleados/"
         >
-        <button class="mt-2 w-full px-4 py-2 bg-yellow-500 text-black rounded-lg hover:bg-yellow-600 focus:outline-none">Cargar Reservaciones</button>
+        {% csrf_token %}
+        <button class="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none">Cargar Empleados</button>
+        </form>
+        <form 
+            method="POST"
+            enctype="multipart/form-data"
+            action="/xmlactividades/"
+        >
+        {% csrf_token %}
+        <button class="mt-2 w-full px-4 py-2 bg-yellow-500 text-black rounded-lg hover:bg-yellow-600 focus:outline-none">Cargar Actividades</button>
         </form>
         <form 
             method="POST"

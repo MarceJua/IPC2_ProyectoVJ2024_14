@@ -117,7 +117,27 @@ def cargarXML(request):
                 return render(request, 'cargaadmin.html', ctx)
     except:
         return render(request, 'cargaadmin.html')
-    
+
+
+def enviarProductos(request):
+    try:
+        if request.method == 'POST':
+            xml = contexto['binario_xml']
+            if xml is None:
+                messages.error(request, 'No se ha cargado ningun archivo')
+                return render(request, 'cargaadmin.html')
+            
+            #PETICION AL BACKEND
+            url = endpoint + 'productos/carga'
+            respuesta = requests.post(url, data=xml)
+            mensaje = respuesta.json()
+            messages.success(request, mensaje['message'])
+            contexto['binario_xml'] = None
+            contexto['contenido_archivo'] = None
+            return render(request, 'cargaadmin.html', contexto)
+    except:
+        return render(request, 'cargaadmin.html')
+
 def enviarUsuarios(request):
     try:
         if request.method == 'POST':
@@ -128,6 +148,44 @@ def enviarUsuarios(request):
             
             #PETICION AL BACKEND
             url = endpoint + 'usuarios/carga'
+            respuesta = requests.post(url, data=xml)
+            mensaje = respuesta.json()
+            messages.success(request, mensaje['message'])
+            contexto['binario_xml'] = None
+            contexto['contenido_archivo'] = None
+            return render(request, 'cargaadmin.html', contexto)
+    except:
+        return render(request, 'cargaadmin.html')
+    
+def enviarEmpleados(request):
+    try:
+        if request.method == 'POST':
+            xml = contexto['binario_xml']
+            if xml is None:
+                messages.error(request, 'No se ha cargado ningun archivo')
+                return render(request, 'cargaadmin.html')
+            
+            #PETICION AL BACKEND
+            url = endpoint + 'empleados/carga'
+            respuesta = requests.post(url, data=xml)
+            mensaje = respuesta.json()
+            messages.success(request, mensaje['message'])
+            contexto['binario_xml'] = None
+            contexto['contenido_archivo'] = None
+            return render(request, 'cargaadmin.html', contexto)
+    except:
+        return render(request, 'cargaadmin.html')
+
+def enviarActividades(request):
+    try:
+        if request.method == 'POST':
+            xml = contexto['binario_xml']
+            if xml is None:
+                messages.error(request, 'No se ha cargado ningun archivo')
+                return render(request, 'cargaadmin.html')
+            
+            #PETICION AL BACKEND
+            url = endpoint + 'actividades/carga'
             respuesta = requests.post(url, data=xml)
             mensaje = respuesta.json()
             messages.success(request, mensaje['message'])
