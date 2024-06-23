@@ -84,4 +84,10 @@
 		<empleado>18</empleado>
 		<dia hora="22">7</dia>
 	</actividad>
+	<actividad id="1">
+		<nombre>Atención al Cliente</nombre>
+		<descripcion>Atender a los clientes de la tienda</descripcion>
+		<empleado>1</empleado>
+		<dia hora="14">2</dia>
+	</actividad>
 </actividades>

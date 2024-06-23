@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<productos>
+	<producto id="IPCM-2">
+		<nombre>Frijoles</nombre>
+		<precio>2.5</precio>
+		<descripcion> 1 libra de frijoles negros</descripcion>
+		<categoria>Comida</categoria>
+		<cantidad>50</cantidad>
+		<imagen>C:\imagenesP1IPC2\imagen2.jpg</imagen>
+	</producto>
+</productos>
