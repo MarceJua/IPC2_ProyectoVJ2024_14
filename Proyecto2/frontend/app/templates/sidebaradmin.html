@@ -11,8 +11,7 @@
     {% endif %}
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
-<body class="flex h-screen">
+<body class="flex h-screen overflow-hidden">
  <aside id="default-sidebar" class="w-64 bg-gray-50 dark:bg-gray-800" aria-label="Sidebar">
     <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
        <ul class="space-y-2 font-medium">
@@ -23,6 +22,14 @@
                     <path d="m14.258 7.985-3.025 3.025A3 3 0 1 1 6.99 6.768l3.026-3.026A3.01 3.01 0 0 1 8.411 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V9.589a3.011 3.011 0 0 1-1.742-1.604Z"/>
                 </svg>
                <span class="flex-1 ms-3 whitespace-nowrap">Carga Masiva de Datos</span>
+            </a>
+         </li>
+         <li>
+            <a href="{%url 'productosAdmin' %}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
+                    <path d="M16 14V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 0 0 0-2h-1v-2a2 2 0 0 0 2-2ZM4 2h2v12H4V2Zm8 16H3a1 1 0 0 1 0-2h9v2Z"/>
+                </svg>
+               <span class="flex-1 ms-3 whitespace-nowrap">Ver Productos</span>
             </a>
          </li>
           <li>
@@ -64,7 +71,7 @@
     </div>
  </aside>
 
-<main role="main" class="flex-1 overflow-hidden bg-gray-100 dark:bg-gray-900">
+<main role="main" class="flex-1 overflow-auto bg-gray-100 dark:bg-gray-900">
     {% block content %}{% endblock %}
 </main>
 </body>

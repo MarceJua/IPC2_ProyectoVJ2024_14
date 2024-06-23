@@ -34,7 +34,15 @@ def admincarga_view(request):
     return render(request, 'cargaadmin.html')
 
 def user_view(request):
-    return render(request, 'user.html')
+    ctx = {
+        'Productos':None,
+        'title':'Productos'
+    }
+    url = endpoint + 'productos/verProducto'
+    response = requests.get(url)
+    data = response.json()
+    ctx['productos'] = data['productos']
+    return render(request, 'user.html', ctx)
 
 def signin(request):
     try:
@@ -200,6 +208,18 @@ def verEstadisticas(request):
         'title':'Estadisticas'
     }
     return render(request, 'estadisticas.html', ctx)
+
+def verProductos(request):
+    ctx = {
+        'Productos':None,
+        'title':'Productos'
+    }
+    url = endpoint + 'productos/verProducto'
+    response = requests.get(url)
+    data = response.json()
+    ctx['productos'] = data['productos']
+    return render(request, 'verProductosAdmin.html', ctx)
+
 
 def verPDF(request):
     ctx = {
