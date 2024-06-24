@@ -6,7 +6,7 @@ from django.contrib import messages
 #para el cache
 from django.core.cache import cache
 #para las cookies
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 
 from .forms import FileForm, LoginForm
@@ -34,7 +34,15 @@ def admincarga_view(request):
     return render(request, 'cargaadmin.html')
 
 def user_view(request):
-    return render(request, 'user.html')
+    ctx = {
+        'Productos':None,
+        'title':'Productos'
+    }
+    url = endpoint + 'productos/verProducto'
+    response = requests.get(url)
+    data = response.json()
+    ctx['productos'] = data['productos']
+    return render(request, 'user.html', ctx)
 
 def signin(request):
     try:
@@ -201,11 +209,28 @@ def verEstadisticas(request):
     }
     return render(request, 'estadisticas.html', ctx)
 
-def verPDF(request):
+def verProductos(request):
     ctx = {
-        'title':'PDF'
+        'Productos':None,
+        'title':'Productos'
     }
-    return render(request, 'verpdf.html', ctx)
+    url = endpoint + 'productos/verProducto'
+    response = requests.get(url)
+    data = response.json()
+    ctx['productos'] = data['productos']
+    return render(request, 'verProductosAdmin.html', ctx)
+
+
+def verPDF(request):
+    cxt = {
+        'show_pdf': True
+    }
+    
+    if 'info' in request.GET:
+        cxt['show_pdf'] = False
+    
+    return render(request, 'verpdf.html', cxt)
 
 def userview(request):
     return render(request, 'user.html')
+
