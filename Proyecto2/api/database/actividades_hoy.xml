@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<Actividades_hoy>
+	<Dia>Domingo</Dia>
+	<Actividades>
+		<Actividad id="15">
+			<Nombre>Preparación de pedidos</Nombre>
+			<Descripcion>Preparar los pedidos para su envío</Descripcion>
+			<Hora>22:00</Hora>
+		</Actividad>
+	</Actividades>
+</Actividades_hoy>

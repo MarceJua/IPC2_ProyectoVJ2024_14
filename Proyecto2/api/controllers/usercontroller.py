@@ -155,6 +155,7 @@ def obtenerUsuarios():
         })
     return jsonify(diccionario_salida), 200
 
+#verXMLUsuarios
 @BlueprintUser.route('/usuarios/verXML', methods=['GET'])
 def verXMLUsuarios():
     try:
