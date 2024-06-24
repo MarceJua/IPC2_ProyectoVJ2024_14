@@ -6,7 +6,7 @@ from django.contrib import messages
 #para el cache
 from django.core.cache import cache
 #para las cookies
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 
 from .forms import FileForm, LoginForm
@@ -222,10 +222,15 @@ def verProductos(request):
 
 
 def verPDF(request):
-    ctx = {
-        'title':'PDF'
+    cxt = {
+        'show_pdf': True
     }
-    return render(request, 'verpdf.html', ctx)
+    
+    if 'info' in request.GET:
+        cxt['show_pdf'] = False
+    
+    return render(request, 'verpdf.html', cxt)
 
 def userview(request):
     return render(request, 'user.html')
+
