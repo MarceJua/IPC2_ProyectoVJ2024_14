@@ -1,0 +1,34 @@
+{% extends "sidebaruser.html" %}
+
+{% block content %}
+<div class="container mx-auto mt-10">
+    <h1 class="text-3xl mb-4">Compra</h1>
+    <form id="compraForm">
+        <div class="mb-4">
+            <label for="producto" class="block text-gray-700 text-sm font-bold mb-2">Producto</label>
+            <select id="producto" name="producto" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <!-- Productos cargados dinámicamente -->
+            </select>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('/compras/productos')
+            .then(response => response.json())
+            .then(data => {
+                const selectProducto = document.getElementById('producto');
+                data.productos.forEach(producto => {
+                    const option = document.createElement('option');
+                    option.value = producto.nombre;
+                    option.textContent = `${producto.nombre} - ${producto.id}`;
+                    selectProducto.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error al cargar los productos:', error);
+            });
+    });
+</script>
+{% endblock %}

@@ -13,6 +13,7 @@ urlpatterns = [
     path('xmlusuarios/', views.enviarUsuarios, name='xmlusuarios'),
     path('xmlempleados/', views.enviarEmpleados, name='xmlempleados'),
     path('xmlactividades/', views.enviarActividades, name='xmlactividades'),
+    path('productosAdmin/', views.verProductos, name='productosAdmin'),
     path('estadisticas/', views.verEstadisticas, name='estadisticas'),
     path('pdf/', views.verPDF, name='pdf'),
 ]
