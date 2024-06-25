@@ -4,11 +4,35 @@
 <div class="text-center my-6">
     <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white">Enunciado Proyecto 2</h2>
 </div>
-<div class="w-full">
+
+<!-- Botones para alternar entre PDF y Información del desarrollador -->
+<div class="text-center my-6">
+    <a href="{% url 'pdf' %}" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">Ver Documentación</a>
+    <a href="{% url 'pdf' %}?info=1" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700">Ver Información de Estudiantes</a>
+</div>
+
+<!-- Contenido del PDF -->
+{% if show_pdf %}
+<div id="pdfContent" class="w-full">
     <div class="bg-white border border-gray-200 rounded-lg shadow-md">
         <div class="flex items-center justify-around p-4">
-            <embed type="application/pdf" src="{% static 'files/Proyecto2IPC2 - Junio 2024.pdf' %}" class="w-full" height="750">
+            <embed type="application/pdf" src="{% static 'files/documentacion2.pdf' %}" class="w-full" height="750">
         </div>
     </div>
 </div>
+{% else %}
+<!-- Información del Desarrollador -->
+<div id="developerInfo" class="w-full">
+    <div class="bg-white border border-gray-200 rounded-lg shadow-md p-4">
+        <h3 class="text-2xl font-bold mb-4">Información del Desarrollador</h3>
+        <p>Nombre: Marcelo André Juarez Alfaro</p>
+        <p>Carnet: 202010367</p>
+    
+        <p>Nombre: Kevin David Tobar Barrientos</p>
+        <p>Carnet: 202200236</p>
+        <!-- Agrega más información aquí si es necesario -->
+    </div>
+</div>
+{% endif %}
+
 {% endblock %}
