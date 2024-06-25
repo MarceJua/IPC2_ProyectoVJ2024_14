@@ -256,12 +256,29 @@ def buscarProducto(request):
             if form.is_valid():
                 idproducto = form.cleaned_data['idproducto']
                 ctx_producto['id_producto'] = idproducto
-                url = endpoint + 'libros/ver/'+idproducto
+                url = endpoint + 'productos/ver/'+idproducto
                 response = requests.get(url)
                 data = response.json()
                 producto = data.get('producto')
                 ctx['producto_encontrado'] = producto
 
                 return render(request, 'compraUser.html', ctx)
+    except:
+        return render(request, 'compraUser.html')
+    
+def agregarCarrito(request):
+    try:
+        if request.method == 'POST':
+            form = CantidadForm(request.POST)
+            if form.is_valid():
+                cantidad = form.cleaned_data['cantidad']
+                idproducto = ctx_producto['id_producto']
+                data = {
+                    'idproducto':idproducto,
+                    'cantidad':cantidad
+                }
+                url = endpoint + 'carro/agregar'
+                response = requests.post(url, json=data)
+                return render(request, 'compraUser.html')
     except:
         return render(request, 'compraUser.html')

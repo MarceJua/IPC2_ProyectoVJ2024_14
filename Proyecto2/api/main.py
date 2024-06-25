@@ -4,6 +4,8 @@ from controllers.usercontroller import BlueprintUser, precargarUsuarios
 from controllers.empleadoscontroller import BlueprintEmpleado, precargarEmpleados
 from controllers.actividadescontroller import BlueprintActividad, precargaActividades
 from controllers.comprascontroller import BlueprintCompra, precargaCompras
+from controllers.carritocontroller import BlueprintCarro
+
 from flask import Flask
 from flask_cors import CORS
 
@@ -30,6 +32,8 @@ app.register_blueprint(BlueprintUser)
 app.register_blueprint(BlueprintEmpleado)
 app.register_blueprint(BlueprintActividad)
 app.register_blueprint(BlueprintCompra)
+app.register_blueprint(BlueprintCarro)
+
 
 if __name__ == '__main__':
     app.run(host='localhost', port=4000, debug=True)
