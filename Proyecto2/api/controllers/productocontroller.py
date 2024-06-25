@@ -199,6 +199,26 @@ def obtenerProductoPorNombre():
             'status': 500
         }), 500
 
+@BlueprinProducto.route('/productos/ver/<string:id>', methods=['GET'])
+def obteneerProducto(id):
+    pruductos = precargaProducto()
+    for producto in pruductos:
+        if producto.id == id:
+            return jsonify({
+                'message': 'producto encontrado',
+                'status': 200,
+                'producto': {
+                    'id': producto.id,
+                    'nombre': producto.nombre,
+                    'categoria': producto.categoria,
+                    'precio': producto.precio,
+                    'imagen': producto.imagen
+                }
+            }), 200
+    return jsonify({
+        'message': 'producto no encontrado',
+        'status': 404
+    }), 404
 
 # MÉTODO DE PRECARGA 
 def precargaProducto():
@@ -251,4 +271,9 @@ def obtenerProductos():
     }
     return jsonify(diccionario_salida), 200
 
-
+def getproducto(id):
+    producto = precargaProducto()
+    for producto in pruductos:
+        if producto.id == id:
+            return producto
+    return None

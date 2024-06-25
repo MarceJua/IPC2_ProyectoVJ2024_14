@@ -9,7 +9,7 @@ from django.core.cache import cache
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 
-from .forms import FileForm, LoginForm
+from .forms import FileForm, LoginForm, SearchForm, CantidadForm
 
 # Create your views here.
 endpoint = 'http://localhost:4000/'
@@ -23,6 +23,11 @@ contexto = {
 
 def login_view(request):
     return render(request, 'login.html')
+
+def logout(request):
+    response = redirect('login')
+    response.delete_cookie('id_user')
+    return response
 
 def productos_view(request):
     return render(request, 'productos.html')
@@ -234,3 +239,29 @@ def verPDF(request):
 def userview(request):
     return render(request, 'user.html')
 
+def comprapage(request):
+    return render(request, 'compraUser.html')
+
+ctx_producto = {
+    'id_producto':None
+}
+
+def buscarProducto(request):
+    ctx = {
+        'producto_encontrado':None
+    }
+    try:
+        if request.method == 'POST':
+            form = SearchForm(request.POST)
+            if form.is_valid():
+                idproducto = form.cleaned_data['idproducto']
+                ctx_producto['id_producto'] = idproducto
+                url = endpoint + 'libros/ver/'+idproducto
+                response = requests.get(url)
+                data = response.json()
+                producto = data.get('producto')
+                ctx['producto_encontrado'] = producto
+
+                return render(request, 'compraUser.html', ctx)
+    except:
+        return render(request, 'compraUser.html')

@@ -7,3 +7,9 @@ class LoginForm(forms.Form):
 
 class FileForm(forms.Form):
     file = forms.FileField(label='file')
+
+class SearchForm(forms.Form):
+    idproducto = forms.CharField(label='idproducto')
+
+class CantidadForm(forms.Form):
+    cantidad = forms.IntegerField(label='cantidad')
