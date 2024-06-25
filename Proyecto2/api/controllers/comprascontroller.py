@@ -2,7 +2,12 @@ import os
 import xml.etree.ElementTree as ET
 from flask import Blueprint, jsonify,   request
 from controllers.estructuras import carrito, compras
+from controllers.carritocontroller import carrito as carro
+from controllers.productocontroller import getproducto
+from controllers.usercontroller import getUsuario
 from models.compras import Compra
+from models.carro import Carro
+from models.buy import Buy
 
 
 
@@ -265,8 +270,81 @@ def precargaCompras():
         print(f"Error al precargar las compras: {str(e)}")
         return []
 
+def precargarAlquiler():
+    alquileres = []
+    if os.path.exists('database/alquileres.xml'):
+        tree = ET.parse('database/alquileres.xml')
+        root = tree.getroot()
+        for alquiler in root:
+            id_alquiler = alquiler.attrib['numero']
+            id_user = ''
+            productos = []
+            for elemento in alquiler:
+                if elemento.tag == 'usuario':
+                    id_user = elemento.attrib['id']
+                if elemento.tag == 'productos':
+                    for producto in elemento:
+                        productos.append(Carro(producto.attrib['id'], producto.find('cantidad').text))
+            nuevo = Buy(id_alquiler, id_user, productos)
+            alquileres.append(nuevo)
+    return alquileres
 
+@BlueprintCompra.route('/alquiler/agregar', methods=['POST'])
+def agregarAlquiler():
+    try:
+        alquileres = precargarAlquiler()
+        id_user = request.json['id_user']
+        id_alquiler = len(alquileres) + 1
+        nuevo = Buy(id_alquiler, id_user, carro.copy())
+        alquileres.append(nuevo)
 
+        if os.path.exists('database/alquileres.xml'):
+            tree = ET.parse('database/alquileres.xml')
+            root = tree.getroot()
+        else:
+            root = ET.Element('alquileres')
+            tree = ET.ElementTree(root)
+
+        nuevo_alquiler = ET.SubElement(root, 'alquiler', numero=str(id_alquiler))
+        usuario = getUsuario(id_user)
+        user = ET.SubElement(nuevo_alquiler, 'usuario', id=str(id_user))
+        user.text = usuario.nombre
+
+        productos = ET.SubElement(nuevo_alquiler, 'productos')
+        for car in carro:
+            producto = getproducto(car.idproducto)
+            productoxml = ET.SubElement(productos, 'producto', id=str(producto.id))
+            titulo = ET.SubElement(productoxml, 'titulo')
+            titulo.text = producto.nombre
+            cantidad = ET.SubElement(productoxml, 'cantidad')
+            cantidad.text = str(car.cantidad)
+
+        ET.indent(tree, space='\t', level=0)
+        tree.write('database/alquileres.xml', encoding='utf-8', xml_declaration=True)
+
+        carro.clear()
+        return jsonify({
+            'message': 'Producto agregado al alquiler',
+            'status': 200
+        }), 200
+
+    except Exception as e:
+        return jsonify({
+            'message': f'Error al agregar al alquiler: {str(e)}',
+            'status': 500
+        }), 500
+
+@BlueprintCompra.route('/alquiler/ver', methods=['GET'])
+def verAlquiler():
+    try:
+        with open('database/alquileres.xml', 'r', encoding='utf-8') as file:
+            xml_salida = file.read()
+        return xml_salida, 200, {'Content-Type': 'application/xml'}
+    except Exception as e:
+        return jsonify({
+            'message': f'Error al ver el alquiler: {str(e)}',
+            'status': 500
+        }), 500
 
             
            
