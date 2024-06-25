@@ -272,8 +272,8 @@ def obtenerProductos():
     return jsonify(diccionario_salida), 200
 
 def getproducto(id):
-    producto = precargaProducto()
-    for producto in pruductos:
+    productos = precargaProducto()
+    for producto in productos:
         if producto.id == id:
             return producto
     return None

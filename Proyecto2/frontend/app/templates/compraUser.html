@@ -25,15 +25,16 @@
         <!-- Imagen -->
         <img src="{{producto_encontrado.imagen}}" alt="Descripción de la imagen" class="w-72 h-72 object-contain ml-6 m-5">
         <div class="text-left">
-            <h1 class="text-2xl font-bold text-white">{{producto_encontrado.titulo}}</h1>
+            <h1 class="text-2xl font-bold text-white">{{producto_encontrado.nombre}}</h1>
             <h2 class="text-lg text-gray-700 dark:text-gray-300">{{producto_encontrado.id}}</h2>
-            <h3 class="mt-4 text-gray-700 dark:text-gray-300 mb-20">{{producto_encontrado.autor}}</h3>
+            <h3 class="mt-4 text-gray-700 dark:text-gray-300 mb-20">{{producto_encontrado.categoria}}</h3>
+            <p class="text-lg text-gray-700 dark:text-gray-300">Precio: {{producto_encontrado.precio}}</p>
             <!-- Botones -->
             <label for="cantidad" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cantidad:</label>
             <form class="flex items-center mt-4"
                 enctype="multipart/form-data"
                 method="POST"
-                action="">
+                action="/addCart/">
                 {% csrf_token %}
                 <input type="number" id="cantidad" name="cantidad" class="border border-black w-16 h-8 text-center">
                 <button type="submit" class="ml-2 text-white bg-green-500 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Agregar al Carrito</button>
@@ -46,7 +47,7 @@
 <form class="flex justify-center my-6"
     enctype="multipart/form-data"
     method="POST"
-    action="">
+    action="/compro/">
     {% csrf_token %}
     <button class="text-white bg-yellow-700 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800">Confirmar Compra</button>
 </form>
