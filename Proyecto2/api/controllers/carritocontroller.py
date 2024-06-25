@@ -16,12 +16,12 @@ def agregarcarro():
                 'status': 404
             }), 404
         #LEER EL JSON
-        idproducto = json_entrada['idlibro']
+        idproducto = json_entrada['idproducto']
         cantidad = json_entrada['cantidad']
         nuevo = Carro(idproducto, cantidad)
         carrito.append(nuevo)
         return jsonify({
-            'message': 'Libro agregado al carro',
+            'message': 'Producto agregado al carro',
             'status': 200
         }), 200
     except:
