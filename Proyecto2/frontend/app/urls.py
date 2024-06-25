@@ -16,4 +16,7 @@ urlpatterns = [
     path('productosAdmin/', views.verProductos, name='productosAdmin'),
     path('estadisticas/', views.verEstadisticas, name='estadisticas'),
     path('pdf/', views.verPDF, name='pdf'),
+    path('logout/', views.logout, name='logout'),
+    path('comprar/', views.comprapage, name='comprar'),
+    path('search/', views.buscarProducto, name='search'),
 ]
