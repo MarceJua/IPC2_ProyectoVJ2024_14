@@ -11,13 +11,13 @@ BlueprintCompra = Blueprint('compra', __name__)
 @BlueprintCompra.route('/compras/cargarCarrito', methods=['POST'])
 def cargarCarrito():
     try: 
-        nombreproducto = request.args.get('nombre')
+        id_producto = request.args.get('id')
         cantidad = int(request.args.get('cantidad'))
         
         productos = precargaProducto()
         
-        # Buscar el producto por nombre
-        producto_encontrado = next((prod for prod in productos if prod['nombre'] == nombreproducto), None)
+        # Buscar el producto por id
+        producto_encontrado = next((prod for prod in productos if prod['id'] == id_producto), None)
         
         if not producto_encontrado:
             return jsonify({
@@ -32,15 +32,16 @@ def cargarCarrito():
             }), 400
         
         # Crear o actualizar el carrito
-        item_carrito = next((item for item in carrito if item['nombre'] == nombreproducto), None)
+        item_carrito = next((item for item in carrito if item['id'] == id_producto), None)
         
         if item_carrito:
             item_carrito['cantidad'] += cantidad
+            item_carrito['Total'] += producto_encontrado['precio'] * cantidad
         else:
             carrito.append({
                 'id': producto_encontrado['id'],
                 'nombre': producto_encontrado['nombre'],
-                'Total': producto_encontrado['precio']*cantidad,
+                'Total': producto_encontrado['precio'] * cantidad,
                 'cantidad': cantidad,
                 'imagen': producto_encontrado['imagen']
             })
@@ -55,6 +56,7 @@ def cargarCarrito():
             'message': f'Error al cargar el carrito: {str(e)}',
             'status': 404
         }), 404
+
     
 #ver carrito xml
 @BlueprintCompra.route('/compras/verCarrito', methods=['GET'])
