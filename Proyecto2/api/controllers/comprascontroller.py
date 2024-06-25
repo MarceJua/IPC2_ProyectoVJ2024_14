@@ -302,10 +302,10 @@ def agregarAlquiler():
             tree = ET.parse('database/alquileres.xml')
             root = tree.getroot()
         else:
-            root = ET.Element('alquileres')
+            root = ET.Element('compras')
             tree = ET.ElementTree(root)
 
-        nuevo_alquiler = ET.SubElement(root, 'alquiler', numero=str(id_alquiler))
+        nuevo_alquiler = ET.SubElement(root, 'compra', numero=str(id_alquiler))
         usuario = getUsuario(id_user)
         user = ET.SubElement(nuevo_alquiler, 'usuario', id=str(id_user))
         user.text = usuario.nombre
@@ -314,7 +314,7 @@ def agregarAlquiler():
         for car in carro:
             producto = getproducto(car.idproducto)
             productoxml = ET.SubElement(productos, 'producto', id=str(producto.id))
-            titulo = ET.SubElement(productoxml, 'titulo')
+            titulo = ET.SubElement(productoxml, 'nombre')
             titulo.text = producto.nombre
             cantidad = ET.SubElement(productoxml, 'cantidad')
             cantidad.text = str(car.cantidad)
@@ -345,7 +345,6 @@ def verAlquiler():
             'message': f'Error al ver el alquiler: {str(e)}',
             'status': 500
         }), 500
-
             
            
            
