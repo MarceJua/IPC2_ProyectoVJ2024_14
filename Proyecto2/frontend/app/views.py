@@ -307,3 +307,16 @@ def verCarrito(request):
     data = response.json()
     ctx['contenido_carrito'] = data['contenido']
     return render(request, 'verCarrito.html', ctx)
+
+def mostrarcompras(request):
+    ctx = {
+        'usuarios': ''
+    }
+    if request.method == 'POST':
+        url = endpoint + 'alquiler/ver'
+        response = requests.get(url)
+        if response.status_code == 200:
+            ctx['usuarios'] = response.text
+        else:
+            ctx['usuarios'] = 'Error al obtener usuarios'
+    return render(request, 'reportesadmin.html', ctx)

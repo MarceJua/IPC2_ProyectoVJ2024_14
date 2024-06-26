@@ -1,29 +1,24 @@
 <?xml version='1.0' encoding='utf-8'?>
-<alquileres>
-	<alquiler numero="1">
-		<usuario id="IPC2-03">Usuario3</usuario>
-		<productos>
-			<producto id="IPCMK-2">
-				<titulo>Queso</titulo>
-				<cantidad>4</cantidad>
-			</producto>
-		</productos>
-	</alquiler>
-	<alquiler numero="2">
-		<usuario id="IPC2-03">Usuario3</usuario>
+<compras>
+	<compra numero="1">
+		<usuario id="IPC2-01">Usuario1</usuario>
 		<productos />
-	</alquiler>
-	<alquiler numero="3">
-		<usuario id="IPC2-03">Usuario3</usuario>
+	</compra>
+	<compra numero="2">
+		<usuario id="IPC2-01">Usuario1</usuario>
 		<productos>
-			<producto id="IPCMK-1">
-				<titulo>Televisor</titulo>
+			<producto id="IPCMK-3">
+				<nombre>Mi Primer libro de Poesia</nombre>
+				<cantidad>10</cantidad>
+			</producto>
+			<producto id="IPCMK-6">
+				<nombre>Diario de Anne Frank</nombre>
 				<cantidad>2</cantidad>
 			</producto>
-			<producto id="IPCMK-4">
-				<titulo>Auriculares</titulo>
-				<cantidad>6</cantidad>
+			<producto id="IPCMK-2">
+				<nombre>Queso</nombre>
+				<cantidad>1</cantidad>
 			</producto>
 		</productos>
-	</alquiler>
-</alquileres>
+	</compra>
+</compras>
