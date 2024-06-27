@@ -345,7 +345,9 @@ def verAlquiler():
             'message': f'Error al ver el alquiler: {str(e)}',
             'status': 500
         }), 500
-            
+
+
+
            
            
            
