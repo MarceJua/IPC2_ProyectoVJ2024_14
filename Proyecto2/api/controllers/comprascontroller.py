@@ -1,13 +1,16 @@
 import os
 import xml.etree.ElementTree as ET
 from flask import Blueprint, jsonify,   request
-from controllers.estructuras import carrito, compras
+from controllers.estructuras import Estructuras
 from controllers.carritocontroller import carrito as carro
 from controllers.productocontroller import getproducto
 from controllers.usercontroller import getUsuario
 from models.compras import Compra
 from models.carro import Carro
 from models.buy import Buy
+
+carrito=Estructuras().carrito
+compras=Estructuras().compras   
 
 
 
@@ -16,13 +19,13 @@ BlueprintCompra = Blueprint('compra', __name__)
 @BlueprintCompra.route('/compras/cargarCarrito', methods=['POST'])
 def cargarCarrito():
     try: 
-        nombreproducto = request.args.get('nombre')
+        id_producto = request.args.get('id')
         cantidad = int(request.args.get('cantidad'))
         
         productos = precargaProducto()
         
-        # Buscar el producto por nombre
-        producto_encontrado = next((prod for prod in productos if prod['nombre'] == nombreproducto), None)
+        # Buscar el producto por id
+        producto_encontrado = next((prod for prod in productos if prod['id'] == id_producto), None)
         
         if not producto_encontrado:
             return jsonify({
@@ -37,15 +40,16 @@ def cargarCarrito():
             }), 400
         
         # Crear o actualizar el carrito
-        item_carrito = next((item for item in carrito if item['nombre'] == nombreproducto), None)
+        item_carrito = next((item for item in carrito if item['id'] == id_producto), None)
         
         if item_carrito:
             item_carrito['cantidad'] += cantidad
+            item_carrito['Total'] += producto_encontrado['precio'] * cantidad
         else:
             carrito.append({
                 'id': producto_encontrado['id'],
                 'nombre': producto_encontrado['nombre'],
-                'Total': producto_encontrado['precio']*cantidad,
+                'Total': producto_encontrado['precio'] * cantidad,
                 'cantidad': cantidad,
                 'imagen': producto_encontrado['imagen']
             })
@@ -60,6 +64,7 @@ def cargarCarrito():
             'message': f'Error al cargar el carrito: {str(e)}',
             'status': 404
         }), 404
+
     
 #ver carrito xml
 @BlueprintCompra.route('/compras/verCarrito', methods=['GET'])
@@ -272,8 +277,8 @@ def precargaCompras():
 
 def precargarAlquiler():
     alquileres = []
-    if os.path.exists('database/compraaas.xml'):
-        tree = ET.parse('database/compraaas.xml')
+    if os.path.exists('database/alquileres.xml'):
+        tree = ET.parse('database/alquileres.xml')
         root = tree.getroot()
         for alquiler in root:
             id_alquiler = alquiler.attrib['numero']
@@ -289,7 +294,7 @@ def precargarAlquiler():
             alquileres.append(nuevo)
     return alquileres
 
-@BlueprintCompra.route('/comprar/agregar', methods=['POST'])
+@BlueprintCompra.route('/alquiler/agregar', methods=['POST'])
 def agregarAlquiler():
     try:
         alquileres = precargarAlquiler()
@@ -298,8 +303,8 @@ def agregarAlquiler():
         nuevo = Buy(id_alquiler, id_user, carro.copy())
         alquileres.append(nuevo)
 
-        if os.path.exists('database/compraaas.xml'):
-            tree = ET.parse('database/compraaas.xml')
+        if os.path.exists('database/alquileres.xml'):
+            tree = ET.parse('database/alquileres.xml')
             root = tree.getroot()
         else:
             root = ET.Element('compras')
@@ -320,7 +325,7 @@ def agregarAlquiler():
             cantidad.text = str(car.cantidad)
 
         ET.indent(tree, space='\t', level=0)
-        tree.write('database/compraaas.xml', encoding='utf-8', xml_declaration=True)
+        tree.write('database/alquileres.xml', encoding='utf-8', xml_declaration=True)
 
         carro.clear()
         return jsonify({
@@ -334,10 +339,10 @@ def agregarAlquiler():
             'status': 500
         }), 500
 
-@BlueprintCompra.route('/comprar/ver', methods=['GET'])
+@BlueprintCompra.route('/alquiler/ver', methods=['GET'])
 def verAlquiler():
     try:
-        with open('database/compraaas.xml', 'r', encoding='utf-8') as file:
+        with open('database/alquileres.xml', 'r', encoding='utf-8') as file:
             xml_salida = file.read()
         return xml_salida, 200, {'Content-Type': 'application/xml'}
     except Exception as e:
@@ -345,9 +350,7 @@ def verAlquiler():
             'message': f'Error al ver el alquiler: {str(e)}',
             'status': 500
         }), 500
-
-
-
+            
            
            
            

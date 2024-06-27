@@ -42,4 +42,31 @@
 				<imagen>C:\CalificacionIPC2\img1.jpg</imagen>
 			</item>
 		</compra>
+		<compra numero="5">
+			<Total>57234.75</Total>
+			<item id="IPCMK-1">
+				<nombre>Televisor</nombre>
+				<total>57234.75</total>
+				<cantidad>67</cantidad>
+				<imagen>C:\CalificacionIPC2\img1.jpg</imagen>
+			</item>
+		</compra>
+		<compra numero="6">
+			<Total>4271.25</Total>
+			<item id="IPCMK-1">
+				<nombre>Televisor</nombre>
+				<total>4271.25</total>
+				<cantidad>5</cantidad>
+				<imagen>C:\CalificacionIPC2\img1.jpg</imagen>
+			</item>
+		</compra>
+		<compra numero="7">
+			<Total>4271.25</Total>
+			<item id="IPCMK-1">
+				<nombre>Televisor</nombre>
+				<total>4271.25</total>
+				<cantidad>5</cantidad>
+				<imagen>C:\CalificacionIPC2\img1.jpg</imagen>
+			</item>
+		</compra>
 	</compras>
