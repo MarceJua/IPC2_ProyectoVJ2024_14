@@ -130,7 +130,23 @@ def obtenerActividades():
         })
     return jsonify(diccionario_salida), 200
 
-#ver actividad hoy xml
+def precargaEmpleados():
+    try:
+        empleados = []
+        if os.path.exists('database/empleados.xml'):
+            tree = ET.parse('database/empleados.xml')
+            root = tree.getroot()
+            for empleado in root.findall('empleado'):
+                id = empleado.get('id')
+                nombre = empleado.find('nombre').text
+                empleados.append({'id': id, 'nombre': nombre})
+        return empleados
+    except Exception as e:
+        print(f"Error al precargar los empleados: {str(e)}")
+        return []
+
+#Ver Actividades hoy, devuelve y crea un XML en la carpeta database
+#termindado
 @BlueprintActividad.route('/actividades/hoy', methods=['GET'])
 def actividades_hoy():
     try:
@@ -170,12 +186,10 @@ def actividades_hoy():
         os.makedirs('database', exist_ok=True)
         file_path = os.path.join('database', 'actividades_hoy.xml')
         
-        
         xml_str = ET.tostring(root, encoding='utf-8')
         dom = minidom.parseString(xml_str)
         pretty_xml_as_string = dom.toprettyxml(indent="\t")
         
-       
         with open(file_path, 'w', encoding='utf-8') as f:
             f.write(pretty_xml_as_string)
         
@@ -195,7 +209,7 @@ def actividades_hoy():
             'message': f'Error al obtener las actividades de hoy: {str(e)}',
             'status': 404
         }), 404
-
+    
 def precargaActividades():
     try:
         activ = []
@@ -216,17 +230,3 @@ def precargaActividades():
         print(f"Error al precargar las actividades: {str(e)}")
         return []
 
-def precargaEmpleados():
-    try:
-        empleados = []
-        if os.path.exists('database/empleados.xml'):
-            tree = ET.parse('database/empleados.xml')
-            root = tree.getroot()
-            for empleado in root.findall('empleado'):
-                id = empleado.get('id')
-                nombre = empleado.find('nombre').text
-                empleados.append({'id': id, 'nombre': nombre})
-        return empleados
-    except Exception as e:
-        print(f"Error al precargar los empleados: {str(e)}")
-        return []

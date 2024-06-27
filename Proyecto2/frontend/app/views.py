@@ -282,3 +282,57 @@ def agregarCarrito(request):
                 return render(request, 'compraUser.html')
     except:
         return render(request, 'compraUser.html')
+    
+def comprar(request):
+    try:
+        if request.method == 'POST':
+            id_user = request.COOKIES.get('id_user')
+            url = endpoint + 'alquiler/agregar'
+            data = {
+                'id_user':id_user
+            }
+            headers = {'Content-type':'application/json'}
+            response = requests.post(url, json=data, headers=headers)
+            print(response.json())
+            return render(request, 'compraUser.html')
+    except:
+        return render(request, 'compraUser.html')
+    
+def verCarrito(request):
+    ctx = {
+        'contenido_carrito':None
+    }
+    url = endpoint + 'carro/ver'
+    response = requests.get(url)
+    data = response.json()
+    ctx['contenido_carrito'] = data['contenido']
+    return render(request, 'verCarrito.html', ctx)
+
+def mostrarcompras(request):
+    ctx = {
+        'usuarios': ''
+    }
+    if request.method == 'POST':
+        url = endpoint + 'alquiler/ver'
+        response = requests.get(url)
+        if response.status_code == 200:
+            ctx['usuarios'] = response.text
+        else:
+            ctx['usuarios'] = 'Error al obtener usuarios'
+    return render(request, 'reportesadmin.html', ctx)
+
+def verActividades(request):
+    ctx = {
+        'actividades': None,
+    }
+
+    if request.method == 'POST':
+        url = endpoint + 'actividades/hoy'
+        response = requests.get(url)
+        if response.status_code == 200:
+            xml_content = response.json().get('xml_content', 'No hay actividades para hoy.')
+            ctx['actividades'] = xml_content
+        else:
+            ctx['actividades'] = 'Error al obtener las actividades de hoy.'
+
+    return render(request, 'reportesadmin.html', ctx)

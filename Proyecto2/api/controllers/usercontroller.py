@@ -155,6 +155,7 @@ def obtenerUsuarios():
         })
     return jsonify(diccionario_salida), 200
 
+#verXMLUsuarios
 @BlueprintUser.route('/usuarios/verXML', methods=['GET'])
 def verXMLUsuarios():
     try:
@@ -232,3 +233,10 @@ def precargarUsuarios():
             nuevo = User(id, password, nombre, edad, email, telefono)
             usuarios.append(nuevo)
     return usuarios
+
+def getUsuario(id):
+    users = precargarUsuarios()
+    for user in users:
+        if user.id == id:
+            return user
+    return None
