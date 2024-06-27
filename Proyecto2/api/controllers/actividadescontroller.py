@@ -2,9 +2,11 @@ import os
 import xml.etree.ElementTree as ET
 from flask import Blueprint, jsonify, request
 from models.actividad import Actividad
-from controllers.estructuras import actividades
+from controllers.estructuras import Estructuras
 from datetime import datetime
 from xml.dom import minidom
+
+actividades = Estructuras().actividades
 
 BlueprintActividad = Blueprint('actividad', __name__)
 
