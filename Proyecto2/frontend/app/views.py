@@ -9,7 +9,7 @@ from django.core.cache import cache
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 
-from .forms import FileForm, LoginForm
+from .forms import FileForm, LoginForm, SearchForm, CantidadForm
 
 # Create your views here.
 endpoint = 'http://localhost:4000/'
@@ -23,6 +23,11 @@ contexto = {
 
 def login_view(request):
     return render(request, 'login.html')
+
+def logout(request):
+    response = redirect('login')
+    response.delete_cookie('id_user')
+    return response
 
 def productos_view(request):
     return render(request, 'productos.html')
@@ -234,3 +239,100 @@ def verPDF(request):
 def userview(request):
     return render(request, 'user.html')
 
+def comprapage(request):
+    return render(request, 'compraUser.html')
+
+ctx_producto = {
+    'id_producto':None
+}
+
+def buscarProducto(request):
+    ctx = {
+        'producto_encontrado':None
+    }
+    try:
+        if request.method == 'POST':
+            form = SearchForm(request.POST)
+            if form.is_valid():
+                idproducto = form.cleaned_data['idproducto']
+                ctx_producto['id_producto'] = idproducto
+                url = endpoint + 'productos/ver/'+idproducto
+                response = requests.get(url)
+                data = response.json()
+                producto = data.get('producto')
+                ctx['producto_encontrado'] = producto
+
+                return render(request, 'compraUser.html', ctx)
+    except:
+        return render(request, 'compraUser.html')
+    
+def agregarCarrito(request):
+    try:
+        if request.method == 'POST':
+            form = CantidadForm(request.POST)
+            if form.is_valid():
+                cantidad = form.cleaned_data['cantidad']
+                idproducto = ctx_producto['id_producto']
+                data = {
+                    'idproducto':idproducto,
+                    'cantidad':cantidad
+                }
+                url = endpoint + 'carro/agregar'
+                response = requests.post(url, json=data)
+                return render(request, 'compraUser.html')
+    except:
+        return render(request, 'compraUser.html')
+    
+def comprar(request):
+    try:
+        if request.method == 'POST':
+            id_user = request.COOKIES.get('id_user')
+            url = endpoint + 'comprar/agregar'
+            data = {
+                'id_user':id_user
+            }
+            headers = {'Content-type':'application/json'}
+            response = requests.post(url, json=data, headers=headers)
+            print(response.json())
+            return render(request, 'compraUser.html')
+    except:
+        return render(request, 'compraUser.html')
+    
+def verCarrito(request):
+    ctx = {
+        'contenido_carrito':None
+    }
+    url = endpoint + 'carro/ver'
+    response = requests.get(url)
+    data = response.json()
+    ctx['contenido_carrito'] = data['contenido']
+    return render(request, 'verCarrito.html', ctx)
+
+def mostrarcompras(request):
+    ctx = {
+        'usuarios': ''
+    }
+    if request.method == 'POST':
+        url = endpoint + 'comprar/ver'
+        response = requests.get(url)
+        if response.status_code == 200:
+            ctx['usuarios'] = response.text
+        else:
+            ctx['usuarios'] = 'Error al obtener usuarios'
+    return render(request, 'reportesadmin.html', ctx)
+
+def verActividades(request):
+    ctx = {
+        'actividades': None,
+    }
+
+    if request.method == 'POST':
+        url = endpoint + 'actividades/hoy'
+        response = requests.get(url)
+        if response.status_code == 200:
+            xml_content = response.json().get('xml_content', 'No hay actividades para hoy.')
+            ctx['actividades'] = xml_content
+        else:
+            ctx['actividades'] = 'Error al obtener las actividades de hoy.'
+
+    return render(request, 'reportesadmin.html', ctx)

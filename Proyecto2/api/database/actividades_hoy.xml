@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<Actividades_hoy>
+	<Dia>Jueves</Dia>
+	<Actividades>
+		<Actividad id="2">
+			<Nombre>Asesoría al cliente</Nombre>
+			<Descripcion>Asesorar a los clientes sobre los productos</Descripcion>
+			<Hora>20:00</Hora>
+		</Actividad>
+		<Actividad id="9">
+			<Nombre>Limpieza de estanterías</Nombre>
+			<Descripcion>Limpiar y ordenar las estanterías del pasillo 1</Descripcion>
+			<Hora>22:00</Hora>
+		</Actividad>
+	</Actividades>
+</Actividades_hoy>

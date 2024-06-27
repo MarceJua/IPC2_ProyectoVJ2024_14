@@ -1,0 +1,31 @@
+{% extends "sidebaradmin.html" %}
+{% block content %}
+<div class="text-center my-6">
+    <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white">Mostrar Información</h2>
+</div>
+
+<div class="text-center my-6">
+    <!-- Botones para alternar entre Usuarios y Actividades -->
+    <form method="POST" action="{% url 'vercompras' %}" class="inline">
+        {% csrf_token %}
+        <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Mostrar Compras de Usuarios</button>
+    </form>
+    <form method="POST" action="{% url 'veractividades' %}" class="inline">
+        {% csrf_token %}
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Mostrar Actividades</button>
+    </form>
+</div>
+
+<div class="min-h-screen mx-9 my-9 flex flex-col">
+    <!-- Textarea para mostrar la información -->
+    <textarea class="flex-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-500" readonly>
+        {% if usuarios %}
+            {{ usuarios }}
+        {% elif actividades %}
+            {{ actividades }}
+        {% else %}
+            Seleccione una opción para mostrar la información.
+        {% endif %}
+    </textarea>
+</div>
+{% endblock %}

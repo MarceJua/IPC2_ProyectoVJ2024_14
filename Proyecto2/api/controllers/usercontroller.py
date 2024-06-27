@@ -232,3 +232,10 @@ def precargarUsuarios():
             nuevo = User(id, password, nombre, edad, email, telefono)
             usuarios.append(nuevo)
     return usuarios
+
+def getUsuario(id):
+    users = precargarUsuarios()
+    for user in users:
+        if user.id == id:
+            return user
+    return None
