@@ -2,10 +2,10 @@ import os
 from xml.etree import ElementTree as ET
 import re
 
-from controllers.estructuras import users
+from controllers.estructuras import Estructuras
 from flask import Blueprint, jsonify, request
 from models.user import User
-
+users = Estructuras().users
 BlueprintUser = Blueprint('user', __name__)
 user_logueado = ''
 

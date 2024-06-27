@@ -2,7 +2,8 @@ import os
 import xml.etree.ElementTree as ET
 from flask import Blueprint, jsonify, request
 from models.empleado import Empleado
-from controllers.estructuras import empleados
+from controllers.estructuras import Estructuras
+empleados = Estructuras().empleados
 
 BlueprintEmpleado = Blueprint('empleado', __name__)
 

@@ -1,13 +1,16 @@
 import os
 import xml.etree.ElementTree as ET
 from flask import Blueprint, jsonify,   request
-from controllers.estructuras import carrito, compras
+from controllers.estructuras import Estructuras
 from controllers.carritocontroller import carrito as carro
 from controllers.productocontroller import getproducto
 from controllers.usercontroller import getUsuario
 from models.compras import Compra
 from models.carro import Carro
 from models.buy import Buy
+
+carrito=Estructuras().carrito
+compras=Estructuras().compras   
 
 
 

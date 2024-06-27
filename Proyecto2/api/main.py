@@ -1,4 +1,4 @@
-from controllers.estructuras import pruductos, users, empleados,actividades,compras
+#from controllers.estructuras import pruductos, users, empleados,actividades,compras
 from controllers.productocontroller import BlueprinProducto,precargaProducto
 from controllers.usercontroller import BlueprintUser, precargarUsuarios
 from controllers.empleadoscontroller import BlueprintEmpleado, precargarEmpleados
