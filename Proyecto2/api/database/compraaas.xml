@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<compras>
+	<compra numero="1">
+		<usuario id="IPC2-03">Usuario3</usuario>
+		<productos>
+			<producto id="IPCMK-6">
+				<nombre>Diario de Anne Frank</nombre>
+				<cantidad>5</cantidad>
+			</producto>
+			<producto id="IPCMK-1">
+				<nombre>Televisor</nombre>
+				<cantidad>2</cantidad>
+			</producto>
+		</productos>
+	</compra>
+</compras>
