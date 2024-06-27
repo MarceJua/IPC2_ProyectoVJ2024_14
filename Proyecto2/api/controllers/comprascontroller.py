@@ -277,8 +277,8 @@ def precargaCompras():
 
 def precargarAlquiler():
     alquileres = []
-    if os.path.exists('database/alquileres.xml'):
-        tree = ET.parse('database/alquileres.xml')
+    if os.path.exists('database/compraaas.xml'):
+        tree = ET.parse('database/compraaas.xml')
         root = tree.getroot()
         for alquiler in root:
             id_alquiler = alquiler.attrib['numero']
@@ -294,7 +294,7 @@ def precargarAlquiler():
             alquileres.append(nuevo)
     return alquileres
 
-@BlueprintCompra.route('/alquiler/agregar', methods=['POST'])
+@BlueprintCompra.route('/comprar/agregar', methods=['POST'])
 def agregarAlquiler():
     try:
         alquileres = precargarAlquiler()
@@ -303,8 +303,8 @@ def agregarAlquiler():
         nuevo = Buy(id_alquiler, id_user, carro.copy())
         alquileres.append(nuevo)
 
-        if os.path.exists('database/alquileres.xml'):
-            tree = ET.parse('database/alquileres.xml')
+        if os.path.exists('database/compraaas.xml'):
+            tree = ET.parse('database/compraaas.xml')
             root = tree.getroot()
         else:
             root = ET.Element('compras')
@@ -325,7 +325,7 @@ def agregarAlquiler():
             cantidad.text = str(car.cantidad)
 
         ET.indent(tree, space='\t', level=0)
-        tree.write('database/alquileres.xml', encoding='utf-8', xml_declaration=True)
+        tree.write('database/compraaas.xml', encoding='utf-8', xml_declaration=True)
 
         carro.clear()
         return jsonify({
@@ -339,10 +339,10 @@ def agregarAlquiler():
             'status': 500
         }), 500
 
-@BlueprintCompra.route('/alquiler/ver', methods=['GET'])
+@BlueprintCompra.route('/comprar/ver', methods=['GET'])
 def verAlquiler():
     try:
-        with open('database/alquileres.xml', 'r', encoding='utf-8') as file:
+        with open('database/compraaas.xml', 'r', encoding='utf-8') as file:
             xml_salida = file.read()
         return xml_salida, 200, {'Content-Type': 'application/xml'}
     except Exception as e:
@@ -350,7 +350,7 @@ def verAlquiler():
             'message': f'Error al ver el alquiler: {str(e)}',
             'status': 500
         }), 500
-            
+
            
            
            
