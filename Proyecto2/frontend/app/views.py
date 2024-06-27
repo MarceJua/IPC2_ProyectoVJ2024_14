@@ -320,3 +320,19 @@ def mostrarcompras(request):
         else:
             ctx['usuarios'] = 'Error al obtener usuarios'
     return render(request, 'reportesadmin.html', ctx)
+
+def verActividades(request):
+    ctx = {
+        'actividades': None,
+    }
+
+    if request.method == 'POST':
+        url = endpoint + 'actividades/hoy'
+        response = requests.get(url)
+        if response.status_code == 200:
+            xml_content = response.json().get('xml_content', 'No hay actividades para hoy.')
+            ctx['actividades'] = xml_content
+        else:
+            ctx['actividades'] = 'Error al obtener las actividades de hoy.'
+
+    return render(request, 'reportesadmin.html', ctx)
