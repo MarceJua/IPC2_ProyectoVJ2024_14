@@ -1,21 +1,16 @@
 <?xml version="1.0" ?>
 <Actividades_hoy>
-	<Dia>Miércoles</Dia>
+	<Dia>Jueves</Dia>
 	<Actividades>
-		<Actividad id="6">
-			<Nombre>Preparación de pedidos</Nombre>
-			<Descripcion>Preparar los pedidos para su envío</Descripcion>
+		<Actividad id="2">
+			<Nombre>Asesoría al cliente</Nombre>
+			<Descripcion>Asesorar a los clientes sobre los productos</Descripcion>
+			<Hora>20:00</Hora>
+		</Actividad>
+		<Actividad id="9">
+			<Nombre>Limpieza de estanterías</Nombre>
+			<Descripcion>Limpiar y ordenar las estanterías del pasillo 1</Descripcion>
 			<Hora>22:00</Hora>
-		</Actividad>
-		<Actividad id="7">
-			<Nombre>Atención al Cliente</Nombre>
-			<Descripcion>Atender a los clientes de la tienda</Descripcion>
-			<Hora>15:00</Hora>
-		</Actividad>
-		<Actividad id="10">
-			<Nombre>Cobro en caja</Nombre>
-			<Descripcion>Cobrar a los clientes en la caja registradora</Descripcion>
-			<Hora>13:00</Hora>
 		</Actividad>
 	</Actividades>
 </Actividades_hoy>
