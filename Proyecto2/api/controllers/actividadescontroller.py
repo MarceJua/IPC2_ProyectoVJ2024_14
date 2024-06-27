@@ -2,9 +2,11 @@ import os
 import xml.etree.ElementTree as ET
 from flask import Blueprint, jsonify, request
 from models.actividad import Actividad
-from controllers.estructuras import actividades
+from controllers.estructuras import Estructuras
 from datetime import datetime
 from xml.dom import minidom
+
+actividades = Estructuras().actividades
 
 BlueprintActividad = Blueprint('actividad', __name__)
 
@@ -130,7 +132,23 @@ def obtenerActividades():
         })
     return jsonify(diccionario_salida), 200
 
-#ver actividad hoy xml
+def precargaEmpleados():
+    try:
+        empleados = []
+        if os.path.exists('database/empleados.xml'):
+            tree = ET.parse('database/empleados.xml')
+            root = tree.getroot()
+            for empleado in root.findall('empleado'):
+                id = empleado.get('id')
+                nombre = empleado.find('nombre').text
+                empleados.append({'id': id, 'nombre': nombre})
+        return empleados
+    except Exception as e:
+        print(f"Error al precargar los empleados: {str(e)}")
+        return []
+
+#Ver Actividades hoy, devuelve y crea un XML en la carpeta database
+#termindado
 @BlueprintActividad.route('/actividades/hoy', methods=['GET'])
 def actividades_hoy():
     try:
@@ -214,17 +232,3 @@ def precargaActividades():
         print(f"Error al precargar las actividades: {str(e)}")
         return []
 
-def precargaEmpleados():
-    try:
-        empleados = []
-        if os.path.exists('database/empleados.xml'):
-            tree = ET.parse('database/empleados.xml')
-            root = tree.getroot()
-            for empleado in root.findall('empleado'):
-                id = empleado.get('id')
-                nombre = empleado.find('nombre').text
-                empleados.append({'id': id, 'nombre': nombre})
-        return empleados
-    except Exception as e:
-        print(f"Error al precargar los empleados: {str(e)}")
-        return []

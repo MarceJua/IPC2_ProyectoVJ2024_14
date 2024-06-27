@@ -1,9 +1,10 @@
 import os
 from xml.etree import ElementTree as ET
 
-from controllers.estructuras import pruductos
+from controllers.estructuras import Estructuras
 from flask import Blueprint, jsonify, request
 from models.producto import Producto
+pruductos = Estructuras().pruductos
 
 BlueprinProducto = Blueprint('producto', __name__)
 

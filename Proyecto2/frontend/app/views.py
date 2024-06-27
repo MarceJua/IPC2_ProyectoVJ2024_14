@@ -287,7 +287,7 @@ def comprar(request):
     try:
         if request.method == 'POST':
             id_user = request.COOKIES.get('id_user')
-            url = endpoint + 'comprar/agregar'
+            url = endpoint + 'alquiler/agregar'
             data = {
                 'id_user':id_user
             }
@@ -313,7 +313,7 @@ def mostrarcompras(request):
         'usuarios': ''
     }
     if request.method == 'POST':
-        url = endpoint + 'comprar/ver'
+        url = endpoint + 'alquiler/ver'
         response = requests.get(url)
         if response.status_code == 200:
             ctx['usuarios'] = response.text
