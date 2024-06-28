@@ -7,8 +7,8 @@
 
 <!-- Botones para alternar entre PDF y Información del desarrollador -->
 <div class="text-center my-6">
-    <a href="{% url 'pdf' %}" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">Ver Documentación</a>
-    <a href="{% url 'pdf' %}?info=1" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700">Ver Información de Estudiantes</a>
+    <a href="{% url 'pdf' %}" class="px-4 py-2 bg-yellow-500 text-black rounded hover:bg-yellow-700">Ver Documentación</a>
+    <a href="{% url 'pdf' %}?info=1" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700">Ver Información de Estudiantes</a>
 </div>
 
 <!-- Contenido del PDF -->
@@ -16,7 +16,7 @@
 <div id="pdfContent" class="w-full">
     <div class="bg-white border border-gray-200 rounded-lg shadow-md">
         <div class="flex items-center justify-around p-4">
-            <embed type="application/pdf" src="{% static 'files/documentacion2.pdf' %}" class="w-full" height="750">
+            <embed type="application/pdf" src="{% static 'files/documentacionProy2.pdf' %}" class="w-full" height="750">
         </div>
     </div>
 </div>

@@ -4,26 +4,19 @@
 <div class="text-center my-6">
     <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white">Estadísticas</h2>
 </div>
-<div class="w-full">
-    <div class="text-center my-6">
-        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white">Top 3 de productos con más cantidad disponible</h3>
+
+<div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+    <div class="bg-white border border-gray-200 rounded-lg shadow-md p-6">
+        <canvas id="graficaProductos" class="w-full h-64"></canvas>
+        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mt-4">Top 3 de productos con más cantidad disponible</h3>
     </div>
-    <div class="bg-white border border-gray-200 rounded-lg shadow-md">
-        <div class="chart-bar">
-            <canvas id="grafica2" height="50"></canvas>
-        </div>
-    </div>
-</div>
-<div class="w-full">
-    <div class="text-center my-6">
-        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white">Top 3 Categorías con más productos</h3>
-    </div>
-    <div class="bg-white border border-gray-200 rounded-lg shadow-md">
-        <div class="chart-bar">
-            <canvas id="grafica3" height="50"></canvas>
-        </div>
+
+    <div class="bg-white border border-gray-200 rounded-lg shadow-md p-6">
+        <canvas id="graficaCategorias" class="w-full h-64"></canvas>
+        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mt-4">Top 3 Categorías con más productos</h3>
     </div>
 </div>
+
 <script>
     function obtenerDatosProductos(){
         fetch('http://localhost:4000/productos/verProducto', {
@@ -49,44 +42,34 @@
                 cantidades.push(Number(element.cantidad));
             });
 
-            let matriz_datos = [nombres, cantidades];
-            graficarProductos(matriz_datos);
+            let ctxProductos = document.getElementById('graficaProductos').getContext('2d');
+            new Chart(ctxProductos, {
+                type: 'bar',
+                data: {
+                    labels: nombres,
+                    datasets: [{
+                        label: 'Cantidad',
+                        data: cantidades,
+                        backgroundColor:[
+                            'rgb(32, 195, 94)', // Verde
+                            'rgb(255, 235, 59)', // Amarillo
+                            'rgb(244, 67, 54)', // Rojo
+                        ]
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
         })
     }
 
-    function graficarProductos(data){
-        var ctx = document.getElementById('grafica2');
-        var ctx2 = ctx.getContext('2d');
-        var barChart = new Chart(ctx2,{
-            type: 'bar',
-            data: {
-                labels: data[0],
-                datasets: [{
-                    label: 'Cantidades',
-                    data: data[1],
-                    backgroundColor:[
-                        'rgb(147, 46, 212)',
-                        'rgb(12, 134, 229)',
-                        'rgb(32, 195, 94)',
-                        'rgb(245,131,9)',
-                        'rgb(245,9,113)'
-                    ]
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        })
-    }
-    obtenerDatosProductos()
-</script>
-<script>
     function obtenerDatosCategorias(){
         fetch('http://localhost:4000/productos/verProducto', {
             method: 'GET',
@@ -126,42 +109,37 @@
                 cantidades.push(Number(element.cantidad));
             });
 
-            let matriz_datos = [nombres, cantidades];
-            graficarCategorias(matriz_datos);
+            let ctxCategorias = document.getElementById('graficaCategorias').getContext('2d');
+            new Chart(ctxCategorias, {
+                type: 'bar',
+                data: {
+                    labels: nombres,
+                    datasets: [{
+                        label: 'Cantidad',
+                        data: cantidades,
+                        backgroundColor:[
+                            'rgb(32, 195, 94)', // Verde
+                            'rgb(255, 235, 59)', // Amarillo
+                            'rgb(244, 67, 54)', // Rojo
+                        ]
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
         })
     }
 
-    function graficarCategorias(data){
-        var ctx = document.getElementById('grafica3');
-        var ctx2 = ctx.getContext('2d');
-        var barChart = new Chart(ctx2,{
-            type: 'bar',
-            data: {
-                labels: data[0],
-                datasets: [{
-                    label: 'Cantidad de Productos',
-                    data: data[1],
-                    backgroundColor:[
-                        'rgb(147, 46, 212)',
-                        'rgb(12, 134, 229)',
-                        'rgb(32, 195, 94)',
-                        'rgb(245,131,9)',
-                        'rgb(245,9,113)'
-                    ]
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        })
-    }
-    obtenerDatosCategorias()
+    obtenerDatosProductos();
+    obtenerDatosCategorias();
 </script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
 {% endblock %}

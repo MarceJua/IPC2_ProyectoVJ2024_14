@@ -8,4 +8,8 @@
 		<nombre>Alejandro de León</nombre>
 		<puesto>Vendedor</puesto>
 	</empleado>
+	<empleado codigo="3">
+		<nombre>Alejandro de León</nombre>
+		<puesto>Vendedor</puesto>
+	</empleado>
 </empleados>

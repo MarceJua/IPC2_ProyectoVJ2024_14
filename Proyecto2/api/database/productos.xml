@@ -101,7 +101,7 @@
 		<precio>5375.92</precio>
 		<descripcion>Perferendis velit itaque rerum ratione debitis temporibus consectetur earum doloribus omnis expedita enim ipsum.</descripcion>
 		<categoria>Juguetes</categoria>
-		<cantidad>99</cantidad>
+		<cantidad>70</cantidad>
 		<imagen>C:\CalificacionIPC2\img13.jpg</imagen>
 	</producto>
 	<producto id="IPCMK-14">
@@ -207,7 +207,7 @@
 		<categoria>Juguetes</categoria>
 		<cantidad>34</cantidad>
 		<imagen>C:\CalificacionIPC2\img26.jpg</imagen>
-	</producto>
+	</producto> 
 	<producto id="IPCMK-27">
 		<nombre>Pan</nombre>
 		<precio>936.4</precio>
@@ -241,6 +241,30 @@
 		<imagen>C:\CalificacionIPC2\img30.jpg</imagen>
 	</producto>
 	<producto id="IPCM-2">
+		<nombre>Frijoles</nombre>
+		<precio>2.5</precio>
+		<descripcion> 1 libra de frijoles negros</descripcion>
+		<categoria>Comida</categoria>
+		<cantidad>50</cantidad>
+		<imagen>C:\imagenesP1IPC2\imagen2.jpg</imagen>
+	</producto>
+	<producto id="IPCM-1">
+		<nombre>Computadora de Escritorio</nombre>
+		<precio>5000.0</precio>
+		<descripcion>Computadora de escritorio con procesador Intel Core i7, 16 GB de RAM, 1 TB de almacenamiento y tarjeta gráfica NVIDIA GeForce RTX 2080.</descripcion>
+		<categoria>Tecnología</categoria>
+		<cantidad>10</cantidad>
+		<imagen>C:\imagenesP1IPC2\imagen1.jpg</imagen>
+	</producto>
+	<producto id="IPCM-4">
+		<nombre>Frijoles</nombre>
+		<precio>2.5</precio>
+		<descripcion> 1 libra de frijoles negros</descripcion>
+		<categoria>Comida</categoria>
+		<cantidad>50</cantidad>
+		<imagen>C:\imagenesP1IPC2\imagen2.jpg</imagen>
+	</producto>
+	<producto id="IPCM-3">
 		<nombre>Frijoles</nombre>
 		<precio>2.5</precio>
 		<descripcion> 1 libra de frijoles negros</descripcion>
