@@ -4,16 +4,16 @@
 <div class="text-center my-6">
     <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white">Productos disponibles</h2>
 </div>
-<div class="flex flex-wrap justify-center">
+<div class="flex flex-wrap justify-center bg-pastel-yellow dark:bg-pastel-yellow border border-black py-6" style="background-color: #FFFBCC; border: 1px solid black;">
     {% if productos %}
         {% for producto in productos %}
             <div class="flex flex-wrap justify-center gap-4 p-3">
-                <div id="card1" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow-md max-w-xs hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 my-4">
+                <div id="card1" class="flex flex-col items-center bg-green-200 border border-gray-200 rounded-lg shadow-md max-w-xs hover:bg-green-300 dark:border-gray-700 dark:bg-green-800 dark:hover:bg-green-700 my-4 transition duration-150 ease-in-out">
                     <img class="object-cover w-full rounded-t-lg h-48 md:h-40 lg:h-48 md:w-48 md:rounded-none md:rounded-l-lg" src="{{producto.imagen}}" alt="">
                     <div class="flex flex-col justify-between p-4 leading-normal">
                         <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{{producto.nombre}}</h5>
                         <p class="mb-3 text-gray-700 dark:text-gray-400 font-bold">ID: <span class="font-normal">{{producto.id}}</span></p>
-                        <p class="mb-3 text-gray-700 dark:text-gray-400 font-bold">Descripcion: <span class="font-normal">{{producto.descripcion}}</span></p>
+                        <p class="mb-3 text-gray-700 dark:text-gray-400 font-bold">Descripción: <span class="font-normal">{{producto.descripcion}}</span></p>
                         <p class="mb-3 text-gray-700 dark:text-gray-400 font-bold">Precio: <span class="font-normal">{{producto.precio}}</span></p>
                     </div>
                 </div>
@@ -22,3 +22,25 @@
     {% endif %}
 </div>
 {% endblock %}
+
+<style>
+    .bg-pastel-yellow {
+        background-color: #FFFBCC; /* Pastel yellow */
+    }
+
+    .bg-green-200 {
+        background-color: #A5D6A7; /* Light green */
+    }
+
+    .bg-green-300 {
+        background-color: #81C784; /* Lighter green */
+    }
+
+    .bg-green-800 {
+        background-color: #2E7D32; /* Dark green */
+    }
+
+    .bg-green-700 {
+        background-color: #388E3C; /* Darker green */
+    }
+</style>

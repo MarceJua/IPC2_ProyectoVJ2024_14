@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='utf-8'?>
+<compras>
+	<compra numero="1">
+		<usuario id="IPC2-03">Usuario3</usuario>
+		<productos>
+			<producto id="IPCMK-6">
+				<nombre>Diario de Anne Frank</nombre>
+				<cantidad>5</cantidad>
+			</producto>
+			<producto id="IPCMK-1">
+				<nombre>Televisor</nombre>
+				<cantidad>2</cantidad>
+			</producto>
+		</productos>
+	</compra>
+	<compra numero="2">
+		<usuario id="IPC2-03">Usuario3</usuario>
+		<productos>
+			<producto id="IPCMK-2">
+				<nombre>Queso</nombre>
+				<cantidad>4</cantidad>
+			</producto>
+			<producto id="IPCMK-6">
+				<nombre>Diario de Anne Frank</nombre>
+				<cantidad>8</cantidad>
+			</producto>
+			<producto id="IPCMK-2">
+				<nombre>Queso</nombre>
+				<cantidad>3</cantidad>
+			</producto>
+		</productos>
+	</compra>
+	<compra numero="3">
+		<usuario id="IPC2-01">Usuario1</usuario>
+		<productos>
+			<producto id="IPCMK-3">
+				<nombre>Mi Primer libro de Poesia</nombre>
+				<cantidad>1</cantidad>
+			</producto>
+		</productos>
+	</compra>
+	<compra numero="4">
+		<usuario id="IPC2-03">Usuario3</usuario>
+		<productos>
+			<producto id="IPCMK-2">
+				<nombre>Queso</nombre>
+				<cantidad>4</cantidad>
+			</producto>
+			<producto id="IPCMK-3">
+				<nombre>Mi Primer libro de Poesia</nombre>
+				<cantidad>3</cantidad>
+			</producto>
+			<producto id="IPCMK-6">
+				<nombre>Diario de Anne Frank</nombre>
+				<cantidad>3</cantidad>
+			</producto>
+		</productos>
+	</compra>
+</compras>
