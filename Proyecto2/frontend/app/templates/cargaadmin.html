@@ -3,18 +3,72 @@
 {% block content %}
 <div class="flex h-full">
     <!-- lado izquierdo -->
-     <style>
+    <style>
         .message-success {
-            background-color: #10B981;
+            background-color: #4CAF50; /* Green */
             color: #FFFFFF;
         }
-    
+
         .message-error {
-            background-color: #EF4444;
+            background-color: #F44336; /* Red */
             color: #FFFFFF;
         }
-     </style>
-    <div class="w-1/4 px-4 py-2 bg-gray-200 dark:bg-gray-700 flex flex-col justify-center items-center">
+
+        .toast {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            display: none;
+        }
+
+        .toast-success {
+            background-color: #4CAF50;
+            color: #FFFFFF;
+        }
+
+        .toast-error {
+            background-color: #F44336;
+            color: #FFFFFF;
+        }
+
+        .toast-warning {
+            background-color: #FF9800;
+            color: #FFFFFF;
+        }
+
+        .toast-info {
+            background-color: #2196F3;
+            color: #FFFFFF;
+        }
+
+        .btn-green {
+            background-color: #4CAF50;
+            color: #FFFFFF;
+            border: 1px solid #000; /* Black border */
+        }
+
+        .btn-green:hover {
+            background-color: #45A049;
+        }
+
+        .btn-yellow {
+            background-color: #FFEB3B;
+            color: #000000;
+            border: 1px solid #000; /* Black border */
+        }
+
+        .btn-yellow:hover {
+            background-color: #FDD835;
+        }
+
+        .bg-pastel-yellow {
+            background-color: #FFFBCC; /* Pastel yellow */
+        }
+    </style>
+
+    <div class="w-1/4 px-4 py-2 bg-pastel-yellow dark:bg-pastel-yellow border border-black flex flex-col justify-center items-center">
         <form 
             class="flex items-center space-x-4 mb-4"
             method="POST"
@@ -22,63 +76,74 @@
             action="/cargaxml/"
         >
             {% csrf_token %}
-            <label for="file" class="px-3 py-2 bg-gray-200 text-gray-700 rounded-lg cursor-pointer hover:bg-gray-300 transition duration-150 ease-in-out">
+            <label for="file" class="px-3 py-2 btn-yellow rounded-lg cursor-pointer transition duration-150 ease-in-out">
                 Seleccionar Archivo
             </label>
             <input type="file" id="file" name="file" accept="text/xml" class="hidden">
-            <button type="submit" class="px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-150 ease-in-out">
+            <button type="submit" class="px-3 py-2 btn-green rounded-lg transition duration-150 ease-in-out">
                 <span class="mr-2">
                     <i class="fas fa-file"></i>
                 </span>
                 Mostrar
             </button>
         </form>
+
         <form 
             method="POST"
             enctype="multipart/form-data"
             action="/xmlproductos/"
+            class="w-full"
         >
-        {% csrf_token %}
-        <button class="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none">Cargar Productos</button>
+            {% csrf_token %}
+            <button class="w-full px-4 py-2 btn-green rounded-lg focus:outline-none transition duration-150 ease-in-out">Cargar Productos</button>
         </form>
+
         <form 
             method="POST"
             enctype="multipart/form-data"
             action="/xmlusuarios/"
+            class="w-full mt-2"
         >
-        {% csrf_token %}
-        <button class="mt-2 w-full px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none">Cargar Usuarios</button>
+            {% csrf_token %}
+            <button class="w-full px-4 py-2 btn-green rounded-lg focus:outline-none transition duration-150 ease-in-out">Cargar Usuarios</button>
         </form>
+
         <form 
             method="POST"
             enctype="multipart/form-data"
             action="/xmlempleados/"
+            class="w-full mt-2"
         >
-        {% csrf_token %}
-        <button class="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none">Cargar Empleados</button>
+            {% csrf_token %}
+            <button class="w-full px-4 py-2 btn-green rounded-lg focus:outline-none transition duration-150 ease-in-out">Cargar Empleados</button>
         </form>
+
         <form 
             method="POST"
             enctype="multipart/form-data"
             action="/xmlactividades/"
+            class="w-full mt-2"
         >
-        {% csrf_token %}
-        <button class="mt-2 w-full px-4 py-2 bg-yellow-500 text-black rounded-lg hover:bg-yellow-600 focus:outline-none">Cargar Actividades</button>
+            {% csrf_token %}
+            <button class="w-full px-4 py-2 btn-green rounded-lg focus:outline-none transition duration-150 ease-in-out">Cargar Actividades</button>
         </form>
+
         <form 
             method="POST"
             enctype="multipart/form-data"
+            class="w-full mt-2"
         >
-        {% csrf_token %}
-        <button class="mt-2 w-full px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 focus:outline-none">Limpiar Vista Previa</button>
+            {% csrf_token %}
+            <button class="w-full px-4 py-2 btn-yellow rounded-lg focus:outline-none transition duration-150 ease-in-out">Limpiar Vista Previa</button>
         </form>
+
         {% if messages %}
             {% for message in messages %}
                 <p class="
                     {% if message.tags == 'success' %}
-                        toast-success
+                        toast toast-success
                     {% elif message.tags == 'error' %}
-                        toast-error
+                        toast toast-error
                     {% endif %}
                 ">
                     {{ message }}
@@ -89,44 +154,12 @@
 
     <!-- lado derecho -->
     <div class="w-3/4 mx-4 flex flex-col">
-        <h1 class="text-white ml-5 mt-5 font-bold text-lg">Vista Previa</h1>
+        <h1 class="text-gray-900 dark:text-white ml-5 mt-5 font-bold text-lg">Vista Previa</h1>
         {% if contenido_archivo %}
-            <textarea class="flex-1 w-max-64 px-3 py-2 m-5 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-500" readonly>{{contenido_archivo}}</textarea>
+            <textarea class="flex-1 w-full px-3 py-2 m-5 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring focus:border-blue-500 dark:bg-darkgreen dark:text-black bg-pastel-yellow" readonly>{{contenido_archivo}}</textarea>
         {% else %}
-            <textarea class="flex-1 w-max-64 px-3 py-2 m-5 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-500" readonly></textarea>
+            <textarea class="flex-1 w-full px-3 py-2 m-5 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring focus:border-blue-500 dark:bg-gray-800 dark:text-black bg-pastel-yellow" readonly></textarea>
         {% endif %}
     </div>
 </div>
-<style>
-    .toast {
-        position: fixed;
-        bottom: 0;
-        right: 0;
-        margin-bottom: 4rem;
-        margin-right: 4rem;
-        padding: 1rem;
-        border-radius: 0.5rem;
-        display: none;
-    }
-
-    .toast-success {
-        background-color: #10B981;
-        color: #FFFFFF;
-    }
-
-    .toast-error {
-        background-color: #EF4444;
-        color: #FFFFFF;
-    }
-
-    .toast-warning {
-        background-color: #FBBF24;
-        color: #1F2937;
-    }
-
-    .toast-info {
-        background-color: #6B7280;
-        color: #FFFFFF;
-    }
-</style>
 {% endblock %}
